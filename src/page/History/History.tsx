@@ -8,6 +8,7 @@ import {decodeAddress, encodeAddress} from "@polkadot/keyring";
 import CardMain from "../../components/CardMain";
 import RequestID from "../../components/RequestID";
 import ModalFooter from "../../components/ModalFooter";
+import ProcessingModal from "../../components/ProcessingModal/ProcessingModal";
 
 interface HistoryRow {
     id: number;
@@ -29,6 +30,7 @@ function History() {
     const {t} = useTranslation()
     const [page, setPage] = useState(0);
     const [currentTable, setCurrentTable] = useState("issue")
+    const [processingModalVisbible,SetprocessingModalVisbible] = useState(false)
 
     const columns = [
         {
@@ -61,7 +63,7 @@ function History() {
             key: 'action',
             render: (text: any, record: any) => (
                 <Space size="middle">
-                    {record.status === "进行中" && <div className={"processing"}>{record.status}</div>}
+                    {record.status === "进行中" && <div className={"processing"} onClick={()=> SetprocessingModalVisbible(true)}>{record.status}</div>}
                     {record.status === "失败" && <div className={"fail"}>{record.status}</div>}
                     {record.status === "成功" && <div>{record.status}</div>}
                 </Space>
@@ -175,24 +177,7 @@ function History() {
                 {currentTable === "issue" ? <Table columns={columns} dataSource={IssueData}/> :
                     <Table columns={columns} dataSource={RedeemData}/>}
             </TableStyle>
-            <Modal visible={true} footer={null} getContainer={false}>
-                <ModalStyle>
-                    <div className={"card-header"}>
-                        <div>
-                            <div>剩余时间</div>
-                            <img src="" alt=""/>
-                        </div>
-                        <div className={"time"}>
-                            47:56:10
-                        </div>
-                    </div>
-                    <CardMain opreturn={"81e71f40d31aa46f09da3f5d58a879c54708725f96730df2d8ac67050b6e2a07"} address={"ms3tsPc5nJZWunt3vXotJoDcoTHGohKiHC"}/>
-                    <div className={"line"}/>
-                    <RequestID requestID={"3123213123"}/>
-                    <div className={"dotted-line"}/>
-                    <ModalFooter btcReceiveAddress={"mHpAy3ahw2S7LvX...UXhG6wWRg1WBb"} lockCollateral={2} issueAmount={23} vaultPCXAddress={"5HpAy3ahw2S7…G6wWRg1WBb"} vaultBTCAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}/>
-                </ModalStyle>
-            </Modal>
+            <ProcessingModal visible={processingModalVisbible} cancle={()=> SetprocessingModalVisbible(false)}/>
         </HistoryStyle>
     )
 }
