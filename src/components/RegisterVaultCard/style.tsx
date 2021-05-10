@@ -1,36 +1,64 @@
 import styled from "styled-components";
 
 export const RegisterVaultCardStyle = styled.div`
-  width: 499px;
-  height: 524px;
-  background: #fff;
+  width: 500px;
   margin: auto;
-  margin-top: 24px;
-  padding: 30px 40px;
+  .alert {
+    position: absolute;
+    top: 66px;
+    right: 0;
+    left: 0;
+    width: 320px;
+    margin: auto;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .ant-alert-content {
+      flex: inherit;
+    }
+  }
+  .ant-form-item {
+    margin: 0;
+  }
   button{
-    width: 419px;
+    width: 100%;
     height: 44px;
-    margin-top: 43px;
   }
   .card-title{
-    font-size: 16px;
+    font-family: PingFangSC-Semibold;
+    font-size: 32px;
     color: #282828;
-    font-weight: bold;
+    line-height: 44px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    text-align: center;
   }
+  .cardContent {
+    padding: 40px 40px 60px;
+    background: #F4F4F5;
+    box-shadow: 8px 8px 13px 0 rgba(0,0,0,0.08), -8px -8px 13px 0 #FFFFFF;
+    border-radius: 16px;
+  }
+  
+`
+export const Line = styled.div`
+  width: 100%;
+  height: 2px;
+  margin: 24px 0;
+  background: #F4F4F5;
+  box-shadow: -1px -1px 2px 0 rgba(0,0,0,0.04), 1px 1px 2px 0 #FFFFFF;
 `
 export const RegisterAccountStyle = styled.div`
-  background: #F6F6F6;
+  border: 1px solid #282828;
   border-radius: 6px;
-  width: 419px;
-  height: 70px;
   padding: 16px;
+  font-family: PingFangSC-Regular;
   font-size: 12px;
   color: #282828;
-  margin-top: 20px;
-
+  font-weight: 400;
   .current-account {
     margin-top: 4px;
-    font-size: 12px;
     color: #8E8E8E;
   }
 `
@@ -68,6 +96,17 @@ export const CollateralStyle = styled.div`
   }
 `
 export const AgreementStyle = styled.div`
+  margin: 4px 0 12px;
+  font-family: PingFangSC-Regular;
   font-size: 12px;
   color: #282828;
+  line-height: 16px;
+  font-weight: 400;
+  text-align: center;
+  a {
+    font-family: PingFangSC-Medium;
+    color: #F4BC1D;
+    font-weight: 500;
+    margin-left: 4px;
+  }
 `

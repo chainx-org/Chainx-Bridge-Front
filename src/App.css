@@ -102,11 +102,11 @@ table {
     border-color: #F6C94A;
 }
 .ant-checkbox .ant-checkbox-inner {
-    border-color: #f6c94a; 
+    border: 0;
 }
 .ant-checkbox-checked .ant-checkbox-inner {
     background-color: #f6c94a; 
-border-color: #f6c94a;
+    border-color: #f6c94a;
 }
 .ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner, .ant-checkbox-input:focus + .ant-checkbox-inner {
     border-color: #f6c94a;
@@ -162,4 +162,32 @@ border-color: #f6c94a;
 .ant-tooltip-inner {
     padding: 4px 9px;
     border-radius: 4px;
+}
+.notificationSuccessContent, .notificationErrorContent {
+    border-radius: 8px;
+    height: 40px;
+    padding: 0;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* position: absolute; */
+    top: 36px;
+    z-index: 99;
+}
+.notificationSuccessContent {
+    background: rgba(82,196,26,0.10);
+    width: 320px;
+}
+.notificationErrorContent {
+    background: rgba(245,34,45,0.10);
+}
+.notificationSuccessContent.ant-notification-close-x {
+    display: none;
+}
+.notificationErrorContent.ant-notification-close-x {
+    display: none;
+}
+.ant-notification {
+    left: 0;
 }

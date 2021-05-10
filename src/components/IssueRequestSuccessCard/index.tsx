@@ -1,7 +1,6 @@
 import React from "react";
 import {IssueRequestCardStyle} from "./style";
 import SBTCLogo from "../../components/Header/Wallet/icons/SBTC.svg"
-import warningLogo from "./icons/warm.svg"
 import Question from '../ExplainTag/icons/question.svg'
 import CardMain from "../CardMain";
 import CardFooter from "../CardFooter";
