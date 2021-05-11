@@ -3,7 +3,7 @@ import {AgreementStyle, CollateralStyle, Line, RegisterAccountStyle, RegisterVau
 import {useTranslation} from "react-i18next";
 import ErrorImg from './RegisterInput/icons/error.svg'
 import SuccessedImg from './RegisterInput/icons/successed.svg'
-import { Button, Checkbox, Form, Input, InputNumber, notification} from "antd";
+import { Button, Checkbox, Form, Input, InputNumber, message, notification} from "antd";
 import {BtcAddressStyle} from "../Redeem/style";
 import { useAccountInfo} from "../../hooks/useAccountInfo";
 import FormatBalance from "../../hooks/useFormatBalance";
@@ -12,27 +12,32 @@ import { web3FromAddress } from "@polkadot/extension-dapp";
 import { useApi } from "../../hooks/useApi";
 import VaultCard from "../VaultCard";
 import RegisterInput from "./RegisterInput";
+var WAValidator = require('wallet-address-validator');
 function RegisterVaultCard() {
     const {t} = useTranslation()
     const {currentAccount} = useAccountModel()
     const accountInfo = useAccountInfo(currentAccount?.address!!)
     const { api, isApiReady } = useApi();
     const [regVault,setRegVault] = useState(false)
+    const [BtcAddress,setBtcAddress] = useState("")
     async function onFinish(values: any) {
         console.log(values)
-        notification["success"]({
-          message: `注册成功！`,
-          icon: <img src={SuccessedImg} alt='success' />,
+        message.success({
+          content: '注册成功！',
+          className: 'MsgSuccess',
           duration: 3,
-          className: 'notificationSuccessContent',
         });
-        notification["error"]({
-          message: `注册失败！原因：${'XXX'}`,
+        message.error({
+          content: `注册失败！原因：${'XXX'}`,
+          className: 'MsgError',
+          duration: 3,
           icon: <img src={ErrorImg} alt='error' />,
-          duration: 3,
-          className: 'notificationErrorsContent',
         });
-
+        let valid =  WAValidator.validate(BtcAddress,'BTC')
+        if(!valid){
+            notification.warn({message: "请输入合法的BTC地址"});
+            return
+        }
         
         // const injector = await web3FromAddress(currentAccount!!.address);
         // api.tx.xGatewayBitcoinV2
@@ -95,7 +100,7 @@ function RegisterVaultCard() {
                   />
                   <RegisterInput balance={FormatBalance(accountInfo?.data.free)} icon={true} num={false}
                     children={<Form.Item name={"address"} rules={[{required: true, message: t('Please enter BTC address')}]}>
-                      <Input placeholder={t('Please enter BTC address')}/>
+                      <Input placeholder={t('Please enter BTC address')} onChange={(e)=> setBtcAddress(e.target.value)}/>
                     </Form.Item>} 
                   />
                 <AgreementStyle>

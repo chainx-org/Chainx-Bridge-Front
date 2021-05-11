@@ -5,6 +5,7 @@ import WarmRedLogo from "../IssueRequestSuccessCard/icons/warm_red.svg";
 import QrLogo from "../IssueRequestSuccessCard/icons/qr.svg";
 import Question from '../ExplainTag/icons/question.svg'
 import { CardMainStyle } from "./style";
+import { message } from "antd";
 
 interface MainProps{
     opreturn :string;
@@ -14,9 +15,17 @@ interface MainProps{
 const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address}) =>{
     const copyOpreturn = () => {
         copy(opreturn);
+        message.success({
+            content: '已复制！',
+            duration: 3,
+        });
     }
     const copyAddress = () => {
         copy(address);
+        message.success({
+            content: '已复制！',
+            duration: 3,
+        });
     }
     return (
         <CardMainStyle>

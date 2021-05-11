@@ -163,31 +163,32 @@ table {
     padding: 4px 9px;
     border-radius: 4px;
 }
-.notificationSuccessContent, .notificationErrorContent {
+.ant-message-notice .ant-message-notice-content {
+    opacity: 0.65;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #000000;
+    line-height: 22px;
+    font-weight: 400;
     border-radius: 8px;
-    height: 40px;
-    padding: 0;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* position: absolute; */
-    top: 36px;
-    z-index: 99;
+    margin-top: 30px;
 }
-.notificationSuccessContent {
+
+.MsgSuccess  .ant-message-notice-content {
     background: rgba(82,196,26,0.10);
+    border: 1px solid #52C41A;
     width: 320px;
 }
-.notificationErrorContent {
+.MsgError .ant-message-notice-content {
     background: rgba(245,34,45,0.10);
+    border: 1px solid #F5222D;
+    width: 320px;
 }
-.notificationSuccessContent.ant-notification-close-x {
-    display: none;
+.MsgError  .ant-message-notice-content .ant-message-error {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
 }
-.notificationErrorContent.ant-notification-close-x {
-    display: none;
-}
-.ant-notification {
-    left: 0;
+.MsgError  .ant-message-notice-content .ant-message-error img{
+    margin-right: 8px;
 }
