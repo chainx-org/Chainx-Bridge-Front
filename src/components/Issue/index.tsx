@@ -10,6 +10,8 @@ import { InputNumber, Divider, Button } from "antd";
 import { useTranslation } from "react-i18next";
 import ExplainTag from '../ExplainTag'
 import CoinSelect from "../CoinSelect";
+import {useAccountInfo} from "../../hooks/useAccountInfo";
+import useAccountModel from "../../hooks/useAccountModel";
 
 interface coinProps {
   img_url: any;
@@ -22,6 +24,8 @@ interface IssueProps {
 }
 function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
   const { t } = useTranslation();
+  const {currentAccount} = useAccountModel();
+  const [IssueAmount, setIssueAmount] = useState(0)
   const optionList = [
     {
         img_url: BTCs,
@@ -53,7 +57,7 @@ function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
   const ShowSelect = () =>{
       setIsShow(!isShow)
   }
-  const address = <>5HpAy3ahw2S7LvXWphebx3K1Nh9qw8hjEGbUXhG6wWRg1WBb</>
+  const address = <>{currentAccount?.address}</>
   const hypothecateNum = <>0.00 PCX</>
   const chargeNum = <>0.00 {coinSymol.coinName}</>
   function nextRequest() {
@@ -73,9 +77,9 @@ function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
         <IssueBtcInputStyle>
           <div className='issueNum'>
             <InputNumber
-              value={``}
+              value={IssueAmount}
               onChange={(e) => {
-                console.log(e)
+                setIssueAmount(+e)
               }}
             />
             <div className={`btc-title`}>{coinSymol.coinName}</div>

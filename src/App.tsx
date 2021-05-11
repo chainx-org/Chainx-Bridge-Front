@@ -79,26 +79,26 @@ export const App: React.FC = () => {
  
 
   // Init Api
-  // useEffect(() => {
-  //   const types = Object.values(definitions).reduce(
-  //     (res, { types }) => ({ ...res, ...types }),
-  //     {}
-  //   );
-  //   notification.warn({ message: "Wait ws connecting..." });
-  //   const provider = new WsProvider("wss://xbridge.spiderx.pro/ws");
-  //   const api = new ApiPromise({ provider, types });
-  //   api.on("error", (err) =>
-  //     notification.error({
-  //       message: `Cannot connect to ws endpoint. Error: ${err}`
-  //     })
-  //   );
-  //   api.on("disconnected", () => setApiReady(false));
-  //   api.on("ready", () => {
-  //     setApi(api);
-  //     setApiReady(true);
-  //     notification.info({ message: "Endpoint connected." });
-  //   });
-  // }, []);
+  useEffect(() => {
+    const types = Object.values(definitions).reduce(
+      (res, { types }) => ({ ...res, ...types }),
+      {}
+    );
+    notification.warn({ message: "Wait ws connecting..." });
+    const provider = new WsProvider("wss://xbridge.spiderx.pro/ws");
+    const api = new ApiPromise({ provider, types });
+    api.on("error", (err) =>
+      notification.error({
+        message: `Cannot connect to ws endpoint. Error: ${err}`
+      })
+    );
+    api.on("disconnected", () => setApiReady(false));
+    api.on("ready", () => {
+      setApi(api);
+      setApiReady(true);
+      notification.info({ message: "Endpoint connected." });
+    });
+  }, []);
 
   useEffect(() => {
     if (isApiReady) {
@@ -221,11 +221,11 @@ export const App: React.FC = () => {
 
   return (
     <>
-      {/*{!isApiReady ? (*/}
-      {/*  <MaskStyle>*/}
-      {/*    <Loading />*/}
-      {/*  </MaskStyle>*/}
-      {/*) : null}*/}
+      {!isApiReady ? (
+        <MaskStyle>
+          <Loading />
+        </MaskStyle>
+      ) : null}
       {downExtensions && <NoExtensions />}
       <bridgeStatusContext.Provider value={bridgeStatus}>
       </bridgeStatusContext.Provider>
