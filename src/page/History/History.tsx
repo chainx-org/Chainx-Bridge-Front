@@ -120,42 +120,42 @@ function History() {
             key: '1',
             time: '2021-04-16 18:20',
             number: 0.00001,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '成功'
         },
         {
             key: '2',
             time: '2021-04-16 18:20',
             number: 0.00001,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '进行中'
         },
         {
             key: '3',
             time: '2021-04-16 18:20',
             number: 0.00001,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '失败'
         },
         {
             key: '4',
             time: '2021-04-16 18:20',
             number: 0.00001,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '成功'
         },
         {
             key: '5',
             time: '2021-04-16 18:20',
             number: 0.00001,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '成功'
         },
         {
             key: '6',
             time: '2021-04-16 18:20',
             number: 0.00001,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '成功'
         },
     ];
@@ -164,42 +164,42 @@ function History() {
             key: '1',
             time: '2021-04-16 18:20',
             number: 0.00002,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '失败'
         },
         {
             key: '2',
             time: '2021-04-16 18:20',
             number: 0.00003,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '进行中'
         },
         {
             key: '3',
             time: '2021-04-16 18:20',
             number: 0.00004,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '失败'
         },
         {
             key: '4',
             time: '2021-04-16 18:20',
             number: 0.00006,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '成功'
         },
         {
             key: '5',
             time: '2021-04-16 18:20',
             number: 0.00007,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '成功'
         },
         {
             key: '6',
             time: '2021-04-16 18:20',
             number: 0.00001,
-            address: '1b2978...fd247ac',
+            address: <span className='hash'>1b2978...fd247ac</span>,
             status: '成功'
         },
     ];
@@ -218,8 +218,12 @@ function History() {
                 </ul>
             </FunctionSwitchButton>
             <TableStyle>
-                {currentTable === "issue" ? <Table columns={Issuecolumns} dataSource={IssueData}/> :
-                    <Table columns={Redeemcolumns} dataSource={RedeemData}/>}
+                {currentTable === "issue" ? <Table columns={Issuecolumns} dataSource={IssueData}
+                    pagination={{pageSize:5,defaultPageSize:5}}
+                    /> :
+                    <Table columns={Redeemcolumns} dataSource={RedeemData}
+                    pagination={{pageSize:5,defaultPageSize:5}}
+                    />}
             </TableStyle>
             <ProcessingModal visible={IssueprocessingModalVisbible} cancle={()=> SetIssueprocessingModalVisbible(false)}/>
             <StatusModal visible={IssuesuccessModalVisible} cancle={()=> setIssueSuccessModalVisible(false)} type={"issue-success"}/>

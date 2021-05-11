@@ -1,6 +1,7 @@
 import React from "react";
 import { ModalFooterStyle } from "./style";
 import warningLogo from "../IssueRequestSuccessCard/icons/warm.svg";
+import ExplainTag from "../ExplainTag";
 
 interface FooterProps{
     btcReceiveAddress :string;
@@ -12,45 +13,11 @@ interface FooterProps{
 const ModalFooter:React.FunctionComponent<FooterProps> = ({btcReceiveAddress,lockCollateral,issueAmount,vaultPCXAddress,vaultBTCAddress}) =>{
     return (
         <ModalFooterStyle>
-            <ul>
-                <li>
-                    <div className={"font"}>
-                        <div>
-                            BTC接收地址
-                        </div>
-                        <img src={warningLogo} alt=""/>
-                    </div>
-                    <div>{btcReceiveAddress}</div>
-                </li>
-                <li>
-                    <div className={"font"}>
-                        <div>发行总额</div>
-                        <img src={warningLogo} alt=""/>
-                    </div>
-                    <div>{issueAmount} BTC</div>
-                </li>
-                <li>
-                    <div className={"font"}>
-                        <div>锁定抵押品</div>
-                        <img src={warningLogo} alt=""/>
-                    </div>
-                    <div>{lockCollateral}</div>
-                </li>
-                <li>
-                    <div className={"font"}>
-                        <div>资产保险库PCX地址</div>
-                        <img src={warningLogo} alt=""/>
-                    </div>
-                    <div>{vaultPCXAddress}</div>
-                </li>
-                <li>
-                    <div className={"font"}>
-                        <div>资产保险库BTC地址</div>
-                        <img src={warningLogo} alt=""/>
-                    </div>
-                    <div>{vaultBTCAddress}</div>
-                </li>
-            </ul>
+            <ExplainTag title='BTC接收地址' children={<div>{btcReceiveAddress}</div>} />
+            <ExplainTag title='发行总额' children={<div>{issueAmount} BTC</div>} />
+            <ExplainTag title='锁定抵押品' children={lockCollateral} />
+            <ExplainTag title='资产保险库PCX地址' children={vaultPCXAddress} />
+            <ExplainTag title='资产保险库BTC地址' children={vaultBTCAddress} />
         </ModalFooterStyle>
     )
 }

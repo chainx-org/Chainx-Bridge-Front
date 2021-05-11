@@ -3,7 +3,6 @@ import React from "react";
 
 export const RedeemRequestCardStyle = styled.div`
   width: 500px;
-  height: 496px;
   background: #F4F4F5;
   box-shadow: 10px 10px 16px 0 rgba(0, 0, 0, 0.06), -10px -10px 16px 0 #FFFFFF;
   border-radius: 16px;

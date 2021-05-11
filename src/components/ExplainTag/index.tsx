@@ -11,6 +11,7 @@ const Wrapper = styled.div`
     color: #8E8E8E;
     font-weight: 400;
     margin-bottom: 24px;
+    width: 100%;
     .leftTitle {
         display: flex;
         align-items: center;

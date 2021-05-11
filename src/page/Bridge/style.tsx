@@ -174,7 +174,6 @@ export const RedeemModalStyle = styled.div`
   .ant-modal-body{
     display: flex;
     flex-direction: column;
-    padding: 0;
   }
 `
 export const RedeemModalTip = styled.div`

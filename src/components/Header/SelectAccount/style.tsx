@@ -11,6 +11,7 @@ export const SelectAccountStyle = styled.div`
     background: #FFFFFF;
     box-shadow: 6px 6px 8px 0 rgba(0,0,0,0.06);
     border-radius: 8px;
+    z-index: 99;
   }
 `
 
