@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SelectAccountStyle = styled.div`
-
+  cursor: pointer;
   position: relative;
   width: 100%;
   margin-right: 24px;

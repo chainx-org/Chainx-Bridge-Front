@@ -17,8 +17,13 @@ interface coinProps {
     balance: number
 }
 
-function Redeem(): React.ReactElement {
+interface RedeemProps {
+    setShowRedeemNext: (bool: boolean)=>void;
+  }
+
+function Redeem({setShowRedeemNext}: RedeemProps): React.ReactElement<RedeemProps> {
     const {t} = useTranslation()
+    
     const optionList = [
         {
             img_url: BTCs,
@@ -53,6 +58,9 @@ function Redeem(): React.ReactElement {
     const ShowSelect = () =>{
         setIsShow(!isShow)
     }
+    function nextRequest() {
+        setShowRedeemNext(true)
+    }
 
     return (
         <RedeemStyle>
@@ -75,7 +83,7 @@ function Redeem(): React.ReactElement {
                     <img src={ true ? arrowYellow : arrowGray } alt='to' className='arrow' />
                     <p className='receive'>{t("You will receive")}</p>
                     <div className={`redeemResNum`}>10.82730000 {coinSymol.coinName}</div>
-                    <Button  className='yellow'>{t("next")}</Button>
+                    <Button  className='yellow' onClick={nextRequest}>{t("next")}</Button>
                 </RedeemBtcInputStyle>
             </div>
         </RedeemStyle>

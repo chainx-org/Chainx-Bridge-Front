@@ -53,7 +53,7 @@ function SelectAccount() {
         <div className='accountList'>
           {list.map(function (item: any) {
             return (
-              <AccountLists className="accountItem" onClick={()=>accountSelected(item)}>
+              <AccountLists className="accountItem" onClick={()=>accountSelected(item)} key={item.address}>
                 <div className='selectImg'>
                   { isSelected && item.name === value?.name ? <img src={selectAccount} alt='selected' /> : <div className='circle' /> }
                 </div>

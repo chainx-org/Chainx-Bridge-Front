@@ -20,9 +20,9 @@ interface coinProps {
 }
 
 interface IssueProps {
-  setShowNext: (bool: boolean)=>void;
+  setShowIssueNext: (bool: boolean)=>void;
 }
-function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
+function Issue({ setShowIssueNext }: IssueProps): React.ReactElement<IssueProps> {
   const { t } = useTranslation();
   const {currentAccount} = useAccountModel();
   const [IssueAmount, setIssueAmount] = useState(0)
@@ -61,7 +61,7 @@ function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
   const hypothecateNum = <>0.00 PCX</>
   const chargeNum = <>0.00 {coinSymol.coinName}</>
   function nextRequest() {
-    setShowNext(false)
+    setShowIssueNext(true)
   }
   return (
     <IssueStyle>

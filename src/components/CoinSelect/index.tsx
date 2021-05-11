@@ -58,6 +58,7 @@ const Wrapper = styled.div`
         border-radius: 15px;
         width: 142px;
         height: 40px;
+        cursor: pointer;
         .currName {
             opacity: 0.85;
             font-family: PingFangSC-Medium;
@@ -75,18 +76,22 @@ const Wrapper = styled.div`
         background: #FFFFFF;
         box-shadow: 6px 6px 8px 0 rgba(0,0,0,0.06);
         border-radius: 8px;
-        padding: 12px 16px 10px;
+        padding: 12px 0 10px;
         font-family: PingFangSC-Regular;
         font-weight: 400;
         color: #8E8E8E;
         z-index: 99;
         .optinTitle {
-            padding: 6px 0;
+            padding: 6px 16px;
             font-size: 11px;
         }
         .optionContent {
-            padding: 8px 0;
+            padding: 8px 16px;
             display: flex;
+            &:hover {
+                cursor: pointer;
+                background: #F7F7F7;
+            }
             img {
                 margin-right: 8px;
             }
