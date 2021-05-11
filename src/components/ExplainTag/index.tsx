@@ -40,14 +40,14 @@ interface ExplainTagProps {
 export default function ExplainTag({className = '' , title, children, tooltip }:ExplainTagProps): React.ReactElement<ExplainTagProps>{
     
     return (
-       <Wrapper className={` ${className}`}>
+       <Wrapper className={``}>
            <div className='leftTitle'>
-               <div className='title'>{title}</div>
+               <div className={`title ${className} `}>{title}</div>
                <Tooltip title={tooltip}>
                     <img src={Question} alt=""/>
                </Tooltip>       
            </div>
-           <div className='rightContent'>{children}</div>
+           <div className={`rightContent  ${className}`}>{children}</div>
        </Wrapper>
     )
 }

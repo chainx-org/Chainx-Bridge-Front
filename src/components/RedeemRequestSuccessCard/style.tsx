@@ -15,11 +15,10 @@ export const RedeemRequestCardStyle = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 23px;
+    margin-bottom: 8px;
     img {
       height: 32px;
     }
-
     .time {
       display: flex;
       margin-top: 8.5px;
@@ -65,21 +64,25 @@ export const RedeemRequestCardStyle = styled.div`
   }
   .tip-redeem{
     margin-top: 24px;
-    padding: 14px 20px;
+    padding: 6px 18px;
     display: flex;
     align-items: center;
     border: 1px solid #FAAD14;
     text-align: left;
     border-radius: 6px;
-    width: 366px;
+    width: 374px;
     height: 44px;
     background:rgba(250,173,20,0.1);
-    font-size: 12px;
-    color: #554D4E;
-    font-weight: 400;
     img{
       margin-right: 8px;
       width: 15px;
+    }
+    .tipMsg {
+      font-family: PingFangSC-Regular;
+      font-size: 12px;
+      color: #554D4E;
+      line-height: 16px;
+      font-weight: 400;
     }
   }
   .dotted-line{
@@ -87,7 +90,7 @@ export const RedeemRequestCardStyle = styled.div`
     height: 2px;
     border: 1px dashed #E5E5E5;
     box-shadow: 0 2px 1px 0 #FFFFFF;
-    margin-top: 23.5px;
+    margin-bottom: 23.5px;
   }
   .line{
     background: #F4F4F5;
@@ -95,6 +98,6 @@ export const RedeemRequestCardStyle = styled.div`
     border-radius: 1px;
     width: 420px;
     height: 2px;
-    margin-top: 32px;
+    margin: 32px 0 24px;
   }
 `
