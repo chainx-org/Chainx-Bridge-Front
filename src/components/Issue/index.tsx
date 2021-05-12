@@ -23,9 +23,9 @@ interface coinProps {
 }
 
 interface IssueProps {
-  setShowNext: (bool: boolean)=>void;
+    setShowIssueNext: (bool: boolean)=>void;
 }
-function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
+function Issue({ setShowIssueNext }: IssueProps): React.ReactElement<IssueProps> {
     const Fee = useContext(FeeContext)
     const pcxPrice = Fee.pcxPrice
     const {api} = useApi();
@@ -77,8 +77,8 @@ function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
           notification.warn({message:"发行的值必须大于0"})
           return;
       }
+      setButtonLoading(true)
       const vaults = await api.query.xGatewayBitcoinV2.vaults.entries();
-      console.log(vaults)
       const results = await Promise.all(
           vaults.map(async([key,value])=>{
               const vault = value.unwrap();
@@ -90,10 +90,7 @@ function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
           results ? ChangeChainXAddress(JSON.parse(JSON.stringify(results))[0][0]): ""
       );
       setVaultBtcAddress(results ? JSON.parse(JSON.stringify(results))[0][2] : "");
-      setShowNext(false)
-  }
-  function nextRequest() {
-    setShowNext(false)
+      setShowIssueNext(true)
   }
   return (
     <IssueStyle>
