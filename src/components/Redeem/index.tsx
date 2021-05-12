@@ -32,6 +32,7 @@ function Redeem({setShowRedeemNext}: RedeemProps): React.ReactElement<RedeemProp
     const [BtcAddress,setBtcAddress] = useState("")
     const [n,setN] = useState(0)
     const {api} = useApi();
+    const [buttonLoading,setButtonLoading] = useState(false)
     const {XbtcBalance} = useXbtcAssets(currentAccount?.address!!,n)
     const optionList = [
         {
@@ -77,6 +78,7 @@ function Redeem({setShowRedeemNext}: RedeemProps): React.ReactElement<RedeemProp
             notification.warn({message: "赎回的值必须大于0"});
             return
         }
+        setButtonLoading(true)
         const injector = await web3FromAddress(currentAccount!!.address)
         api.tx.xGatewayBitcoinV2.requestRedeem(currentAccount!!.address,RedeemAmount * 100000000,BtcAddress)
             .signAndSend(currentAccount!!.address,{signer:injector.signer},({status,dispatchError,events})=>{
@@ -93,6 +95,7 @@ function Redeem({setShowRedeemNext}: RedeemProps): React.ReactElement<RedeemProp
                             message: `${section}.${name}: ${documentation.join(' ')}`,
                             duration: 0
                         })
+                        setButtonLoading(false)
                     }
                 }else{
                     notification['success']({
@@ -132,7 +135,7 @@ function Redeem({setShowRedeemNext}: RedeemProps): React.ReactElement<RedeemProp
                     <img src={ true ? arrowYellow : arrowGray } alt='to' className='arrow' />
                     <p className='receive'>{t("You will receive")}</p>
                     <div className={`redeemResNum`}>{RedeemAmount} {coinSymol.coinName}</div>
-                    <Button  className='yellow' onClick={handleReedem}>{t("next")}</Button>
+                    <Button  loading={buttonLoading} className='yellow' onClick={handleReedem}>{t("next")}</Button>
                 </RedeemBtcInputStyle>
             </div>
         </RedeemStyle>
