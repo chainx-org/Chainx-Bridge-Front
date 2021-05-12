@@ -127,6 +127,7 @@ function Issue({ setShowIssueNext }: IssueProps): React.ReactElement<IssueProps>
                   message: `:( transaction failed', ${error}`,
                   duration: 0,
               });
+              setButtonLoading(false)
           });
   }
   return (
