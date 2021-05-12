@@ -6,12 +6,15 @@ import DOGEs from '../CoinSelect/icons/DOGE_s.svg'
 import Sherpaxs from '../CoinSelect/icons/sherpax_s.svg'
 import arrowYellow from './icons/arrow_yellow.svg'
 import arrowGray from './icons/arrow_gray.svg'
-import { InputNumber, Divider, Button } from "antd";
+import {InputNumber, Divider, Button, notification} from "antd";
 import { useTranslation } from "react-i18next";
 import ExplainTag from '../ExplainTag'
 import CoinSelect from "../CoinSelect";
-import {useAccountInfo} from "../../hooks/useAccountInfo";
 import useAccountModel from "../../hooks/useAccountModel";
+import {FeeContext } from "../../hooks/useFeeContext";
+import { web3FromAddress } from "@polkadot/extension-dapp";
+import {useApi} from "../../hooks/useApi";
+import ChangeChainXAddress from "../../util";
 
 interface coinProps {
   img_url: any;
@@ -23,9 +26,18 @@ interface IssueProps {
   setShowNext: (bool: boolean)=>void;
 }
 function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
+    const Fee = useContext(FeeContext)
+    const pcxPrice = Fee.pcxPrice
+    const {api} = useApi();
   const { t } = useTranslation();
   const {currentAccount} = useAccountModel();
   const [IssueAmount, setIssueAmount] = useState(0)
+  const [vaultAddress,setVaultAddress] = useState("")
+  const [vaultBtcAddress,setVaultBtcAddress] = useState("")
+  const [buttonLoading,setButtonLoading] = useState(false)
+  async function ConfirmationIssueTrade(){
+      const injector = await web3FromAddress(currentAccount!!.address);
+  }
   const optionList = [
     {
         img_url: BTCs,
@@ -58,8 +70,28 @@ function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
       setIsShow(!isShow)
   }
   const address = <>{currentAccount?.address}</>
-  const hypothecateNum = <>0.00 PCX</>
+  const hypothecateNum = <>{IssueAmount / pcxPrice / 10 || 0} PCX</>
   const chargeNum = <>0.00 {coinSymol.coinName}</>
+  const handleMatchVault = async ()=> {
+      if(IssueAmount <=0){
+          notification.warn({message:"发行的值必须大于0"})
+          return;
+      }
+      const vaults = await api.query.xGatewayBitcoinV2.vaults.entries();
+      console.log(vaults)
+      const results = await Promise.all(
+          vaults.map(async([key,value])=>{
+              const vault = value.unwrap();
+              const collateral = await (await api.query.system.account(vault.id)).data.reserved;
+              const maxToken = collateral.muln(pcxPrice).divn(3)
+              return [vault.id, maxToken.sub(vault.issuedTokens).sub(vault.issuedTokens).sub(vault.toBeIssuedTokens),vault.wallet]
+          }))
+      setVaultAddress(
+          results ? ChangeChainXAddress(JSON.parse(JSON.stringify(results))[0][0]): ""
+      );
+      setVaultBtcAddress(results ? JSON.parse(JSON.stringify(results))[0][2] : "");
+      setShowNext(false)
+  }
   function nextRequest() {
     setShowNext(false)
   }
@@ -79,21 +111,25 @@ function Issue({ setShowNext }: IssueProps): React.ReactElement<IssueProps> {
             <InputNumber
               value={IssueAmount}
               onChange={(e) => {
-                setIssueAmount(+e)
+                  if(e){
+                      setIssueAmount(+e)
+                  }else{
+                      setIssueAmount(0)
+                  }
               }}
             />
             <div className={`btc-title`}>{coinSymol.coinName}</div>
           </div>
           <img src={ true ? arrowYellow : arrowGray } alt='to' className='arrow' />
           <p className='receive'>{t("You will receive")}</p>
-          <div className={`issueResNum`}>0 S{coinSymol.coinName}</div>
+          <div className={`issueResNum`}>{IssueAmount} S{coinSymol.coinName}</div>
         </IssueBtcInputStyle>
       </div>
       <div className='bottomContent'>
         <ExplainTag  title='目标账户' children={address} />
         <ExplainTag  title='锁定抵押品' children={hypothecateNum} />
         <ExplainTag  title='手续费' children={chargeNum} />
-        <Button className='gray' onClick={nextRequest}>{t("next")}</Button>
+        <Button  loading={buttonLoading} onClick={handleMatchVault}>{t("next")}</Button>
       </div>
     </IssueStyle>
   );
