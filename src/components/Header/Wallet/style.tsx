@@ -20,6 +20,7 @@ export const WalletStyle = styled.div`
 `
 export const WalletWrapperStyle = styled.div`
   margin-right: 24px;
+  cursor: pointer;
 `
 export const DropListStyle = styled.div`
   position: absolute;

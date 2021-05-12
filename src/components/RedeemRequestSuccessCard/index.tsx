@@ -7,6 +7,7 @@ import CardFooter from "../CardFooter";
 import warningYellowLogo from "../../icons/warm_yellow.svg";
 import RequestID from "../RequestID";
 import RedeemModalFooter from "../RedeemModalFooter";
+import ExplainTag from "../ExplainTag";
 
 function RedeemRequestSuccessCard() {
     return (
@@ -24,15 +25,16 @@ function RedeemRequestSuccessCard() {
                     <div>
                         <img src={warningYellowLogo} alt=""/>
                     </div>
-                    <div>如果在 8 小时后仍未收到赎回的 BTC，可取消赎回后重新发起赎回请求</div>
+                    <div className='tipMsg'>如果在 8 小时后仍未收到赎回的 BTC，可取消赎回后重新发起赎回请求</div>
                 </div>
             </div>
             <div className={"line"}/>
-            <RequestID requestID={"3123213123"}/>
+            <ExplainTag title='请求ID' children={'3123213123'} className='bold' />
             <div className={"dotted-line"}/>
-            <RedeemModalFooter btcReceiveAddress={"mHpAy3ahw2S7LvX...UXhG6wWRg1WBb"}
-                               vaultPCXAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
-                               vaultBTCAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
+            <RedeemModalFooter 
+                btcReceiveAddress={"mHpAy3ahw2S7LvX...UXhG6wWRg1WBb"}
+                vaultPCXAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
+                vaultBTCAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
             />
         </RedeemRequestCardStyle>
     )

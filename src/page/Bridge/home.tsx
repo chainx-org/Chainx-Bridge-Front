@@ -11,10 +11,11 @@ enum Tab { Issue, Redeem, }
 function BridgeHome(): React.ReactElement {
   const { t } = useTranslation();
   const { setActiveTab, isActive } = useTab(Tab.Issue);
-  const [showNext, setShowNext] = useState(true)
+  const [showIssueNext, setShowIssueNext] = useState(false)
+  const [showRedeemNext, setShowRedeemNext] = useState(false)
   return (
     <BridgeCardStyle>
-      { showNext ? <>
+      { showIssueNext ? <IssueRequestSuccessCard /> : showRedeemNext ? <RedeemRequestSuccessCard /> : <>
         <FunctionSwitchButton>
           <ul>
             <li
@@ -35,8 +36,8 @@ function BridgeHome(): React.ReactElement {
             </li>
           </ul>
         </FunctionSwitchButton>
-        {isActive(Tab.Issue) ? <Issue setShowNext={setShowNext}/> : <Redeem />} </>
-        : <RedeemRequestSuccessCard /> }
+        {isActive(Tab.Issue) ? <Issue setShowIssueNext={setShowIssueNext}/> : <Redeem setShowRedeemNext={setShowRedeemNext} />} </>
+      }
     </BridgeCardStyle>
   );
 }

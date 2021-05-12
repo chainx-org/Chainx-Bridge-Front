@@ -8,6 +8,7 @@ import failLogo from "./icons/fail.svg"
 import BTCLogo from "../../icons/BTC.svg"
 import warningYellowLogo from "../../icons/warm_yellow.svg"
 import RedeemModalFooter from "../RedeemModalFooter";
+import ExplainTag from "../ExplainTag";
 
 interface StatusModalProps {
     visible: boolean,
@@ -19,30 +20,30 @@ const StatusModal: React.FunctionComponent<StatusModalProps> = ({visible, cancle
     return (
         <Modal visible={visible} footer={null} getContainer={false} onCancel={cancle}>
             <StatusModalStyle>
-                <div className={"card-header"}>
+                <>
                     {
                         type === "issue-success" ?
-                            <>
+                            <div className='issueSuccess'>
                                 <img src={successLogo} alt=""/>
-                                <div className={"title"}>发行成功</div>
+                                <div className={"titleCon"}>发行成功</div>
                                 <div className={"number"}>您已经成功发行 {0.001} XBTC</div>
-                            </> :
+                            </div> :
                             type === "redeem-success" ?
-                                <>
+                                <div className='redeemSuccess'>
                                     <img src={successLogo} alt=""/>
-                                    <div className={"title"}>赎回成功</div>
+                                    <div className={"titleCon"}>赎回成功</div>
                                     <div className={"number"}>您已经成功赎回 {0.001} XBTC</div>
-                                </> : type === "issue-fail" ? <>
+                                </div> : type === "issue-fail" ? <div className='issueFail'>
                                     <img src={failLogo} alt=""/>
-                                    <div className={"title"}>发行失败</div>
+                                    <div className={"titleCon"}>发行失败</div>
                                     <div className={"number"}>您未能及时完成BTC转账或者转账金额不准确</div>
-                                </> : type === "redeem-fail" ? <>
+                                </div> : type === "redeem-fail" ? <div className='redeemFail'>
                                     <img src={failLogo} alt=""/>
-                                    <div className={"title"}>Vault未按时将BTC发送给您</div>
+                                    <div className={"titleCon"}>Vault未按时将BTC发送给您</div>
                                     <div className={"number-redeem"}>请放心你的资产很安全！同时你将获得10PCX的补偿</div>
                                     <Button>取消赎回</Button>
                                     <div className={"force-redeem"}>强制赎回</div>
-                                </> : <div>
+                                </div> : <div className='redeemPending'>
                                     <img src={BTCLogo} alt=""/>
                                     <div className={"redeem-btc"}>1.8273 BTC</div>
                                     <div className={"number"}>您将收到的BTC金额</div>
@@ -54,19 +55,21 @@ const StatusModal: React.FunctionComponent<StatusModalProps> = ({visible, cancle
                                     </div>
                                 </div>
                     }
-                </div>
+                </>
                 <div className={"line"}/>
-                <RequestID requestID={"3123213123"}/>
+                <ExplainTag title='请求ID' children={'3123213123'} className='bold' />
                 <div className={"dotted-line"}/>
-                {type === "issue-success" || type === "issue-fail" ?
-                    <ModalFooter btcReceiveAddress={"mHpAy3ahw2S7LvX...UXhG6wWRg1WBb"} lockCollateral={2}
-                                 issueAmount={23}
-                                 vaultPCXAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
-                                 vaultBTCAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}/> :
-                    <RedeemModalFooter btcReceiveAddress={"mHpAy3ahw2S7LvX...UXhG6wWRg1WBb"}
-                                 vaultPCXAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
-                                 vaultBTCAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
-                    />}
+                <div className='modalFooterContent'>
+                    {type === "issue-success" || type === "issue-fail" ?
+                        <ModalFooter btcReceiveAddress={"mHpAy3ahw2S7LvX...UXhG6wWRg1WBb"} lockCollateral={2}
+                        issueAmount={23}
+                        vaultPCXAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
+                        vaultBTCAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}/> :
+                        <RedeemModalFooter btcReceiveAddress={"mHpAy3ahw2S7LvX...UXhG6wWRg1WBb"}
+                        vaultPCXAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
+                        vaultBTCAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
+                        />}
+                </div>
             </StatusModalStyle>
         </Modal>
     )

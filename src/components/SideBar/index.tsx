@@ -8,11 +8,14 @@ import { NavLink } from "react-router-dom";
 
 function SideBar(): React.ReactElement {
 
+  function reLoad() {
+    if(window.location.pathname === '/') window.location.reload()
+  }
   return (
     <SideBarStyle>
       <SideBarTab>
         <Tooltip placement="topLeft" title='回到首页' arrowPointAtCenter>
-          <NavLink to={"/"} exact >
+          <NavLink to={"/"} exact onClick={reLoad}>
             <img src={Home} alt="" />
           </NavLink>
         </Tooltip>
