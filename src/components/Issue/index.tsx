@@ -87,7 +87,47 @@ function Issue({ setShowIssueNext }: IssueProps): React.ReactElement<IssueProps>
           results ? ChangeChainXAddress(JSON.parse(JSON.stringify(results))[0][0]): ""
       );
       setVaultBtcAddress(results ? JSON.parse(JSON.stringify(results))[0][2] : "");
-      setShowIssueNext(true)
+      const injector = await web3FromAddress(currentAccount!!.address);
+      api.tx.xGatewayBitcoinV2
+          .requestIssue(vaultAddress,IssueAmount * 100000000)
+          .signAndSend(
+              currentAccount!!.address,
+              { signer: injector.signer },
+              ({ status, dispatchError, events }) => {
+                  if (status.isInBlock) {
+                      notification["success"]({
+                          message: `Completed at block hash ${status.asInBlock.toString()}`,
+                          duration: 0,
+                      });
+                  } else if (dispatchError) {
+                      if (dispatchError.isModule) {
+                          const decoded = api.registry.findMetaError(
+                              dispatchError.asModule
+                          );
+                          const { documentation, name, section } = decoded;
+                          notification["error"]({
+                              message: `${section}.${name}: ${documentation.join(" ")}`,
+                              duration: 0,
+                          });
+                          setButtonLoading(false)
+                      }
+                  } else {
+                      notification["success"]({
+                          message: `Current status: ${status.type}`,
+                          duration: 0,
+                      });
+                      if (status.type === "Finalized") {
+                          setShowIssueNext(true)
+                      }
+                  }
+              }
+          )
+          .catch((error) => {
+              notification["error"]({
+                  message: `:( transaction failed', ${error}`,
+                  duration: 0,
+              });
+          });
   }
   return (
     <IssueStyle>

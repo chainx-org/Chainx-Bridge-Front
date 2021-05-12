@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { SelectAccountStyle, AccountLists, CurrentAccount } from "./style";
 import dropdown from "../SelectAccount/icons/Drop_down.svg"
 import selectAccount from "../SelectAccount/icons/selected_Account.svg"
@@ -16,27 +16,11 @@ function SelectAccount() {
   const [value, setValue] = useState(currentAccount);
   const currentAddress = currentAccount?.address;
   const currAddress = currentAddress?.substring(0, 5) + '...' + currentAddress?.substring(currentAddress.length - 5)
-  const list = [
-    {
-      name: 'Alex',
-      address: '5RkTK…c31Cr'
-    },
-    {
-      name: 'Pedro Amorim',
-      address: '5RkTK…c31Cr'
-    },
-    {
-      name: 'Kiandra Lowe',
-      address: '5RkTK…c31Cr'
-    },
-    {
-      name: 'Helena Brauer',
-      address: '5RkTK…c31Cr'
-    }
-  ]
+  const list = accountModel.accounts
   function accountSelected(val: any) {
     setIsSelected(true)
     setValue(val)
+    accountModel.setCurrentAccount(val)
     setIsShowAccountList(!isShowAccountList)
   }
   return (
@@ -59,7 +43,7 @@ function SelectAccount() {
                 </div>
                 <div className='accountMsg'>
                   <div className='nameMsg'>{item.name}</div>
-                  <div className='adressMsg'>{item.address}</div>
+                  <div className='adressMsg'>{item.address.substring(0, 5) + '...' + currentAddress?.substring(currentAddress.length - 5)}</div>
                 </div>
               </AccountLists>
             );

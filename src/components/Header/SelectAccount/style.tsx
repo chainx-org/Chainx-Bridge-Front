@@ -65,6 +65,8 @@ export const AccountLists = styled.div`
   .accountMsg {
     margin-left: 16px;
     font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     .nameMsg {
       font-family: NotoSansSC-Medium;
       color: #282828;
