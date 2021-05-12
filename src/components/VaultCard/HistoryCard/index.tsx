@@ -2,12 +2,17 @@ import React, {useContext, useState} from "react";
 import {HistoryCardStyle} from "./style";
 import {FunctionSwitchButton, TableStyle} from "../../../page/History/style";
 import {useTranslation} from "react-i18next";
-import {Table} from "antd";
+import {Space, Table} from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
 import {useApi} from "../../../hooks/useApi";
 import {useRedeemRequests} from "../../../hooks/useRedeemRequestList";
 import {convertBalanceToDisplayValue} from '../../../util'
 import {decodeAddress, encodeAddress} from "@polkadot/keyring";
+import LastTime from './icons/time.svg'
+import SuccessStatus from './icons/success.svg'
+import FailStatus from './icons/fail.svg'
+import Canceled from './icons/cancel.svg'
+
 const data = [
     {
         id: 'id',
@@ -34,64 +39,124 @@ interface HistoryRow {
     status: string;
   }
 function HistoryCard() {
-    const [HistoryStatus, SetHistoryStatus] = useState('issue')
     const {currentAccount} = useAccountModel();
     const {api} =useApi()
     const {t} = useTranslation()
     const redeemRequestsList = useRedeemRequests();
-    const Emitcolumns = [
+    const [page, setPage] = useState(0);
+    const [currentTable, setCurrentTable] = useState("issue")
+    const [isCancel, setIsCancel] = useState(false)
+    const columns = [
         {
-            title: t<string>("Request number"),
-            dataIndex: "id",
-            key: "id",
-            width:80
+            title: '请求标示',
+            dataIndex: 'id',
+            key: 'id'
         },
         {
-            title: t<string>("Amount"),
-            dataIndex: "amount",
-            key: "amount",
-            width:80
+            title: '数量（BTC）',
+            dataIndex: 'amount',
+            key: 'amount',
         },
         {
-            title: t<string>("ChainX Address"),
-            dataIndex: "chainxAddress",
-            ellipsis: true,
-            key: "chainxAddress"
+            title: '赎回BTC地址',
+            dataIndex: 'redeemAddress',
+            key: 'redeemAddress',
         },
         {
-            title: t<string>("BTC address"),
-            dataIndex: "btcAddress",
-            ellipsis: true,
-            key: "btcAddress"
-        }
-    ]
+            title: '交易确认数',
+            dataIndex: 'tradeNum',
+            key: 'tradeNum',
+        },
+        {
+            title: 'BTC交易哈希',
+            dataIndex: 'tradeHash',
+            key: 'tradeHash',
+        },
+        {
+            title: '状态',
+            key: 'action',
+            render: (text: any, record: any) => (
+                <Space size="middle">
+                    {record.status === "进行中" && <div className='historyProcessing'>12:08:23<img src={LastTime} alt='lastTime' /></div>}
+                    {record.status === "失败" && <div className='historyFail'>{record.status}<img src={FailStatus} alt='close' /></div>}
+                    {record.status === "成功" && <div className='historySuccess'>{record.status}<img src={SuccessStatus} alt='close' /></div>}
+                    {record.status === "取消" && <div className='historyCancel'>
+                        <span className={ isCancel ? 'canceled' : 'cancel'} onClick={()=>setIsCancel(!isCancel)}>{isCancel ? '已取消' : '取消'}</span>
+                        { isCancel && <img src={Canceled} alt='cancel' /> } </div>}
+                </Space>
+            ),
+        },
+    ];
+
+    const Data = [
+        {
+            id: '1b2978...fd247ac',
+            amount: '1.0000',
+            redeemAddress: <span className='redeemHashAddress'>1b2978...fd247ac</span>,
+            tradeNum: 1.0000,
+            tradeHash: <span className='tradeHashAddress'>1b2978...fd247ac</span>,
+            status: '成功'
+        },
+        {
+            id: '1b2978...fd247ac',
+            amount: '1.0000',
+            redeemAddress: <span className='redeemHashAddress'>1b2978...fd247ac</span>,
+            tradeNum: 1.0000,
+            tradeHash: <span className='tradeHashAddress'>1b2978...fd247ac</span>,
+            status: '进行中'
+        },
+        {
+            id: '1b2978...fd247ac',
+            amount: '1.0000',
+            redeemAddress: <span className='redeemHashAddress'>1b2978...fd247ac</span>,
+            tradeNum: 1.0000,
+            tradeHash: <span className='tradeHashAddress'>1b2978...fd247ac</span>,
+            status: '失败'
+        },
+        {
+            id: '1b2978...fd247ac',
+            amount: '1.0000',
+            redeemAddress: <span className='redeemHashAddress'>1b2978...fd247ac</span>,
+            tradeNum: 1.0000,
+            tradeHash: <span className='tradeHashAddress'>1b2978...fd247ac</span>,
+            status: '成功'
+        },
+        {
+            id: '1b2978...fd247ac',
+            amount: '1.0000',
+            redeemAddress: <span className='redeemHashAddress'>1b2978...fd247ac</span>,
+            tradeNum: 1.0000,
+            tradeHash: <span className='tradeHashAddress'>1b2978...fd247ac</span>,
+            status: '取消'
+        },
+        {
+            id: '1b2978...fd247ac',
+            amount: '1.0000',
+            redeemAddress: <span className='redeemHashAddress'>1b2978...fd247ac</span>,
+            tradeNum: 1.0000,
+            tradeHash: <span className='tradeHashAddress'>1b2978...fd247ac</span>,
+            status: '成功'
+        },
+    ];
+    
     return (
         <HistoryCardStyle>
             <FunctionSwitchButton>
                 <ul>
                     <li onClick={() => {
-                        SetHistoryStatus('issue')
-                    }} className={HistoryStatus === 'issue' ? "active" : ""}>{t('Redemption list')}</li>
-                    <li style={{ cursor: "not-allowed" }} className={HistoryStatus === 'Redeem' ? "active" : ""}>{t('History')}</li>
+                        setCurrentTable("issue");
+                        setPage(0);
+                    }} className={currentTable === "issue" ? "active" : "none"}>{t('issue')}</li>
+                    <li onClick={() => {
+                        setCurrentTable("redeem");
+                        setPage(0);
+                    }} className={currentTable === "redeem" ? "active" : "none"}>{t('Redeem')}</li>
                 </ul>
             </FunctionSwitchButton>
             <TableStyle>
-                {HistoryStatus === "issue" ?
-                    <Table columns={Emitcolumns} dataSource={redeemRequestsList
-                        .filter(value => encodeAddress(decodeAddress(value.vaultId),44) === currentAccount?.address)
-                        .map<HistoryRow>(row => {
-                          return {
-                            id: row.id.toString(),
-                            amount: convertBalanceToDisplayValue(row.amount).toString(),
-                            chainxAddress: encodeAddress(decodeAddress(row.chainxAddr.toString()),44),
-                            btcAddress: row.userBtcAddr.toString(),
-                            hash: "",
-                            countedBlock: "0",
-                            status: "确认"
-                          };
-                        })} /> :
-                    <Table columns={Emitcolumns} dataSource={data2} />
-                }
+                {currentTable === "issue" ? 
+                <Table columns={columns} dataSource={Data} pagination={{pageSize:5,defaultPageSize:5}} /> :
+                <Table columns={columns} dataSource={Data}pagination={{pageSize:5,defaultPageSize:5}} />}
             </TableStyle>
         </HistoryCardStyle>
     )

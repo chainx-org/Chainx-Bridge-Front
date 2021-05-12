@@ -23,11 +23,7 @@ function VaultPage(){
     },[currentAccount,isApiReady])
     return (
         <>
-            {
-            vault ? 
-             <VaultCard/>
-             : 
-            <RegisterVaultCard/>}
+            { !vault ? <VaultCard/> : <RegisterVaultCard/>}
         </>
     )
 }

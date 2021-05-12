@@ -218,12 +218,9 @@ function History() {
                 </ul>
             </FunctionSwitchButton>
             <TableStyle>
-                {currentTable === "issue" ? <Table columns={Issuecolumns} dataSource={IssueData}
-                    pagination={{pageSize:5,defaultPageSize:5}}
-                    /> :
-                    <Table columns={Redeemcolumns} dataSource={RedeemData}
-                    pagination={{pageSize:5,defaultPageSize:5}}
-                    />}
+                {currentTable === "issue" ? 
+                <Table columns={Issuecolumns} dataSource={IssueData} pagination={{pageSize:5,defaultPageSize:5}} /> :
+                <Table columns={Redeemcolumns} dataSource={RedeemData} pagination={{pageSize:5,defaultPageSize:5}} />}
             </TableStyle>
             <ProcessingModal visible={IssueprocessingModalVisbible} cancle={()=> SetIssueprocessingModalVisbible(false)}/>
             <StatusModal visible={IssuesuccessModalVisible} cancle={()=> setIssueSuccessModalVisible(false)} type={"issue-success"}/>

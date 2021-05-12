@@ -72,6 +72,42 @@ export const TableStyle = styled.div`
     font-weight: 400;
     padding: 22px 0;
   }
+  .historyFail, .historySuccess, .historyProcessing, .historyCancel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      margin-left: 6px;
+    }
+  }
+  .historyCancel{
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    .cancel {
+      color: #FFFFFF;
+      padding: 4px 16px;
+      background: #282828;
+      border-radius: 5px;
+    }
+    .canceled {
+      color: #282828;
+    }
+  }
+  .historyProcessing {
+    background: rgba(250,173,20,0.10);
+    border: 1px solid rgba(250,84,28,0.30);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #FA541C;
+    text-align: center;
+    line-height: 20px;
+    font-weight: 400;
+  }
   .processing{
     font-size: 12px;
     color: #E88B00;
@@ -86,8 +122,11 @@ export const TableStyle = styled.div`
     line-height: 16px;
     font-weight: 400;
   }
-  .hash {
+  .redeemHashAddress {
     color: #34C69A;
+  }
+  .tradeHashAddress {
+    color: #EFB40B;
   }
   .ant-table-tbody{
     > tr:hover:not(.ant-table-expanded-row) > td,.ant-table-row-hover,.ant-table-row-hover>td{

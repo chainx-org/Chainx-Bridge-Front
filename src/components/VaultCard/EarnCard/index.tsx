@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-  AddCollateralInput,
-  AddCollateralModalStyle,
-  CollateralDisplayStyle,
   EarnCardStyle,
   EarnCardTopStyle,
 } from "./style";
@@ -19,6 +16,8 @@ import { useFeeContext, FeeContext } from "../../../hooks/useFeeContext";
 import {useAccountInfo} from "../../../hooks/useAccountInfo";
 import FormatBalance from "../../../hooks/useFormatBalance";
 import { web3FromAddress } from "@polkadot/extension-dapp";
+import EarnModal from "../EarnModal";
+
 interface VaultModel {
   address: string;
   btcAddress: BtcAddress;
@@ -132,55 +131,48 @@ function EarnCard() {
     }
   }, [isApiReady]);
   return (
-    <EarnCardStyle>
-      <EarnCardTopStyle>
-        <ul>
-          <li>
+      <EarnCardStyle>
+        <EarnCardTopStyle>
+          <div className='earnItem'>
             <div className={"earn-card-title"}>累计收益</div>
-            <div className={"earn-pcx-num"}>- PCX</div>
-          </li>
-          <li>
-            <div className={"earn-card-title"}>已发行</div>
-            <div className={"issue-redeem-num"}>
-              <BalanceSpan balance={vault?.issuedToken} />
-              XBTC
-            </div>
-          </li>
-          <li>
-            <div className={"earn-card-title"}>Chainx 地址</div>
-            <div className={"chainx-address"}>{currentAccount?.address}</div>
-          </li>
-        </ul>
-        <ul className={"right-ul"}>
-          <li>
+            <div className={"earn-pcx-num"}>100 PCX</div>
+          </div>
+          <div className='earnItem'>
             <div className={"earn-card-title"}>可发行量</div>
             <div className={"issuable-num"}>{(((+vault?.collateral!! / 100000000) * pcxPrice)/secureThreshold).toFixed(5)} BTC</div>
-          </li>
-          <li>
+          </div>
+          <div className='earnItem'>
+            <div className={"earn-card-title"}>累计发行 / 赎回</div>
+            <div className={"issue-redeem-num"}><BalanceSpan balance={vault?.issuedToken} /> XBTC / <BalanceSpan balance={vault?.issuedToken} /> BTC</div>
+          </div>
+          <div className='earnItem'>
             <div className={"earn-card-title"}>抵押品 / 抵押率</div>
             <div className={"collateral-rate"}>
-              <div>
-                <BalanceSpan balance={vault?.collateral} />PCX
-              </div>
-              <div className={"collateral-rate-num"}>/{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(2) : "-"}%</div>
+              <div><BalanceSpan balance={vault?.collateral} />PCX /</div>
+              <div className={"collateral-rate-num"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(2) : "-" } %</div>
             </div>
-          </li>
-          <li>
+          </div>
+          <div className='earnItem'>
+            <div className={"earn-card-title"}>Chainx 地址</div>
+            <div className={"chainx-address"}>{currentAccount?.address}</div>
+          </div>
+          <div className='earnItem'>
             <div className={"earn-card-title"}>邮箱</div>
             <div className={"email-edit"}>编辑</div>
-          </li>
-        </ul>
-      </EarnCardTopStyle>
-      <Divider />
-      <Button
-        onClick={() => {
-          SetAddCollateralModal(true);
-        }}
-      >
-        {t("adding collateral")}
-      </Button>
-      <AddCollateralModalStyle>
-        <Modal
+          </div>
+        </EarnCardTopStyle>
+        <div className='line' />
+        <div className='action'>
+          <Button
+            onClick={() => {
+              SetAddCollateralModal(true);
+            }}
+          >
+            {t("adding collateral")}
+          </Button>
+        </div>
+        { AddCollateralModal && <EarnModal SetAddCollateralModal={SetAddCollateralModal} /> }
+        {/* <Modal
           title={t("adding collateral")}
           visible={AddCollateralModal}
           onCancel={() => SetAddCollateralModal(false)}
@@ -225,8 +217,7 @@ function EarnCard() {
               </li>
             </ul>
           </CollateralDisplayStyle>
-        </Modal>
-      </AddCollateralModalStyle>
+        </Modal> */}
     </EarnCardStyle>
   );
 }
