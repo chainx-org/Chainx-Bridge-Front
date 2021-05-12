@@ -52,10 +52,12 @@ const Wrapper = styled.div`
 
 interface AddressInputProps {
   className?: string;
-  coinSymol?: any
+  coinSymol?: any;
+  address?:string;
+  changeAddress?:any;
 }
 
-export default function AddressInput({className = '' , coinSymol }:AddressInputProps): React.ReactElement<AddressInputProps>{
+export default function AddressInput({className = '' , coinSymol,address,changeAddress }:AddressInputProps): React.ReactElement<AddressInputProps>{
     
     return (
        <Wrapper className={` ${className}`}>
@@ -65,11 +67,11 @@ export default function AddressInput({className = '' , coinSymol }:AddressInputP
                   <Tooltip title={`发行成功后会解锁，若未按照要求完成btc转账，将失去锁定的抵押品`}>
                     <img src={Question} alt=""/>
                   </Tooltip>       
-                  <p className='tradeTip'>网络交易费 0.0000 {coinSymol.coinName.slice(1,4)}</p>
+                  <p className='tradeTip'>网络交易费 0.00001 {coinSymol.coinName.slice(1,4)}</p>
                </div>
            </div>
            <div className='addressIpt'>
-                <Input placeholder={`请输入您的 ${coinSymol.coinName.slice(1,4)} 地址`} />
+                <Input placeholder={`请输入您的 ${coinSymol.coinName.slice(1,4)} 地址`} value={address} onChange={(e) => changeAddress(e.target.value)}/>
            </div>
        </Wrapper>
     )

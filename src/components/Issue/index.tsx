@@ -35,9 +35,6 @@ function Issue({ setShowIssueNext }: IssueProps): React.ReactElement<IssueProps>
   const [vaultAddress,setVaultAddress] = useState("")
   const [vaultBtcAddress,setVaultBtcAddress] = useState("")
   const [buttonLoading,setButtonLoading] = useState(false)
-  async function ConfirmationIssueTrade(){
-      const injector = await web3FromAddress(currentAccount!!.address);
-  }
   const optionList = [
     {
         img_url: BTCs,
