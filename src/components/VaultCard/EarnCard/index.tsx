@@ -3,7 +3,7 @@ import {
   EarnCardStyle,
   EarnCardTopStyle,
 } from "./style";
-import { Button, Divider, InputNumber, Modal, notification } from "antd";
+import { Button, Divider, Input, InputNumber, Modal, notification } from "antd";
 import { useTranslation } from "react-i18next";
 import arrowLogo from "./icons/arrow.svg";
 import useAccountModel from "../../../hooks/useAccountModel";
@@ -17,6 +17,7 @@ import {useAccountInfo} from "../../../hooks/useAccountInfo";
 import FormatBalance from "../../../hooks/useFormatBalance";
 import { web3FromAddress } from "@polkadot/extension-dapp";
 import EarnModal from "../EarnModal";
+import { AddCollateralModalStyle } from "../EarnModal/style";
 
 interface VaultModel {
   address: string;
@@ -32,6 +33,8 @@ function EarnCard() {
   const pcxPrice = value.pcxPrice;
   const { t } = useTranslation();
   const [AddCollateralModal, SetAddCollateralModal] = useState(false);
+  const [isShowEmail, setIsShowEmail] = useState(false)
+  const [editEmail, setEditEmail] = useState('')
   const [vault, setVault] = useState<VaultModel | null>(null);
   const [upperBound, setUpperBound] = useState("-");
   const [secureThreshold,SetsecureThreshold] = useState(0)
@@ -84,9 +87,8 @@ function EarnCard() {
         });
       });
   }
-  const AddCollateralHandle = () => {
-    ConfirmationIssueTrade()
-    SetAddCollateralModal(false);
+  const EditEmailAddress = () => {
+    setIsShowEmail(false)
   };
 
   useEffect(() => {
@@ -158,66 +160,30 @@ function EarnCard() {
           </div>
           <div className='earnItem'>
             <div className={"earn-card-title"}>邮箱</div>
-            <div className={"email-edit"}>编辑</div>
+            <div className={"email-edit"} onClick={()=>setIsShowEmail(!isShowEmail)}>{ editEmail } 编辑</div>
           </div>
         </EarnCardTopStyle>
         <div className='line' />
         <div className='action'>
-          <Button
-            onClick={() => {
-              SetAddCollateralModal(true);
-            }}
-          >
+          <Button onClick={() => SetAddCollateralModal(true)}>
             {t("adding collateral")}
           </Button>
         </div>
-        { AddCollateralModal && <EarnModal SetAddCollateralModal={SetAddCollateralModal} /> }
-        {/* <Modal
-          title={t("adding collateral")}
-          visible={AddCollateralModal}
-          onCancel={() => SetAddCollateralModal(false)}
+        <EarnModal SetAddCollateralModal={SetAddCollateralModal} AddCollateralModal={AddCollateralModal} />
+        <AddCollateralModalStyle
+          title={'编辑提醒邮箱'}
+          visible={isShowEmail}
+          onCancel={() => setIsShowEmail(false)}
           footer={[
-            <Button onClick={() => SetAddCollateralModal(false)}>取消</Button>,
-            <Button onClick={AddCollateralHandle}>确认</Button>,
+            <Button onClick={() => setIsShowEmail(false)}>取消</Button>,
+            <Button onClick={EditEmailAddress}>确认</Button>,
           ]}
         >
-          <AddCollateralInput>
-            <div className={"addCollateral-info"}>
-              <div className={"addCollateral-title"}>
-                {t("adding collateral")}
-              </div>
-              <div className={"addCollateral-amount"}>{t('balance')} {FormatBalance(accountInfo?.data.free)} PCX</div>
-            </div>
-            <InputNumber value={addPCX} onChange={ 
-                (e) => {
-                  if(e){
-                    console.log(e)
-                      setaddPCX(e)
-                  }else{
-                    console.log(e)
-                    setaddPCX(0)
-                  }
-                
-                }
-            }/>
-          </AddCollateralInput>
-          <CollateralDisplayStyle>
-            <ul>
-              <li>
-                <div>当前抵押率</div>
-                <div className={"collateral-num"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(5) : "-"}%</div>
-              </li>
-              <li>
-                <img src={arrowLogo} alt="" />
-              </li>
-              <li>
-                <div>增加后抵押率</div>
-    
-                <div className={"collateral-num before"}>{isFinite(((+vault?.collateral!! + addPCX )/ 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)) ? (((+vault?.collateral!! + addPCX )/ 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(5) : "-"}%</div>
-              </li>
-            </ul>
-          </CollateralDisplayStyle>
-        </Modal> */}
+          <div className='email'>
+            <Input value={editEmail} placeholder='输入邮箱地址'
+            onChange={ (e) => {console.log(e);setEditEmail(e.target.value);} }/>
+          </div>
+        </AddCollateralModalStyle>
     </EarnCardStyle>
   );
 }

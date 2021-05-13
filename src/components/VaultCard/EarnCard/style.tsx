@@ -24,9 +24,6 @@ export const EarnCardStyle = styled.div`
       align-items: center;
       background: #282828;
       border-radius: 8px;
-      &:hover {
-        color: #fff !important;
-      }
     }
   }
 `
@@ -68,6 +65,7 @@ export const EarnCardTopStyle = styled.div`
   .email-edit {
     color: #282828;
     line-height: 16px;
+    cursor: pointer;
   }
   .earn-card-title {
     color: #8E8E8E;
