@@ -22,11 +22,11 @@ function RegisterVaultCard() {
     const [BtcAddress,setBtcAddress] = useState("")
     async function onFinish(values: any) {
         console.log(values)
-        let valid =  WAValidator.validate(BtcAddress,'BTC')
-        if(!valid){
-            notification.warn({message: "请输入合法的BTC地址"});
-            return
-        }
+        // let valid =  WAValidator.validate(BtcAddress,'BTC')
+        // if(!valid){
+        //     notification.warn({message: "请输入合法的BTC地址"});
+        //     return
+        // }
         const injector = await web3FromAddress(currentAccount!!.address);
         api.tx.xGatewayBitcoinV2
             .registerVault(values.collateral * 100000000, values.address)

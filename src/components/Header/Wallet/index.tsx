@@ -9,22 +9,32 @@ import {useTranslation} from "react-i18next";
 import {useAccountInfo} from "../../../hooks/useAccountInfo";
 import useAccountModel from "../../../hooks/useAccountModel";
 import FormatBalance from "../../../hooks/useFormatBalance";
+import useXbtcAssets from "../../../hooks/useXbtcAssets";
+import {useApi} from "../../../hooks/useApi";
 
 function Wallet() {
-    const {t, i18n} = useTranslation();
-    const [dropToggle,setDropToggle] = useState(false)
     const {currentAccount} = useAccountModel()
     const accountInfo = useAccountInfo(currentAccount?.address!!)
+    const {t, i18n} = useTranslation();
+    const [dropToggle,setDropToggle] = useState(false)
+    const [xBtcBalance,setXbtcBalance] = useState(0)
+    const {api} = useApi();
+    async function getAssets(account: string) {
+        const res = await api.query.xAssets.assetBalance(account,1);
+        setXbtcBalance(JSON.parse(JSON.stringify(res)).Usable / 100000000)
+    }
     const hideAllMenu = ()=> {
         setDropToggle(false)
     }
     const showMenu = (e: { nativeEvent: { stopImmediatePropagation: () => void; }; })=> {
         e.nativeEvent.stopImmediatePropagation()
         setDropToggle(!dropToggle)
+        getAssets(currentAccount?.address!!)
     }
     useEffect(()=> {
         document.addEventListener('click',hideAllMenu)
     },[])
+
     return (
         <WalletWrapperStyle>
             <WalletStyle onClick={showMenu}>
@@ -48,7 +58,7 @@ function Wallet() {
                                 <img src={SBTCLogo} alt=""/>
                                 <div className={"item-text"}>SBTC</div>
                             </div>
-                            <div className={"item-balance"}>0.0034</div>
+                            <div className={"item-balance"}>{xBtcBalance ? xBtcBalance : 0}</div>
                         </div>
                     </li>
                     <li>
