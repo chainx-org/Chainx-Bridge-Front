@@ -8,7 +8,7 @@ export const IssueStyle = styled.div`
   border-radius: 16px;
   padding: 40px;
   .topContent {
-    padding: 20px 0 24px;
+    padding: 8px 0 31px;
     border-bottom: 1px dashed #DBDBDB;
     box-shadow: 0 1px 1px 0 #FFFFFF;
   }
@@ -19,7 +19,7 @@ export const IssueStyle = styled.div`
 export const AccountSwitch = styled.div`
   padding: 3px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   .to {
     opacity: 0.85;
@@ -28,25 +28,26 @@ export const AccountSwitch = styled.div`
     color: #000000;
     line-height: 22px;
     font-weight: 500;
-    padding: 0 20px;
+    padding: 0 50px;
   }
   .currContent {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-    background: #EFEFEF;
-    box-shadow: -2px -2px 3px 0 rgba(0,0,0,0.10), 2px 2px 3px 0 #FFFFFF;
-    border-radius: 15px;
+    // background: #EFEFEF;
+    // box-shadow: -2px -2px 3px 0 rgba(0,0,0,0.10), 2px 2px 3px 0 #FFFFFF;
+    // border-radius: 15px;
     width: 142px;
     height: 40px;
-    .currName {
-        opacity: 0.85;
-        font-family: PingFangSC-Medium;
-        font-size: 14px;
-        color: #000000;
-        text-align: center;
-        line-height: 22px;
-        font-weight: 500;
+    .currNames {
+      opacity: 0.85;
+      font-family: PingFangSC-Medium;
+      font-size: 14px;
+      color: #000000;
+      text-align: center;
+      line-height: 22px;
+      font-weight: 500;
+      margin-left: 10px;
     }
   }
 `
@@ -55,22 +56,48 @@ export const IssueBtcInputStyle = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 40px;
+  margin-top: 54px;
   color: #282828;
   .issueNum {
+    width: 100%;
     display: flex;
+    background: #EFEFEF;
+    box-shadow: -2px -2px 3px 0 rgba(0,0,0,0.10), 2px 2px 3px 0 #FFFFFF;
+    border-radius: 4px;
     .ant-input-number {
-      width: 200px;
-      height: 44px;
-      font-size: 32px;
-      color: #8E8E8E;
-      line-height: 44px;
+      width: 100%;
+      height: 56px;
+      font-size: 16px;
+      border: 0;
+      font-family: PingFangSC-Medium;
+      color: #000000;
+      line-height: 22px;
+      font-weight: 500;
+      .ant-input-number-input-wrap {
+        height: 56px;
+        display: flex;
+        align-items: center;
+        background: #EFEFEF;
+      }
+    }
+    .line {
+      width: 1px;
+      height: 56px;
+      border: 1px solid #DBDBDB;
+      box-shadow: 1px 0 1px 0 #FFFFFF;
     }
     .btc-title {
-      font-family: PingFangSC-Semibold;
-      font-size: 32px;
-      line-height: 44px;
-      font-weight: 550;
+      opacity: 0.85;
+      font-family: PingFangSC-Regular;
+      font-size: 14px;
+      color: #000000;
+      text-align: center;
+      line-height: 22px;
+      font-weight: 400;
+      width: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   .arrow {

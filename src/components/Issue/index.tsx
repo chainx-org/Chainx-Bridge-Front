@@ -138,33 +138,36 @@ function Issue({ setShowIssueNext }: IssueProps): React.ReactElement<IssueProps>
           <div className='to'>To</div>
           <div className='currContent'>
             <img src={Sherpaxs} alt=""/>
-            <p className='currName'>SherpaX</p>
+            <p className='currNames'>SherpaX</p>
           </div>
         </AccountSwitch>
         <IssueBtcInputStyle>
           <div className='issueNum'>
             <InputNumber
               value={IssueAmount}
-              onChange={(e) => {
-                  if(e){
-                      setIssueAmount(+e)
-                  }else{
-                      setIssueAmount(0)
-                  }
-              }}
+              placeholder={'0'}
+              onChange={(e) =>setIssueAmount(+e) }
             />
+            <div className='line' />
             <div className={`btc-title`}>{coinSymol.coinName}</div>
           </div>
           <img src={ true ? arrowYellow : arrowGray } alt='to' className='arrow' />
-          <p className='receive'>{t("You will receive")}</p>
-          <div className={`issueResNum`}>{IssueAmount} S{coinSymol.coinName}</div>
+          <div className='issueNum'>
+            <InputNumber
+              value={IssueAmount}
+              placeholder={'-'}
+              onChange={(e) =>setIssueAmount(+e) }
+            />
+            <div className='line' />
+            <div className={`btc-title`}>S{coinSymol.coinName}</div>
+          </div>
         </IssueBtcInputStyle>
       </div>
       <div className='bottomContent'>
         <ExplainTag  title='目标账户' children={address} />
         <ExplainTag  title='锁定抵押品' children={hypothecateNum} />
         <ExplainTag  title='手续费' children={chargeNum} />
-        <Button  loading={buttonLoading} onClick={handleMatchVault}>{t("next")}</Button>
+        <Button loading={buttonLoading} onClick={handleMatchVault} className='gray'>{t("next")}</Button>
       </div>
     </IssueStyle>
   );

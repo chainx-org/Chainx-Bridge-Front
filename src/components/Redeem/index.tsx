@@ -13,6 +13,7 @@ import useAccountModel from "../../hooks/useAccountModel";
 import {useApi} from "../../hooks/useApi";
 import useXbtcAssets from "../../hooks/useXbtcAssets";
 import { web3FromAddress } from "@polkadot/extension-dapp";
+import NumInput from "../NumInput";
 
 interface coinProps {
     img_url: any,
@@ -121,20 +122,24 @@ function Redeem({setShowRedeemNext}: RedeemProps): React.ReactElement<RedeemProp
                     <TabCoinSelect optionList={optionList} isShow={isShow} coinSymol={coinSymol} currCoin={currCoin} ShowSelect={ShowSelect}/>
                 </AccountSwitch>
                 <RedeemBtcInputStyle>
-                    <div className='redeemNum'>
-                        <InputNumber
-                        value={RedeemAmount}
-                        onChange={(e) => {
-                            setRedeemAmount(e)
-                        }}
-                        />
-                        <div className={`btc-title`}>{coinSymol.coinName}</div>
-                    </div>
-                    <div className='balance'>{coinSymol.coinName} 余额 <span>{XbtcBalance ? XbtcBalance : "0"}</span></div>
+                    <NumInput 
+                        RedeemAmount={RedeemAmount} 
+                        title='赎回金额'
+                        setRedeemAmount={setRedeemAmount} 
+                        coinSymol={coinSymol}
+                        description={'余额'}
+                        children={<span>{XbtcBalance ? XbtcBalance : "0"}</span>}
+                        symol={coinSymol.coinName}
+                    />
                     <AddressInput coinSymol={coinSymol} address={BtcAddress} changeAddress={(e : string) => setBtcAddress(e)}/>
                     <img src={ true ? arrowYellow : arrowGray } alt='to' className='arrow' />
-                    <p className='receive'>{t("You will receive")}</p>
-                    <div className={`redeemResNum`}>{RedeemAmount} {coinSymol.coinName}</div>
+                    <NumInput 
+                        RedeemAmount={RedeemAmount} 
+                        title='您将收到'
+                        setRedeemAmount={setRedeemAmount} 
+                        coinSymol={coinSymol}
+                        symol={'BTC'}
+                    />
                     <Button  loading={buttonLoading} className='yellow' onClick={handleReedem}>{t("next")}</Button>
                 </RedeemBtcInputStyle>
             </div>
