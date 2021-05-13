@@ -38,7 +38,7 @@ const Wrapper = styled.div`
             background: #EFEFEF;
             box-shadow: -2px -2px 3px 0 rgba(0,0,0,0.10), 2px 2px 3px 0 #FFFFFF;
             border-radius: 4px;
-            height: 40px;
+            height: 56px;
             ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
                 font-family: PingFangSC-Regular;
                 font-size: 14px;

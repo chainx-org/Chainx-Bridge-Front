@@ -9,14 +9,14 @@ export const RedeemStyle = styled.div`
   border-radius: 16px;
   padding: 40px;
   .topContent {
-    padding: 20px 0;
+    padding: 8px 0 20px;
   }
 `
 
 export const AccountSwitch = styled.div`
   padding: 3px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 `
 export const RedeemBtcInputStyle = styled.div`
@@ -24,7 +24,7 @@ export const RedeemBtcInputStyle = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 24px;
+  margin-top: 32px;
   color: #282828;
   .redeemNum {
     display: flex;
@@ -61,6 +61,9 @@ export const RedeemBtcInputStyle = styled.div`
     color: #282828;
     font-weight: 600;
     margin-bottom: 24px;
+  }
+  button {
+    margin-top: 22px;
   }
 `
 
