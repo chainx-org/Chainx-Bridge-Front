@@ -22,63 +22,56 @@ function RegisterVaultCard() {
     const [BtcAddress,setBtcAddress] = useState("")
     async function onFinish(values: any) {
         console.log(values)
-        message.success({
-          content: '注册成功！',
-          className: 'MsgSuccess',
-          duration: 3,
-        });
-        message.error({
-          content: `注册失败！原因：${'XXX'}`,
-          className: 'MsgError',
-          duration: 3,
-          icon: <img src={ErrorImg} alt='error' />,
-        });
         let valid =  WAValidator.validate(BtcAddress,'BTC')
         if(!valid){
             notification.warn({message: "请输入合法的BTC地址"});
             return
         }
-        
-        // const injector = await web3FromAddress(currentAccount!!.address);
-        // api.tx.xGatewayBitcoinV2
-        //   .registerVault(values.collateral * 100000000, values.address)
-        //   .signAndSend(
-        //     currentAccount!!.address,
-        //     { signer: injector.signer },
-        //     ({ status, dispatchError, events }) => {
-        //       if (status.isInBlock) {
-        //         notification["success"]({
-        //           message: `Completed at block hash ${status.asInBlock.toString()}`,
-        //           duration: 0,
-        //         });
-        //       } else if (dispatchError) {
-        //         if (dispatchError.isModule) {
-        //           const decoded = api.registry.findMetaError(
-        //             dispatchError.asModule
-        //           );
-        //           const { documentation, name, section } = decoded;
-        //           notification["error"]({
-        //             message: `${section}.${name}: ${documentation.join(" ")}`,
-        //             duration: 0,
-        //           });
-        //         }
-        //       } else {
-        //         notification["success"]({
-        //           message: `Current status: ${status.type}`,
-        //           duration: 0,
-        //         });
-        //         if (status.type === "Finalized") {
-        //            setRegVault(true)
-        //         }
-        //       }
-        //     }
-        //   )
-        //   .catch((error: any) => {
-        //     notification["error"]({
-        //       message: `:( transaction failed', ${error}`,
-        //       duration: 0,
-        //     });
-        //   });
+        const injector = await web3FromAddress(currentAccount!!.address);
+        api.tx.xGatewayBitcoinV2
+            .registerVault(values.collateral * 100000000, values.address)
+            .signAndSend(
+                currentAccount!!.address,
+                { signer: injector.signer },
+                ({ status, dispatchError, events }) => {
+                    if (status.isInBlock) {
+                        notification["success"]({
+                            message: `Completed at block hash ${status.asInBlock.toString()}`,
+                            duration: 0,
+                        });
+                    } else if (dispatchError) {
+                        if (dispatchError.isModule) {
+                            const decoded = api.registry.findMetaError(
+                                dispatchError.asModule
+                            );
+                            const { documentation, name, section } = decoded;
+                            notification["error"]({
+                                message: `注册失败！原因：${section}.${name}: ${documentation.join(" ")}`,
+                                duration: 0,
+                            });
+                        }
+                    } else {
+                        notification["success"]({
+                            message: `Current status: ${status.type}`,
+                            duration: 0,
+                        });
+                        if (status.type === "Finalized") {
+                            message.success({
+                                content: '注册成功！',
+                                className: 'MsgSuccess',
+                                duration: 3,
+                            });
+                            setRegVault(true)
+                        }
+                    }
+                }
+            )
+            .catch((error: any) => {
+                notification["error"]({
+                    message: `:( transaction failed', ${error}`,
+                    duration: 0,
+                });
+            });
       }
     return (
       <>
