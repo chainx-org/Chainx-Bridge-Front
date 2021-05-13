@@ -12,7 +12,7 @@ export const SelectAccountStyle = styled.div`
     box-shadow: 6px 6px 8px 0 rgba(0,0,0,0.06);
     border-radius: 8px;
     z-index: 99;
-    height: 300px;
+    max-height: 300px;
     overflow-y: scroll;
       &::-webkit-scrollbar {
         /*滚动条整体样式*/

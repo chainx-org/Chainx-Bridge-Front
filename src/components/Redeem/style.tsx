@@ -47,7 +47,7 @@ export const RedeemBtcInputStyle = styled.div`
     margin: 20px 0 40px;
   }
   .arrow {
-    padding: 20px 0;
+    padding: 20px 0 0;
   }
   .receive {
     font-family: PingFangSC-Regular;

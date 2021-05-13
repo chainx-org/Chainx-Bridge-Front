@@ -14,6 +14,7 @@ import {useApi} from "../../hooks/useApi";
 import useXbtcAssets from "../../hooks/useXbtcAssets";
 import { web3FromAddress } from "@polkadot/extension-dapp";
 import NumInput from "../NumInput";
+import RedeemRequestSuccessCard from "../RedeemRequestSuccessCard";
 
 interface coinProps {
     img_url: any,
@@ -23,11 +24,12 @@ interface coinProps {
 }
 
 interface RedeemProps {
-    setShowRedeemNext: (bool: boolean)=>void;
+    className?: string;
   }
 
-function Redeem({setShowRedeemNext}: RedeemProps): React.ReactElement<RedeemProps> {
-    const {t} = useTranslation()
+function Redeem({ className = '' }: RedeemProps): React.ReactElement<RedeemProps> {
+    const {t} = useTranslation()  
+    const [showRedeemNext, setShowRedeemNext] = useState(false)
     const {currentAccount} = useAccountModel();
     const [RedeemAmount,setRedeemAmount] = useState(0)
     const [BtcAddress,setBtcAddress] = useState("")
@@ -116,6 +118,8 @@ function Redeem({setShowRedeemNext}: RedeemProps): React.ReactElement<RedeemProp
         })
     }
     return (
+    <>{
+        showRedeemNext ? <RedeemRequestSuccessCard /> :
         <RedeemStyle>
             <div className='topContent'>
                 <AccountSwitch>
@@ -140,11 +144,12 @@ function Redeem({setShowRedeemNext}: RedeemProps): React.ReactElement<RedeemProp
                         coinSymol={coinSymol}
                         symol={'BTC'}
                     />
-                    <Button  loading={buttonLoading} className='yellow' onClick={handleReedem}>{t("next")}</Button>
+                    <Button loading={buttonLoading} className='yellow' onClick={handleReedem}>{t("next")}</Button>
                 </RedeemBtcInputStyle>
             </div>
         </RedeemStyle>
-    )
-}
+        }
+    </>
+)}
 
 export default Redeem;

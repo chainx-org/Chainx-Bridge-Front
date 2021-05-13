@@ -14,23 +14,29 @@ export const FunctionSwitchButton = styled.div`
   background-image: linear-gradient(134deg, #FAFAFB 0%, #F4F4F5 100%);
   box-shadow: -3px -3px 4px 0 rgba(0,0,0,0.10), 3px 3px 4px 0 #FFFFFF;
   border-radius: 19px;
-  ul{
-    width: 500px;
-    height: 52px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
-  li{
+  width: 500px;
+  height: 52px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  .tabList {
     width: 50%;
     height: 44px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    &.active{
-      background: #F4F4F5;
-      box-shadow: 3px 3px 8px 0 rgba(0,0,0,0.11), -3px -3px 8px 0 #FFFFFF;
-      border-radius: 16px;
+    a {
+      width: 100%;
+      height: 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: PingFangSC-Regular;
+      font-size: 16px;
+      color: #8E8E8E;
+      font-weight: 400;
+      &.active{
+        background: #F4F4F5;
+        box-shadow: 3px 3px 8px 0 rgba(0,0,0,0.11), -3px -3px 8px 0 #FFFFFF;
+        border-radius: 16px;
+      }
     }
   };
 `
