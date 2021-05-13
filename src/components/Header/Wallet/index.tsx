@@ -6,10 +6,15 @@ import SBTCLogo from "./icons/SBTC.svg"
 import SBCHLogo from "./icons/SBCH.svg"
 import SDOGLogo from "./icons/SDOG.svg"
 import {useTranslation} from "react-i18next";
+import {useAccountInfo} from "../../../hooks/useAccountInfo";
+import useAccountModel from "../../../hooks/useAccountModel";
+import FormatBalance from "../../../hooks/useFormatBalance";
 
 function Wallet() {
     const {t, i18n} = useTranslation();
     const [dropToggle,setDropToggle] = useState(false)
+    const {currentAccount} = useAccountModel()
+    const accountInfo = useAccountInfo(currentAccount?.address!!)
     const hideAllMenu = ()=> {
         setDropToggle(false)
     }
@@ -34,7 +39,7 @@ function Wallet() {
                                 <img src={PCXLogo} alt=""/>
                                 <div className={"item-text"}>PCX</div>
                             </div>
-                            <div className={"item-balance"}>0.0024</div>
+                            <div className={"item-balance"}>{FormatBalance(accountInfo?.data.free)}</div>
                         </div>
                     </li>
                     <li>
