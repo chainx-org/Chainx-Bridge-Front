@@ -9,6 +9,11 @@ export const ChainStatusStyle = styled.div`
   img{
     height: 27px;
   }
+  .status-info{
+    font-size: 10px;
+    color: #8E8E8E;
+    font-weight: 400;
+  }
   .chainStatus-content{
     padding:7.5px 29.5px;
   }
@@ -27,5 +32,10 @@ export const PointStyle = styled.div`
     width: 10px;
     height: 10px;
   border-radius: 50%;
-  background:#34C69A ;
+  &&.running{
+    background:#34C69A ;
+  }
+  &&.error{
+    background: red;
+  }
   `

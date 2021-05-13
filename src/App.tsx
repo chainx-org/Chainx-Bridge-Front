@@ -87,11 +87,6 @@ export const App: React.FC = () => {
     notification.warn({ message: "Wait ws connecting..." });
     const provider = new WsProvider("wss://xbridge.spiderx.pro/ws");
     const api = new ApiPromise({ provider, types });
-    api.on("error", (err) =>
-      notification.error({
-        message: `Cannot connect to ws endpoint. Error: ${err}`
-      })
-    );
     api.on("disconnected", () => setApiReady(false));
     api.on("ready", () => {
       setApi(api);
@@ -253,7 +248,9 @@ export const App: React.FC = () => {
                   pcxPrice: pcxPrice!!,
                 }}
               >
+                <bridgeStatusContext.Provider value={bridgeStatus}>
                 <Header />
+                </bridgeStatusContext.Provider>
                 <Content >
                   <SideBar />
                   <Suspense fallback={<Loading/>}>
