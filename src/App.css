@@ -97,7 +97,7 @@ table {
     background: #F6C94A;
 }
 .ant-btn:focus, .ant-btn:active, .ant-btn:hover{
-    color: #282828;
+    color: #fff;
     background: #F6C94A;
     border-color: #F6C94A;
 }

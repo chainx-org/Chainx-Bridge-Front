@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-  AddCollateralInput,
   AddCollateralModalStyle,
-  CollateralDisplayStyle
+  CollateralDisplayStyle,
+  CollateralRate
 } from "./style";
 import { Button, InputNumber, Modal, notification } from "antd";
 import { useTranslation } from "react-i18next";
@@ -15,6 +15,8 @@ import { useFeeContext, FeeContext } from "../../../hooks/useFeeContext";
 import {useAccountInfo} from "../../../hooks/useAccountInfo";
 import FormatBalance from "../../../hooks/useFormatBalance";
 import { web3FromAddress } from "@polkadot/extension-dapp";
+import RegisterInput from "../../RegisterVaultCard/RegisterInput";
+import arrowYellow from '../../Issue/icons/arrow_yellow.svg'
 
 interface VaultModel {
   address: string;
@@ -25,9 +27,10 @@ interface VaultModel {
   collateral: Balance;
 }
 interface EarnModalProps {
-    SetAddCollateralModal: (bool:boolean)=>void;
+  AddCollateralModal: boolean;
+  SetAddCollateralModal: (bool:boolean)=>void;
 }
-function EarnModal({SetAddCollateralModal}: EarnModalProps): React.ReactElement {
+function EarnModal({SetAddCollateralModal, AddCollateralModal}: EarnModalProps): React.ReactElement {
   const value = useContext(FeeContext);
   const pcxPrice = value.pcxPrice;
   const { t } = useTranslation();
@@ -130,50 +133,40 @@ function EarnModal({SetAddCollateralModal}: EarnModalProps): React.ReactElement 
     }
   }, [isApiReady]);
   return (
-        <Modal
-          title={t("adding collateral")}
-          // onCancel={() => SetAddCollateralModal(false)}
-          footer={[
-            <Button onClick={() => SetAddCollateralModal(false)}>取消</Button>,
-            <Button onClick={AddCollateralHandle}>确认</Button>,
-          ]}
-        >
-          <AddCollateralInput>
-            <div className={"addCollateral-info"}>
-              <div className={"addCollateral-title"}>
-                {t("adding collateral")}
-              </div>
-              <div className={"addCollateral-amount"}>{t('balance')} {FormatBalance(accountInfo?.data.free)} PCX</div>
-            </div>
-            <InputNumber value={addPCX} onChange={ 
-                (e) => {
-                  if(e){
-                    console.log(e)
-                      setaddPCX(e)
-                  }else{
-                    console.log(e)
-                    setaddPCX(0)
-                  }
-                
-                }
-            }/>
-          </AddCollateralInput>
-          <CollateralDisplayStyle>
-            <ul>
-              <li>
-                <div>当前抵押率</div>
-                {/* <div className={"collateral-num"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(5) : "-"}%</div> */}
-              </li>
-              <li>
-            
-              </li>
-              <li>
-                <div>增加后抵押率</div>
-                <div className={"collateral-num before"}>{isFinite(((+vault?.collateral!! + addPCX )/ 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)) ? (((+vault?.collateral!! + addPCX )/ 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(5) : "-"}%</div>
-              </li>
-            </ul>
-          </CollateralDisplayStyle>
-        </Modal>
+    <AddCollateralModalStyle
+      title={t("adding collateral")}
+      visible={AddCollateralModal}
+      onCancel={() => SetAddCollateralModal(false)}
+      footer={[
+        <Button onClick={() => SetAddCollateralModal(false)}>取消</Button>,
+        <Button onClick={AddCollateralHandle}>确认</Button>,
+      ]}
+    >
+        <RegisterInput 
+          balance={FormatBalance(accountInfo?.data.free)} icon={false} num={false} title={t("adding collateral")}
+          children={<InputNumber placeholder={'输入要增加的抵押品数 PCX'} value={addPCX}
+          onChange={ (e) => { if(e){ 
+              console.log(e) 
+              setaddPCX(e)
+            }  else{
+                console.log(e)
+                setaddPCX(0)
+              }
+            }}
+          />} 
+        />
+      <CollateralDisplayStyle>
+        <CollateralRate >
+          <div className='title'>当前抵押率</div>
+          {/* <div className={"collateralNum"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(5) : "-"}%</div> */}
+        </CollateralRate>
+        <img src={arrowYellow} alt='arrowYellow' className='arrowYellow'/>
+        <CollateralRate>
+          <div className='title'>增加后抵押率</div>
+          <div className={"collateralNum"}>{isFinite(((+vault?.collateral!! + addPCX )/ 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)) ? (((+vault?.collateral!! + addPCX )/ 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(5) : "-"}%</div>
+        </CollateralRate>
+      </CollateralDisplayStyle>
+    </AddCollateralModalStyle>
   );
 }
 

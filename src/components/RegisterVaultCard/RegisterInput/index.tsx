@@ -87,9 +87,10 @@ interface AddressInputProps {
   balance?: any;
   icon: Boolean;
   num: boolean;
+  title?: string;
 }
 
-export default function RegisterInput({className = '' , children, balance, icon, num }:AddressInputProps): React.ReactElement<AddressInputProps>{
+export default function RegisterInput({className = '' , children, balance, icon, num, title }:AddressInputProps): React.ReactElement<AddressInputProps>{
     const {t} = useTranslation()
     return (
        <Wrapper className={` ${className}`}>
@@ -98,8 +99,10 @@ export default function RegisterInput({className = '' , children, balance, icon,
                   <div className='title'>
                     <p className='titleCollateral'>{t('Collateral')}</p>
                     <p className='collateralNum'>({t('Minimum value')} 1000)</p>
-                  </div> : 
-                  <div>{t('Bitcoin address')}</div> }
+                  </div> : title ?
+                  <div>{title}</div> :
+                  <div>{t('Bitcoin address')}</div> 
+                  }
                 </>
                 <div className='righTooltip'>    
                   { icon ? 
