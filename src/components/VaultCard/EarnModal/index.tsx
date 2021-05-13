@@ -130,10 +130,9 @@ function EarnModal({SetAddCollateralModal}: EarnModalProps): React.ReactElement 
     }
   }, [isApiReady]);
   return (
-      <AddCollateralModalStyle>
         <Modal
           title={t("adding collateral")}
-          onCancel={() => SetAddCollateralModal(false)}
+          // onCancel={() => SetAddCollateralModal(false)}
           footer={[
             <Button onClick={() => SetAddCollateralModal(false)}>取消</Button>,
             <Button onClick={AddCollateralHandle}>确认</Button>,
@@ -163,7 +162,7 @@ function EarnModal({SetAddCollateralModal}: EarnModalProps): React.ReactElement 
             <ul>
               <li>
                 <div>当前抵押率</div>
-                <div className={"collateral-num"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(5) : "-"}%</div>
+                {/* <div className={"collateral-num"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(5) : "-"}%</div> */}
               </li>
               <li>
             
@@ -175,7 +174,6 @@ function EarnModal({SetAddCollateralModal}: EarnModalProps): React.ReactElement 
             </ul>
           </CollateralDisplayStyle>
         </Modal>
-      </AddCollateralModalStyle>
   );
 }
 

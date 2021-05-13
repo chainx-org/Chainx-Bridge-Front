@@ -149,7 +149,7 @@ function EarnCard() {
             <div className={"earn-card-title"}>抵押品 / 抵押率</div>
             <div className={"collateral-rate"}>
               <div><BalanceSpan balance={vault?.collateral} />PCX /</div>
-              <div className={"collateral-rate-num"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(2) : "-" } %</div>
+              {/* <div className={"collateral-rate-num"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(2) : "-" } %</div> */}
             </div>
           </div>
           <div className='earnItem'>

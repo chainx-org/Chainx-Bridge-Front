@@ -24,6 +24,9 @@ export const EarnCardStyle = styled.div`
       align-items: center;
       background: #282828;
       border-radius: 8px;
+      &:hover {
+        color: #fff !important;
+      }
     }
   }
 `

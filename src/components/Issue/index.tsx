@@ -29,89 +29,89 @@ function Issue({ setShowIssueNext }: IssueProps): React.ReactElement<IssueProps>
     const Fee = useContext(FeeContext)
     const pcxPrice = Fee.pcxPrice
     const {api} = useApi();
-  const { t } = useTranslation();
-  const {currentAccount} = useAccountModel();
-  const [IssueAmount, setIssueAmount] = useState(0)
-  const [vaultAddress,setVaultAddress] = useState("")
-  const [vaultBtcAddress,setVaultBtcAddress] = useState("")
-  const [buttonLoading,setButtonLoading] = useState(false)
-  const optionList = [
-    {
+    const { t } = useTranslation();
+    const {currentAccount} = useAccountModel();
+    const [IssueAmount, setIssueAmount] = useState(0)
+    const [vaultAddress,setVaultAddress] = useState("")
+    const [vaultBtcAddress,setVaultBtcAddress] = useState("")
+    const [buttonLoading,setButtonLoading] = useState(false)
+    const optionList = [
+        {
+            img_url: BTCs,
+            coinName: 'BTC',
+            symol: 'Bitcoin'
+        },
+        {
+            img_url: BCHs,
+            coinName: 'BCH',
+            symol: 'Bitcoin Cash'
+        },
+        {
+            img_url: DOGEs,
+            coinName: 'DOG',
+            symol: 'Dogecoin'
+        }
+    ]
+    const [isShow, setIsShow] = useState(false)
+  
+    const [coinSymol, setCoinSymol] = useState<coinProps>({
         img_url: BTCs,
         coinName: 'BTC',
         symol: 'Bitcoin'
-    },
-    {
-        img_url: BCHs,
-        coinName: 'BCH',
-        symol: 'Bitcoin Cash'
-    },
-    {
-        img_url: DOGEs,
-        coinName: 'DOG',
-        symol: 'Dogecoin'
+    })
+    const currCoin = (value:any) => {
+        setCoinSymol(value)
+        setIsShow(!isShow)
     }
-  ]
-  const [isShow, setIsShow] = useState(false)
-  
-  const [coinSymol, setCoinSymol] = useState<coinProps>({
-      img_url: BTCs,
-      coinName: 'BTC',
-      symol: 'Bitcoin'
-  })
-  const currCoin = (value:any) => {
-      setCoinSymol(value)
-      setIsShow(!isShow)
-  }
-  const ShowSelect = () =>{
-      setIsShow(!isShow)
-  }
-  const address = <>{currentAccount?.address}</>
-  const hypothecateNum = <>{IssueAmount / pcxPrice / 10 || 0} PCX</>
-  const chargeNum = <>0.00 {coinSymol.coinName}</>
-  const handleMatchVault = async ()=> {
-      if(IssueAmount <=0){
-          notification.warn({message:"发行的值必须大于0"})
-          return;
-      }
-      setButtonLoading(true)
-      const vaults = await api.query.xGatewayBitcoinV2.vaults.entries();
-      const results = await Promise.all(
-          vaults.map(async([key,value])=>{
+    const ShowSelect = () =>{
+        setIsShow(!isShow)
+    }
+    const address = <>{currentAccount?.address}</>
+    const hypothecateNum = <>{IssueAmount / pcxPrice / 10 || 0} PCX</>
+    const chargeNum = <>0.00 {coinSymol.coinName}</>
+    const handleMatchVault = async ()=> {
+        if(IssueAmount <=0){
+            notification.warn({message:"发行的值必须大于0"})
+            return;
+        }
+        setButtonLoading(true)
+        const vaults = await api.query.xGatewayBitcoinV2.vaults.entries();
+        const results = await Promise.all(
+            vaults.map(async([key,value])=>{
               const vault = value.unwrap();
               const collateral = await (await api.query.system.account(vault.id)).data.reserved;
               const maxToken = collateral.muln(pcxPrice).divn(3)
               return [vault.id, maxToken.sub(vault.issuedTokens).sub(vault.issuedTokens).sub(vault.toBeIssuedTokens),vault.wallet]
           }))
-      setVaultAddress(
+        setVaultAddress(
           results ? ChangeChainXAddress(JSON.parse(JSON.stringify(results))[0][0]): ""
-      );
-      setVaultBtcAddress(results ? JSON.parse(JSON.stringify(results))[0][2] : "");
-      const injector = await web3FromAddress(currentAccount!!.address);
-      api.tx.xGatewayBitcoinV2
-          .requestIssue(vaultAddress,IssueAmount * 100000000)
-          .signAndSend(
-              currentAccount!!.address,
-              { signer: injector.signer },
-              ({ status, dispatchError, events }) => {
-                  if (status.isInBlock) {
+        );
+        setVaultBtcAddress(results ? JSON.parse(JSON.stringify(results))[0][2] : "");
+        const injector = await web3FromAddress(currentAccount!!.address);
+        api.tx.xGatewayBitcoinV2
+            .requestIssue(vaultAddress,IssueAmount * 100000000)
+            .signAndSend(
+                currentAccount!!.address,
+                { signer: injector.signer },
+                ({ status, dispatchError, events }) => {
+                    if (status.isInBlock) {
                       notification["success"]({
                           message: `Completed at block hash ${status.asInBlock.toString()}`,
                           duration: 0,
                       });
-                  } else if (dispatchError) {
+                    } else if (dispatchError) {
                       if (dispatchError.isModule) {
                           const decoded = api.registry.findMetaError(
-                              dispatchError.asModule
+                            dispatchError.asModule
                           );
                           const { documentation, name, section } = decoded;
                           notification["error"]({
-                              message: `${section}.${name}: ${documentation.join(" ")}`,
-                              duration: 0,
+                            message: `${section}.${name}: ${documentation.join(" ")}`,
+                            duration: 0,
                           });
-                          setButtonLoading(false)
+                        setButtonLoading(false)
                       }
-                  } else {
+                    } else {
                       notification["success"]({
                           message: `Current status: ${status.type}`,
                           duration: 0,
@@ -119,17 +119,17 @@ function Issue({ setShowIssueNext }: IssueProps): React.ReactElement<IssueProps>
                       if (status.type === "Finalized") {
                           setShowIssueNext(true)
                       }
-                  }
-              }
-          )
-          .catch((error) => {
+                    }
+                }
+            )
+            .catch((error) => {
               notification["error"]({
                   message: `:( transaction failed', ${error}`,
                   duration: 0,
               });
               setButtonLoading(false)
-          });
-  }
+            });
+    }
   return (
     <IssueStyle>
       <div className='topContent'>
