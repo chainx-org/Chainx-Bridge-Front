@@ -10,9 +10,10 @@ import { message } from "antd";
 interface MainProps{
     opreturn :string;
     address: string;
+    issueAmount: number;
 }
 
-const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address}) =>{
+const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmount}) =>{
     const copyOpreturn = () => {
         copy(opreturn);
         message.success({
@@ -41,7 +42,7 @@ const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address}) =>{
                         <div className={"opreturn-content-wrapper"}>
                             <div className={"opreturn-content"}>
                                 <div className={"op-return-text"}>
-                                    {opreturn}
+                                    {opreturn.substring(2,99)}
                                 </div>
                                 <hr className='line' />
                                 <div className={"copy"} onClick={copyOpreturn}>
@@ -61,7 +62,7 @@ const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address}) =>{
             <div>
                 <div className={"opreturn-title"}>
                     <div className={"step-one"}>2</div>
-                    <div className={"cp-op"}>发送 1.0 BTC 到下面的地址</div>
+                    <div className={"cp-op"}>发送 {issueAmount} BTC 到下面的地址</div>
                     <div className={"info"}>(请在单笔交易中完成)</div>
                     <img src={Question} alt=""/>
                 </div>

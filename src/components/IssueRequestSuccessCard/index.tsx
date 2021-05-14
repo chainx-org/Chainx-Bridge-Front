@@ -6,6 +6,7 @@ import CardMain from "../CardMain";
 import CardFooter from "../CardFooter";
 import { useLeftBlock } from "../../hooks/useLeftBlock";
 import { stringToHex } from '@polkadot/util'
+import useAccountModel from "../../hooks/useAccountModel";
 interface IssueSuccessProps {
     currAddress: React.ReactNode;
     hypothecateNum: React.ReactNode;
@@ -23,6 +24,7 @@ function IssueRequestSuccessCard({currAddress, hypothecateNum, chargeNum, IssueA
     // JSON.parse(JSON.stringify(vaultBtcAddress)),
     // JSON.parse(JSON.stringify(coinSymol)))
     const leftBlock = useLeftBlock(+openTime[0]);
+    const {currentAccount} = useAccountModel();
     return (
         <IssueRequestCardStyle>
             <div className={"card-header"}>
@@ -37,7 +39,7 @@ function IssueRequestSuccessCard({currAddress, hypothecateNum, chargeNum, IssueA
                     <img src={Question} alt="" />
                 </div>
             </div>
-            <CardMain opreturn={stringToHex(vaultBtcAddress)} address={vaultBtcAddress}/>
+            <CardMain opreturn={stringToHex(currentAccount?.address)} address={vaultBtcAddress} issueAmount={IssueAmount}/>
             <div className={"line"}/>
             <CardFooter lockCollateral={hypothecateNum} issueAmount={IssueAmount} toAccount={currAddress}/>
         </IssueRequestCardStyle>
