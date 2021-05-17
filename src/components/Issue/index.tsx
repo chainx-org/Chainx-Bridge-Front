@@ -171,9 +171,10 @@ function Issue({ className = '' }: IssueProps): React.ReactElement<IssueProps> {
             <IssueBtcInputStyle>
               <div className='issueNum'>
                 <InputNumber
+                  type={"number"}
                   value={IssueAmount}
                   placeholder={'0'}
-                  onChange={(e) =>setIssueAmount(+e) }
+                  onChange={(e) => { setIssueAmount(+e)}   }
                   />
                 <div className='line' />
                 <div className={`btc-title`}>{coinSymol.coinName}</div>
@@ -183,7 +184,9 @@ function Issue({ className = '' }: IssueProps): React.ReactElement<IssueProps> {
                 <InputNumber
                   value={IssueAmount}
                   placeholder={'-'}
-                  onChange={(e) =>setIssueAmount(+e) }
+                  onChange={(e) =>
+                      setIssueAmount(+e)
+                    }
                   />
                 <div className='line' />
                 <div className={`btc-title`}>S{coinSymol.coinName}</div>
@@ -194,7 +197,7 @@ function Issue({ className = '' }: IssueProps): React.ReactElement<IssueProps> {
             <ExplainTag  title='目标账户' children={currAddress} />
             <ExplainTag  title='锁定抵押品' children={hypothecateNum} />
             <ExplainTag  title='手续费' children={chargeNum} />
-            <Button loading={buttonLoading} onClick={handleMatchVault} className='gray'>{t("next")}</Button>
+            <Button loading={buttonLoading} onClick={handleMatchVault}>{t("next")}</Button>
           </div>
         </IssueStyle>
       }
