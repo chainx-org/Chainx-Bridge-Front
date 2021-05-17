@@ -103,13 +103,13 @@ function EarnCard() {
           </div>
           <div className='earnItem'>
             <div className={"earn-card-title"}>累计发行 / 赎回</div>
-            <div className={"issue-redeem-num"}><BalanceSpan balance={vault?.issuedToken} /> XBTC / <BalanceSpan balance={vault?.issuedToken} /> BTC</div>
+            <div className={"issue-redeem-num"}><BalanceSpan balance={vault?.issuedToken} /> XBTC / <BalanceSpan balance={vault?.toBeRedeemToken} /> 缺值 BTC</div>
           </div>
           <div className='earnItem'>
             <div className={"earn-card-title"}>抵押品 / 抵押率</div>
             <div className={"collateral-rate"}>
               <div><BalanceSpan balance={vault?.collateral} />PCX /</div>
-              {/* <div className={"collateral-rate-num"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(2) : "-" } %</div> */}
+               <div className={"collateral-rate-num"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(2) : "-" } %</div>
             </div>
           </div>
           <div className='earnItem'>

@@ -44,6 +44,12 @@ function EarnModal({SetAddCollateralModal, AddCollateralModal}: EarnModalProps):
 
   const accountInfo = useAccountInfo(currentAccount?.address!!)
   async function ConfirmationIssueTrade() {
+    if(addPCX === 0){
+      notification["warning"]({
+        message: "增加的抵押品不能小于等于0",
+        duration: 1,
+      })
+    }else {
     const injector = await web3FromAddress(currentAccount!!.address);
     api.tx.xGatewayBitcoinV2
       .addExtraCollateral(addPCX * 100000000)
@@ -85,6 +91,7 @@ function EarnModal({SetAddCollateralModal, AddCollateralModal}: EarnModalProps):
           duration: 0,
         });
       });
+    }
   }
   const AddCollateralHandle = () => {
     ConfirmationIssueTrade()
@@ -158,7 +165,7 @@ function EarnModal({SetAddCollateralModal, AddCollateralModal}: EarnModalProps):
       <CollateralDisplayStyle>
         <CollateralRate >
           <div className='title'>当前抵押率</div>
-          {/* <div className={"collateralNum"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(5) : "-"}%</div> */}
+           <div className={"collateralNum"}>{isFinite(((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice))) ? ((+vault?.collateral!! / 100000000) / +((vault?.issuedToken.toNumber()!!/ 1000000000) / pcxPrice)).toFixed(5) : "-"}%</div>
         </CollateralRate>
         <img src={arrowYellow} alt='arrowYellow' className='arrowYellow'/>
         <CollateralRate>
