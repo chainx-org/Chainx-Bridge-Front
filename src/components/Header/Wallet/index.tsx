@@ -9,7 +9,6 @@ import {useTranslation} from "react-i18next";
 import {useAccountInfo} from "../../../hooks/useAccountInfo";
 import useAccountModel from "../../../hooks/useAccountModel";
 import FormatBalance from "../../../hooks/useFormatBalance";
-import useXbtcAssets from "../../../hooks/useXbtcAssets";
 import {useApi} from "../../../hooks/useApi";
 
 function Wallet() {
@@ -18,10 +17,15 @@ function Wallet() {
     const {t, i18n} = useTranslation();
     const [dropToggle,setDropToggle] = useState(false)
     const [xBtcBalance,setXbtcBalance] = useState(0)
+    const [pcxBalance,setPcxBalance] = useState(0)
     const {api} = useApi();
     async function getAssets(account: string) {
         const res = await api.query.xAssets.assetBalance(account,1);
         setXbtcBalance(JSON.parse(JSON.stringify(res)).Usable / 100000000)
+    }
+    async function getPCXBalance(){
+        const res = await api.query.system.account(currentAccount?.address!!)
+        setPcxBalance(res.data.free.toNumber())
     }
     const hideAllMenu = ()=> {
         setDropToggle(false)
@@ -30,6 +34,7 @@ function Wallet() {
         e.nativeEvent.stopImmediatePropagation()
         setDropToggle(!dropToggle)
         getAssets(currentAccount?.address!!)
+        getPCXBalance()
     }
     useEffect(()=> {
         document.addEventListener('click',hideAllMenu)
@@ -49,7 +54,7 @@ function Wallet() {
                                 <img src={PCXLogo} alt=""/>
                                 <div className={"item-text"}>PCX</div>
                             </div>
-                            <div className={"item-balance"}>{FormatBalance(accountInfo?.data.free)}</div>
+                            <div className={"item-balance"}>{FormatBalance(pcxBalance)}</div>
                         </div>
                     </li>
                     <li>
