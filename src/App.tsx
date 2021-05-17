@@ -53,6 +53,9 @@ const MaskStyle = styled.div`
 const Content = styled.main`
   display: flex;
   padding: 30px 40px;
+  .empty {
+    width: 40px;
+  }
 `
 
 export const App: React.FC = () => {
@@ -259,6 +262,7 @@ export const App: React.FC = () => {
                       <Redirect from='/' to='/bridge' />
                     </Switch>
                   </Suspense>
+                  <div className='empty'/>
                 </Content>
               </FeeContext.Provider>
             </RedeemRequestsContext.Provider>

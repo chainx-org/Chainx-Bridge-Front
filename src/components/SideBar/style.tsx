@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SideBarStyle = styled.div`
-  margin-right: 30px;
+  // margin-right: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;

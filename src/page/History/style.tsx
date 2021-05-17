@@ -6,6 +6,7 @@ export const HistoryStyle = styled.div`
   border-radius: 16px;
   padding: 48px 40px 0;
   width: 100%;
+  margin: 0 30px;
 `
 export const FunctionSwitchButton = styled.div`
   font-size: 16px;

@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const VaultCardStyle = styled.div`
-  width: 88%;
+  width: 90%;
+  margin: 0 30px;
   .vault-card-title{
     font-size: 20px;
     color: #3D3D3D;
