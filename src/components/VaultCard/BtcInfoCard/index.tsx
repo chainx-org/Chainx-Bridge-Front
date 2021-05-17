@@ -9,13 +9,20 @@ function BtcInfoCard() {
     const {currentAccount} = useAccountModel();
     const { api, isApiReady } = useApi();
     const [btcAddress,SetBtcAddress] = useState("")
-    // const {wallet} = useVaults(currentAccount?.address!!)
+    async function getVaults(){
+        const valuts = await api.query.xGatewayBitcoinV2.vaults(currentAccount?.address!!)
+        console.log(valuts.toString())
+        SetBtcAddress(valuts.unwrap().wallet.toString())
+    }
+    useEffect(()=> {
+        getVaults()
+    })
     return (
         <BtcInfoCardStyle>
             <div className='addressBalance'>
                 <div className={"card-item"}>
                     <div className={"card-title"}>BTC 地址</div>
-                    <div className={"card-address"}>1E9vabBWHPYJx6oHCpnqpxPufeS9xFTao3</div>
+                    <div className={"card-address"}>{btcAddress}</div>
                 </div>
                 <div className={"card-item"}>
                     <div className={"card-title"}>BTC 余额</div>
