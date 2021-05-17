@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 import {useAccountInfo} from "../../../hooks/useAccountInfo";
 import useAccountModel from "../../../hooks/useAccountModel";
 import FormatBalance from "../../../hooks/useFormatBalance";
-import useXbtcAssets from "../../../hooks/useXbtcAssets";
+// import useXbtcAssets from "../../../hooks/useXbtcAssets";
 import {useApi} from "../../../hooks/useApi";
 
 function Wallet() {

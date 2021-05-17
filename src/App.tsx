@@ -32,7 +32,6 @@ import { FeeContext } from "./hooks/useFeeContext";
 import type { Percent } from "@polkadot/types/interfaces/runtime";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import NoExtensions from "./components/NoExtensions";
-import Redeem from "./components/Redeem";
 
 const Bridge = lazy(() => import("./page/Bridge/home"));
 const History = lazy(() => import("./page/History/History"));
@@ -223,8 +222,6 @@ export const App: React.FC = () => {
         </MaskStyle>
       ) : null}
       {downExtensions && <NoExtensions />}
-      <bridgeStatusContext.Provider value={bridgeStatus}>
-      </bridgeStatusContext.Provider>
       <LayoutWrapper id={"LayoutWrapper"}>
         <ApiContext.Provider
           value={{
@@ -259,8 +256,6 @@ export const App: React.FC = () => {
                       <Route path="/bridge" component={Bridge} />
                       <Route path="/history" component={History} />
                       <Route path="/vault" component={Vault} />
-                      {/* <Route path="/" exact component={Issue} /> */}
-                      {/* <Route path="/redeem" component={Redeem} /> */}
                       <Redirect from='/' to='/bridge' />
                     </Switch>
                   </Suspense>

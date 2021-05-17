@@ -11,7 +11,7 @@ import BTCs from '../TabCoinSelect/icons/SBTC.svg'
 import DOGs from '../TabCoinSelect/icons/SDOG.svg'
 import useAccountModel from "../../hooks/useAccountModel";
 import {useApi} from "../../hooks/useApi";
-import useXbtcAssets from "../../hooks/useXbtcAssets";
+// import useXbtcAssets from "../../hooks/useXbtcAssets";
 import { web3FromAddress } from "@polkadot/extension-dapp";
 import NumInput from "../NumInput";
 import RedeemRequestSuccessCard from "../RedeemRequestSuccessCard";
@@ -36,7 +36,7 @@ function Redeem({ className = '' }: RedeemProps): React.ReactElement<RedeemProps
     const [n,setN] = useState(0)
     const {api} = useApi();
     const [buttonLoading,setButtonLoading] = useState(false)
-    const {XbtcBalance} = useXbtcAssets(currentAccount?.address!!,n)
+    // const {XbtcBalance} = useXbtcAssets(currentAccount?.address!!,n)
     const optionList = [
         {
             img_url: BTCs,
@@ -132,7 +132,7 @@ function Redeem({ className = '' }: RedeemProps): React.ReactElement<RedeemProps
                         setRedeemAmount={setRedeemAmount} 
                         coinSymol={coinSymol}
                         description={'余额'}
-                        children={<span>{XbtcBalance ? XbtcBalance : "0"}</span>}
+                        // children={<span>{XbtcBalance ? XbtcBalance : "0"}</span>}
                         symol={coinSymol.coinName}
                     />
                     <AddressInput coinSymol={coinSymol} address={BtcAddress} changeAddress={(e : string) => setBtcAddress(e)}/>
