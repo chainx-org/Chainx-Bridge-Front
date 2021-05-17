@@ -8,16 +8,32 @@ import { Link, NavLink, Route, Switch } from "react-router-dom";
 
 function BridgeHome(): React.ReactElement {
   const { t } = useTranslation();
-  const [isActive, setisActive] = useState(true)
+  const [isActive, setisActive] = useState('issue')
+  function changeTab(val: string) {
+    setisActive(val)
+  }
+  const tabList = ([
+    {
+      title: 'issue',
+      nodeName: t<string>('issue'), 
+      link: '/bridge/', 
+    },
+    {  
+      title: 'redeem',
+      nodeName: t<string>('Redeem'), 
+      link: '/bridge/redeem', 
+    }
+  ]);
   return (
     <BridgeCardStyle>
       <FunctionSwitchButton>
-        <div className='tabList'>
-          <Link to={"/bridge/"} onClick={()=>setisActive(!isActive)} className={isActive ? 'active': ''}>{t("issue")}</Link>
-        </div>
-        <div className='tabList'>
-          <Link to={"/bridge/redeem"} onClick={()=>setisActive(!isActive)} className={isActive ? '': 'active'}>{t("Redeem")}</Link>
-        </div>
+        {
+          tabList.map((item)=>{
+            return <div className='tabList'>
+              <Link to={item.link} onClick={()=>changeTab(item.title)} className={item.title === isActive ? 'active': ''}>{item.nodeName}</Link>
+            </div>
+          })
+        }
       </FunctionSwitchButton>
       <div>
         <Route path="/bridge/" exact component={Issue} />
@@ -26,5 +42,4 @@ function BridgeHome(): React.ReactElement {
     </BridgeCardStyle>
   );
 }
-
 export default BridgeHome
