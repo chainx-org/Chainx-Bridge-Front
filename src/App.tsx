@@ -32,7 +32,7 @@ import { FeeContext } from "./hooks/useFeeContext";
 import type { Percent } from "@polkadot/types/interfaces/runtime";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import NoExtensions from "./components/NoExtensions";
-
+import Maskbg from './components/Loading/background.webp'
 const Bridge = lazy(() => import("./page/Bridge/home"));
 const History = lazy(() => import("./page/History/History"));
 const Vault = lazy(() => import("./page/Vault"));
