@@ -83,7 +83,6 @@ function Issue({ className = '' }: IssueProps): React.ReactElement<IssueProps> {
       }
       setButtonLoading(true)
       const vaults = await api.query.xGatewayBitcoinV2.vaults.entries();
-      console.log('vaults',JSON.parse(JSON.stringify(vaults)))
       const results = await Promise.all(
         vaults.map(async([key,value])=>{
           const vault = value.unwrap();
@@ -91,7 +90,6 @@ function Issue({ className = '' }: IssueProps): React.ReactElement<IssueProps> {
           const maxToken = collateral.muln(pcxPrice).divn(3)
           return [vault.id, maxToken.sub(vault.issuedTokens).sub(vault.issuedTokens).sub(vault.toBeIssuedTokens),vault.wallet]
       }))
-      console.log('results',JSON.parse(JSON.stringify(results)))
       setVaultAddress(
         results ? ChangeChainXAddress(JSON.parse(JSON.stringify(results))[0][0]): ""
       );
@@ -148,7 +146,6 @@ function Issue({ className = '' }: IssueProps): React.ReactElement<IssueProps> {
         let issueList = AllIssueRequestList.filter((item) => item.requester === polkaAccount)
       SetIssueRequestList(issueList)
     }, [value])
-  console.log('IssueRequestList',IssueRequestList)
   return (
     <> 
       {

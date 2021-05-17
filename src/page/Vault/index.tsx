@@ -15,7 +15,7 @@ function VaultPage(){
     useEffect(()=> {
         async function GetStatus() {
             const status = await api.query.xGatewayBitcoinV2.vaults<Option<Vault>>(currentAccount?.address || "");
-            setVault(status.isNone ? (status.value as Vault) : null);
+            setVault(status.isNone ? null : (status.value as Vault) );
         }
         if(isApiReady){
             GetStatus()
@@ -23,7 +23,7 @@ function VaultPage(){
     },[currentAccount,isApiReady])
     return (
         <>
-            { !vault ? <VaultCard/> : <RegisterVaultCard/>}
+            { vault ? <VaultCard/> : <RegisterVaultCard/>}
         </>
     )
 }

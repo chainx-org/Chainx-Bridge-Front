@@ -115,16 +115,16 @@ function EarnModal({SetAddCollateralModal, AddCollateralModal}: EarnModalProps):
     }
   }, [currentAccount, isApiReady]);
 
-  useEffect(() => {
-    if (vault) {
-      const pcxInBtc = exchangeRate.price
-        .mul(vault.collateral)
-        .divn(Math.pow(10, exchangeRate.decimal.toNumber()));
-      setUpperBound(pcxInBtc.toNumber().toFixed(2));
-    } else {
-      setUpperBound("-");
-    }
-  }, [vault, exchangeRate]);
+  // useEffect(() => {
+  //   if (vault) {
+  //     const pcxInBtc = exchangeRate.price
+  //       .mul(vault.collateral)
+  //       .divn(Math.pow(10, exchangeRate.decimal.toNumber()));
+  //     setUpperBound(pcxInBtc.toNumber().toFixed(2));
+  //   } else {
+  //     setUpperBound("-");
+  //   }
+  // }, [vault, exchangeRate]);
 
   useEffect(() => {
     if (isApiReady) {

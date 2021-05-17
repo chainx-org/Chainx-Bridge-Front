@@ -3,7 +3,7 @@ import {BtcAddressStyle, RedeemBtcInputStyle, RedeemFooterStyle, RedeemStyle, XB
 import btcLogo from '../Issue/icons/btc.svg'
 import {Button, Divider, Input, InputNumber, notification} from "antd";
 import {useTranslation} from "react-i18next";
-import useXbtcAssets from "../../hooks/useXbtcAssets"
+// import useXbtcAssets from "../../hooks/useXbtcAssets"
 import useAccountModel from "../../hooks/useAccountModel"
 import { web3FromAddress } from "@polkadot/extension-dapp";
 import { useApi } from "../../hooks/useApi";
@@ -15,7 +15,7 @@ function Redeem() {
     const [BtcAddress,setBtcAddress] = useState("")
     const [n,setN] = useState(0)
     const {api, isApiReady} = useApi();
-    const {XbtcBalance} = useXbtcAssets(currentAccount?.address!!,n)
+    // const {XbtcBalance} = useXbtcAssets(currentAccount?.address!!,n)
     const handleReedem = async()=>{
         // let valid =  WAValidator.validate(BtcAddress,'BTC')
         // if(!valid){
@@ -68,7 +68,7 @@ function Redeem() {
                 <div className={"btc-title"}>BTC</div>
             </RedeemBtcInputStyle>
             <XBtcBalanceStyle>
-                {t('X-BTC balances')} {XbtcBalance ? XbtcBalance : "0"}
+                {/* {t('X-BTC balances')} {XbtcBalance ? XbtcBalance : "0"} */}
             </XBtcBalanceStyle>
             <BtcAddressStyle>
                 <div className={"btc-address-info"}>
