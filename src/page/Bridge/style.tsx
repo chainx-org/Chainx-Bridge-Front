@@ -36,6 +36,8 @@ export const FunctionSwitchButton = styled.div`
         background: #F4F4F5;
         box-shadow: 3px 3px 8px 0 rgba(0,0,0,0.11), -3px -3px 8px 0 #FFFFFF;
         border-radius: 16px;
+        color: #282828;
+        font-weight: 600;
       }
     }
   };

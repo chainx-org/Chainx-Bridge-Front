@@ -128,6 +128,9 @@ export const TableStyle = styled.div`
   .tradeHashAddress {
     color: #EFB40B;
   }
+  .hash {
+    color: #34C69A;
+  }
   .ant-table-tbody{
     > tr:hover:not(.ant-table-expanded-row) > td,.ant-table-row-hover,.ant-table-row-hover>td{
       background: #F4F4F5!important;

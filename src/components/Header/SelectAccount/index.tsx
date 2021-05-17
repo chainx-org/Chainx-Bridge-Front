@@ -10,7 +10,7 @@ function SelectAccount() {
   const accountModel = useAccountModel();
   const [AccountListModal, SetAccountListModal] = useState(false);
   const [isShowAccountList, setIsShowAccountList] = useState(false)
-  const [isSelected, setIsSelected] = useState(false)
+  const [isSelected, setIsSelected] = useState(true)
   const { currentAccount } = useAccountModel();
   const { accounts } = useAccountModel();
   const [value, setValue] = useState(currentAccount);
@@ -39,7 +39,7 @@ function SelectAccount() {
             return (
               <AccountLists className="accountItem" onClick={()=>accountSelected(item)} key={item.address}>
                 <div className='selectImg'>
-                  { isSelected && item.name === value?.name ? <img src={selectAccount} alt='selected' /> : <div className='circle' /> }
+                  { isSelected && (item.name === value?.name) || (item.name === currentAccount?.name) ? <img src={selectAccount} alt='selected' /> : <div className='circle' /> }
                 </div>
                 <div className='accountMsg'>
                   <div className='nameMsg'>{item.name}</div>

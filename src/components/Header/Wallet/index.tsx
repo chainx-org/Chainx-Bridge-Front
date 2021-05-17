@@ -41,12 +41,12 @@ function Wallet() {
     },[])
 
     return (
-        <WalletWrapperStyle>
-            <WalletStyle onClick={showMenu}>
+        <WalletWrapperStyle className='wallets'>
+            <WalletStyle onMouseEnter={showMenu}>
                 <img src={walletLogo} alt=""/>
                 {t('Wallet')}
             </WalletStyle>
-            {dropToggle && <DropListStyle>
+            <DropListStyle className='walletList'>
                 <ul>
                     <li>
                         <div className={"assets-item"}>
@@ -85,7 +85,7 @@ function Wallet() {
                         </div>
                     </li>
                 </ul>
-            </DropListStyle>}
+            </DropListStyle>
         </WalletWrapperStyle>
     )
 }

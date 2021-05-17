@@ -21,8 +21,14 @@ export const WalletStyle = styled.div`
 export const WalletWrapperStyle = styled.div`
   margin-right: 24px;
   cursor: pointer;
+  &.wallets:hover .walletList {
+    display: block;
+  }
 `
 export const DropListStyle = styled.div`
+  &.walletList {
+    display: none;
+  }
   position: absolute;
   margin-top: 10.5px;
   width: 257px;
@@ -31,6 +37,7 @@ export const DropListStyle = styled.div`
   box-shadow: 6px 6px 8px 0 rgba(0,0,0,0.06);
   border-radius: 8px;
   padding: 24px 15px;
+  z-index: 99;
   ul{
     height: 100%;
     display: flex;

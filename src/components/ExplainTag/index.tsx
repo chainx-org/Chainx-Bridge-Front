@@ -6,6 +6,7 @@ import Question from './icons/question.svg'
 const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: #8E8E8E;
