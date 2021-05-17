@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {AgreementStyle, CollateralStyle, Line, RegisterAccountStyle, RegisterVaultCardStyle} from "./style";
 import {useTranslation} from "react-i18next";
 import ErrorImg from './RegisterInput/icons/error.svg'
@@ -20,6 +20,14 @@ function RegisterVaultCard() {
     const { api, isApiReady } = useApi();
     const [regVault,setRegVault] = useState(false)
     const [BtcAddress,setBtcAddress] = useState("")
+    const [pcxBalance,setPcxBalance] = useState(0)
+    async function getPCXBalance(){
+        const res = await api.query.system.account(currentAccount?.address!!)
+        setPcxBalance(res.data.free.toNumber())
+    }
+    useEffect(()=> {
+        getPCXBalance()
+    },[currentAccount,getPCXBalance])
     async function onFinish(values: any) {
         console.log(values)
         // let valid =  WAValidator.validate(BtcAddress,'BTC')
@@ -85,7 +93,7 @@ function RegisterVaultCard() {
                     <div className={"current-account"}>{currentAccount?.address}</div>
                 </RegisterAccountStyle>
                 <Line  className='line'/>
-                  <RegisterInput balance={FormatBalance(accountInfo?.data.free)} icon={false} num={true}
+                  <RegisterInput balance={FormatBalance(pcxBalance)} icon={false} num={true}
                     children={<Form.Item name={"collateral"} 
                       rules={[{required: true, message: t('Please enter the number of collateral')}]}>
                         <InputNumber min={1000} placeholder={t('Please enter the number of collateral')}/>
