@@ -1,21 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { SelectAccountStyle, AccountLists, CurrentAccount } from "./style";
 import dropdown from "../SelectAccount/icons/Drop_down.svg"
 import selectAccount from "../SelectAccount/icons/selected_Account.svg"
-import { Modal, Radio } from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
-import { useAccountInfo } from "../../../hooks/useAccountInfo";
-import {useApi} from "../../../hooks/useApi"
-function SelectAccount() {
+
+function SelectAccount():React.ReactElement {
   const accountModel = useAccountModel();
-  const [AccountListModal, SetAccountListModal] = useState(false);
   const [isShowAccountList, setIsShowAccountList] = useState(false)
   const [isSelected, setIsSelected] = useState(true)
   const { currentAccount } = useAccountModel();
-  const { accounts } = useAccountModel();
   const [value, setValue] = useState(currentAccount);
   const currentAddress = currentAccount?.address;
-  const currAddress = currentAddress?.substring(0, 5) + '...' + currentAddress?.substring(currentAddress.length - 5)
+  // const currAddress = currentAddress?.substring(0, 5) + '...' + currentAddress?.substring(currentAddress.length - 5)
   const list = accountModel.accounts
   function accountSelected(val: any) {
     setIsSelected(true)

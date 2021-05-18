@@ -4,7 +4,8 @@ import logo from "../ChainStatus/icons/chainx_logo.svg";
 import {bridgeStatusContext} from "../../../App";
 import {useTranslation} from "react-i18next";
 import { Tooltip } from "antd";
-function ChainStatus() {
+
+function ChainStatus(): React.ReactElement {
     const value = useContext(bridgeStatusContext)
     const {t} = useTranslation()
     return (
@@ -23,5 +24,4 @@ function ChainStatus() {
         </ChainStatusStyle>
     )
 }
-
 export default ChainStatus;

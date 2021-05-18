@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { SideBarStyle, SideBarTab, Line } from "./style";
 import Home from './icons/home.svg'
 import History from './icons/history.svg'
@@ -13,16 +13,16 @@ function SideBar(): React.ReactElement {
       <SideBarTab>
         <Tooltip placement="topLeft" title='回到首页' arrowPointAtCenter>
           <NavLink to={"/"} exact >
-            <img src={Home} alt="" />
+            <img src={Home} alt="bridge" />
           </NavLink>
         </Tooltip>
         <Line />
         <NavLink to={"/history"} >
-          <img src={History} alt="" />
+          <img src={History} alt="history" />
         </NavLink>
       </SideBarTab>
       <NavLink to={"/Vault"} className='vault'>
-        <img src={Vault} alt="" />
+        <img src={Vault} alt="vault" />
       </NavLink>
     </SideBarStyle>
   );

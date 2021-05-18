@@ -43,7 +43,9 @@ const LayoutWrapper = styled.div`
 `;
 
 const MaskStyle = styled.div`
-  background: rgba(0, 0, 0, 0.4);
+  // background: rgba(0, 0, 0, 0.4);
+  background-image: url(${Maskbg});
+  background-size: cover;
   position: fixed;
   z-index: 2;
   width: 100vw;

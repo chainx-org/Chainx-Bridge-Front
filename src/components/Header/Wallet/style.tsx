@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 export const WalletStyle = styled.div`
   position: relative;
   padding-left: 20px;
@@ -36,18 +37,16 @@ export const DropListStyle = styled.div`
   background: #FFFFFF;
   box-shadow: 6px 6px 8px 0 rgba(0,0,0,0.06);
   border-radius: 8px;
-  padding: 24px 15px;
+  padding: 12px 0;
   z-index: 99;
-  ul{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   .assets-item{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 11px 16px;
     .item-balance{
       font-size: 14px;
       color: #000000;

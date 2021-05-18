@@ -4,7 +4,8 @@ import SelectAccount from "./SelectAccount";
 import ChainStatus from "./ChainStatus";
 import ChangeLanguage from "./ChangeLanguage";
 import Wallet from "./Wallet";
-function Header(){
+
+function Header():React.ReactElement{
     return (
         <HeaderStyle>
                 <ChainStatus/>

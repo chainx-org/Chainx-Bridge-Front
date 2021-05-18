@@ -13,7 +13,7 @@ export const SelectAccountStyle = styled.div`
     border-radius: 8px;
     z-index: 99;
     max-height: 300px;
-    overflow-y: scroll;
+    overflow: overlay;
       &::-webkit-scrollbar {
         /*滚动条整体样式*/
         width 6px;  /*高宽分别对应横竖滚动条的尺寸*/
