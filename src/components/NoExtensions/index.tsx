@@ -11,7 +11,7 @@ import ChangeLanguage from "../Header/ChangeLanguage";
 const NoExtensionsStyle = styled.div`
     background-image: linear-gradient(180deg, #E2E1E6 0%, #F4F3F8 85%);
     position: fixed;
-    z-index: 2;
+    z-index: 99;
     width: 100vw;
     height: 100vh;
 `

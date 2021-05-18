@@ -4,7 +4,6 @@ import {useTranslation} from "react-i18next";
 import {Space, Table, Modal} from "antd";
 import useAccountModel from "../../hooks/useAccountModel"
 // import {decodeAddress, encodeAddress} from "@polkadot/keyring";
-// import ModalFooter from "../../components/ModalFooter";
 import ProcessingModal from "../../components/ProcessingModal/ProcessingModal";
 import StatusModal from "../../components/StatusModal";
 import axios from "axios";
@@ -32,11 +31,14 @@ function History():React.ReactElement {
     const [RedeemfailModalVisible, setRedeemfailModalVisible] = useState(false)
     const [RedeemProcessingModalVisible, setRedeemProcessingModalVisible] = useState(false)
     const [IssueData,setIssueData] = useState([])
+    const [RedeemData,setRedeemData] = useState([])
+    const [initLoading,setInitLoading] = useState(true)
+
     const Issuecolumns = [
         {
             title: '更新时间',
             dataIndex: 'time',
-            key: 'title'
+            key: 'time'
         },
         {
             title: '数量（XBTC）',
@@ -64,7 +66,7 @@ function History():React.ReactElement {
             render: (text: any, record: any) => (
                 <Space size="middle">
                     {record.status === "processing" && <div className={"processing"}
-                                                     onClick={() => SetIssueprocessingModalVisbible(true)}>{record.status}</div>}
+                    onClick={() => SetIssueprocessingModalVisbible(true)}>{record.status}</div>}
                     {record.status === "失败" &&
                     <div onClick={() => setIssueFailModalVisible(true)} className={"fail"}>{record.status}</div>}
                     {record.status === "成功" &&
@@ -115,54 +117,19 @@ function History():React.ReactElement {
             ),
         },
     ];
-    const RedeemData = [
-        {
-            key: '1',
-            time: '2021-04-16 18:20',
-            number: 0.00002,
-            address: <span className='hash'>1b2978...fd247ac</span>,
-            status: '失败'
-        },
-        {
-            key: '2',
-            time: '2021-04-16 18:20',
-            number: 0.00003,
-            address: <span className='hash'>1b2978...fd247ac</span>,
-            status: '进行中'
-        },
-        {
-            key: '3',
-            time: '2021-04-16 18:20',
-            number: 0.00004,
-            address: <span className='hash'>1b2978...fd247ac</span>,
-            status: '失败'
-        },
-        {
-            key: '4',
-            time: '2021-04-16 18:20',
-            number: 0.00006,
-            address: <span className='hash'>1b2978...fd247ac</span>,
-            status: '成功'
-        },
-        {
-            key: '5',
-            time: '2021-04-16 18:20',
-            number: 0.00007,
-            address: <span className='hash'>1b2978...fd247ac</span>,
-            status: '成功'
-        },
-        {
-            key: '6',
-            time: '2021-04-16 18:20',
-            number: 0.00001,
-            address: <span className='hash'>1b2978...fd247ac</span>,
-            status: '成功'
-        },
-    ];
+    
     useEffect(() => {
-        axios.get(`https://api-btc.chainx.org/xbridge/issue_requests?page=0&pageSize=5&requester=${requester}`).then((res) => {
-            console.log(res)
-            setIssueData(res.data.items)
+        if(requester) {
+            setInitLoading(true)
+            axios.get(`https://api-btc.chainx.org/xbridge/issue_requests?page=0&pageSize=5&requester=${requester}`).then((res) => {
+                console.log(res)
+                setIssueData(res.data.items)
+                setInitLoading(false)
+            })
+        }
+        axios.get(`https://api-btc.chainx.org/xbridge/redeem_requests?page=0&pageSize=5&requester=${requester}`).then((res) => {
+            console.log(res,'res')
+            setRedeemData(res.data.items)
         })
     }, [requester])
     return (
@@ -181,7 +148,7 @@ function History():React.ReactElement {
             </FunctionSwitchButton>
             <TableStyle>
                 {currentTable === "issue" ?
-                    <Table columns={Issuecolumns} dataSource={IssueData}
+                    <Table columns={Issuecolumns} dataSource={IssueData} loading={initLoading}
                            pagination={{pageSize: 5, defaultPageSize: 5}}/> :
                     <Table columns={Redeemcolumns} dataSource={RedeemData}
                            pagination={{pageSize: 5, defaultPageSize: 5}}/>}

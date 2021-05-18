@@ -47,7 +47,7 @@ const MaskStyle = styled.div`
   background-image: url(${Maskbg});
   background-size: cover;
   position: fixed;
-  z-index: 2;
+  z-index: 99;
   width: 100vw;
   height: 100vh;
 `;

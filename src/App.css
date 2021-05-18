@@ -204,3 +204,6 @@ table {
     right: 0;
     margin: auto;
 }
+.ant-spin-dot-item {
+    background-color: #F6C94A;
+}

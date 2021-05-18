@@ -1,8 +1,8 @@
 function FormatBalance(balance: { toNumber: () => number } | undefined | number) {
     if (typeof balance === "number") {
-      return (balance / 100000000).toFixed(5).toString();
+      return (balance / 100000000).toFixed(4).toString();
     } else if (balance) {
-      return (balance!!.toNumber() / 100000000).toFixed(5).toString();
+      return (balance!!.toNumber() / 100000000).toFixed(4).toString();
     } else {
       return "-";
     }
