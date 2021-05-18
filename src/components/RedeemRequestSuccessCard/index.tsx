@@ -1,14 +1,11 @@
 import React from "react";
 import {RedeemRequestCardStyle} from "./style";
 import BTCLogo from "../../icons/BTC.svg"
-import Question from '../ExplainTag/icons/question.svg'
-import CardMain from "../CardMain";
 import warningYellowLogo from "../../icons/warm_yellow.svg";
-import RequestID from "../RequestID";
 import RedeemModalFooter from "../RedeemModalFooter";
 import ExplainTag from "../ExplainTag";
 
-function RedeemRequestSuccessCard() {
+function RedeemRequestSuccessCard(): React.ReactElement {
     return (
         <RedeemRequestCardStyle>
             <div className={"card-header"}>

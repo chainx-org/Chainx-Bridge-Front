@@ -63,7 +63,7 @@ function Wallet():React.ReactElement {
             <DropListStyle className='walletList'>
                 {
                     WalletList.map((item)=>{
-                        return <div className={"assets-item"}>
+                        return <div className={"assets-item"} key={item.title}>
                         <div className={"item-left"}>
                             <img src={item.icon} alt=""/>
                             <div className={"item-text"}>{item.title}</div>

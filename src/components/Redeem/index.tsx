@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {AccountSwitch, RedeemBtcInputStyle, RedeemStyle} from "./style";
-import {Button, InputNumber, notification} from "antd";
+import {Button, notification} from "antd";
 import arrowYellow from '../Issue/icons/arrow_yellow.svg'
 import arrowGray from '../Issue/icons/arrow_gray.svg'
 import {useTranslation} from "react-i18next";
-import AddressInput from "../AddressInput";
+import AddressInput from "../Input/AddressInput";
 import TabCoinSelect from "../TabCoinSelect";
 import BCHs from '../TabCoinSelect/icons/SBCH.svg'
 import BTCs from '../TabCoinSelect/icons/SBTC.svg'
@@ -13,7 +13,7 @@ import useAccountModel from "../../hooks/useAccountModel";
 import {useApi} from "../../hooks/useApi";
 // import useXbtcAssets from "../../hooks/useXbtcAssets";
 import { web3FromAddress } from "@polkadot/extension-dapp";
-import NumInput from "../NumInput";
+import NumInput from "../Input/NumInput";
 import RedeemRequestSuccessCard from "../RedeemRequestSuccessCard";
 
 interface coinProps {
@@ -23,11 +23,7 @@ interface coinProps {
     balance: number
 }
 
-interface RedeemProps {
-    className?: string;
-  }
-
-function Redeem({ className = '' }: RedeemProps): React.ReactElement<RedeemProps> {
+function Redeem(): React.ReactElement {
     const {t} = useTranslation()  
     const [showRedeemNext, setShowRedeemNext] = useState(false)
     const {currentAccount} = useAccountModel();

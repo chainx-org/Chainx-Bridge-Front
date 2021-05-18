@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {AgreementStyle, CollateralStyle, Line, RegisterAccountStyle, RegisterVaultCardStyle} from "./style";
+import {AgreementStyle, Line, RegisterAccountStyle, RegisterVaultCardStyle} from "./style";
 import {useTranslation} from "react-i18next";
-import ErrorImg from './RegisterInput/icons/error.svg'
-import SuccessedImg from './RegisterInput/icons/successed.svg'
 import { Button, Checkbox, Form, Input, InputNumber, message, notification} from "antd";
-import {BtcAddressStyle} from "../Redeem/style";
 import { useAccountInfo} from "../../hooks/useAccountInfo";
 import FormatBalance from "../../hooks/useFormatBalance";
 import useAccountModel from "../../hooks/useAccountModel";
@@ -12,8 +9,9 @@ import { web3FromAddress } from "@polkadot/extension-dapp";
 import { useApi } from "../../hooks/useApi";
 import VaultCard from "../VaultCard";
 import RegisterInput from "./RegisterInput";
-var WAValidator = require('wallet-address-validator');
-function RegisterVaultCard() {
+// var WAValidator = require('wallet-address-validator');
+
+function RegisterVaultCard():React.ReactElement {
     const {t} = useTranslation()
     const {currentAccount} = useAccountModel()
     const accountInfo = useAccountInfo(currentAccount?.address!!)

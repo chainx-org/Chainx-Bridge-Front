@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import React from "react";
 
 export const RedeemRequestCardStyle = styled.div`
   width: 500px;
   background: #F4F4F5;
   box-shadow: 10px 10px 16px 0 rgba(0, 0, 0, 0.06), -10px -10px 16px 0 #FFFFFF;
   border-radius: 16px;
-  padding: 30px 40px 16px;
+  padding: 30px 40px 20px;
   display: flex;
   flex-direction: column;
   margin-top: 20px;
@@ -22,7 +21,6 @@ export const RedeemRequestCardStyle = styled.div`
       display: flex;
       margin-top: 8.5px;
       align-items: center;
-
       .time-title {
         font-size: 14px;
         color: #AEAEAE;
@@ -30,7 +28,6 @@ export const RedeemRequestCardStyle = styled.div`
         line-height: 20px;
         font-weight: 400;
       }
-
       .time-content {
         font-size: 14px;
         color: #282828;
@@ -40,13 +37,11 @@ export const RedeemRequestCardStyle = styled.div`
         margin-left: 6px;
         margin-right: 5px;
       }
-
       img {
         width: 12px;
         height: 12px;
       }
     }
-
     .assets-text {
       display: flex;
       margin-top: 20.5px;
@@ -55,7 +50,6 @@ export const RedeemRequestCardStyle = styled.div`
       text-align: center;
       line-height: 44px;
       font-weight: 600;
-
       .assets-number {
         margin-right: 20px;
       }

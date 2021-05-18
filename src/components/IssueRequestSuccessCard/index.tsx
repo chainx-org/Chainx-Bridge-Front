@@ -1,11 +1,11 @@
 import React from "react";
-import {IssueRequestCardStyle} from "./style";
+import {CardFooterStyle, IssueRequestCardStyle} from "./style";
 import Question from '../ExplainTag/icons/question.svg'
 import CardMain from "../CardMain";
-import CardFooter from "./CardFooter";
 import { useLeftBlock } from "../../hooks/useLeftBlock";
 import { stringToHex } from '@polkadot/util'
 import useAccountModel from "../../hooks/useAccountModel";
+import ExplainTag from "../ExplainTag";
 
 interface IssueSuccessProps {
     currAddress: React.ReactNode;
@@ -35,7 +35,11 @@ function IssueRequestSuccessCard({currAddress, hypothecateNum, chargeNum, IssueA
             </div>
             <CardMain opreturn={stringToHex(currentAccount?.address)} address={vaultBtcAddress} issueAmount={IssueAmount}/>
             <div className={"line"}/>
-            <CardFooter lockCollateral={hypothecateNum} issueAmount={<>{IssueAmount}<span className='issueNum'>{coinSymol.coinName}</span></>} toAccount={currAddress}/>
+            <CardFooterStyle>
+                <ExplainTag title='锁定抵押品' children={hypothecateNum}/>
+                <ExplainTag title='发行总额' children={<>{IssueAmount}<span className='issueNum'>{coinSymol.coinName}</span></>}/>
+                <ExplainTag title='目标账户' children={currAddress}/>
+            </CardFooterStyle>
         </IssueRequestCardStyle>
     )
 }
