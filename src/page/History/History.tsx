@@ -44,6 +44,11 @@ function History():React.ReactElement {
             title: '数量（XBTC）',
             dataIndex: 'btcAmount',
             key: 'btcAmount',
+            render: (text: any, record: any) => (
+                <Space size="middle">
+                    <div >{record.btcAmount / 100000000}</div>
+                </Space>
+            ),
         },
         {
             title: 'BTC交易',
@@ -75,7 +80,7 @@ function History():React.ReactElement {
             ),
         },
     ];
-
+    
     const Redeemcolumns = [
         {
             title: '更新时间',
@@ -121,13 +126,13 @@ function History():React.ReactElement {
     useEffect(() => {
         if(requester) {
             setInitLoading(true)
-            axios.get(`https://api-btc.chainx.org/xbridge/issue_requests?page=0&pageSize=5&requester=${requester}`).then((res) => {
+            axios.get(`https://api-btc.chainx.org/xbridge/issue_requests?page=0&pageSize=10&requester=${requester}`).then((res) => {
                 console.log(res)
                 setIssueData(res.data.items)
                 setInitLoading(false)
             })
         }
-        axios.get(`https://api-btc.chainx.org/xbridge/redeem_requests?page=0&pageSize=5&requester=${requester}`).then((res) => {
+        axios.get(`https://api-btc.chainx.org/xbridge/redeem_requests?page=0&pageSize=10&requester=${requester}`).then((res) => {
             console.log(res,'res')
             setRedeemData(res.data.items)
         })
@@ -149,6 +154,7 @@ function History():React.ReactElement {
             <TableStyle>
                 {currentTable === "issue" ?
                     <Table columns={Issuecolumns} dataSource={IssueData} loading={initLoading}
+                        
                            pagination={{pageSize: 5, defaultPageSize: 5}}/> :
                     <Table columns={Redeemcolumns} dataSource={RedeemData}
                            pagination={{pageSize: 5, defaultPageSize: 5}}/>}

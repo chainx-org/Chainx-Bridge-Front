@@ -89,7 +89,7 @@ export const App: React.FC = () => {
       (res, { types }) => ({ ...res, ...types }),
       {}
     );
-    notification.warn({ message: "Wait ws connecting..." });
+    // notification.warn({ message: "Wait ws connecting..." });
     // const provider = new WsProvider("ws://192.168.1.227:8087");
     const provider = new WsProvider("wss://xbridge.spiderx.pro/ws");
     const api = new ApiPromise({ provider, types });
@@ -97,7 +97,7 @@ export const App: React.FC = () => {
     api.on("ready", () => {
       setApi(api);
       setApiReady(true);
-      notification.info({ message: "Endpoint connected." });
+      // notification.info({ message: "Endpoint connected." });
     });
   }, []);
 

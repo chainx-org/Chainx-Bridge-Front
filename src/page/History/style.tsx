@@ -54,6 +54,7 @@ export const TableStyle = styled.div`
       border-radius: 1px;
       .ant-table-cell{
         color: #282828;
+        padding: 22px 0;
       }
     }
   }
@@ -61,9 +62,11 @@ export const TableStyle = styled.div`
     tr {
       border-bottom: 1px solid #F4F4F5;
       box-shadow: -1px -1px 2px 0 rgba(0,0,0,0.04), 1px 1px 2px 0 #FFFFFF;
+      background: #F4F4F5;
       border-radius: 1px;
       .ant-table-cell{
         color: #8E8E8E;
+        padding: 8px 0;
       }
     }
   }
@@ -71,7 +74,6 @@ export const TableStyle = styled.div`
     background: #F4F4F5;
     font-size: 12px;
     font-weight: 400;
-    padding: 22px 0;
   }
   .historyFail, .historySuccess, .historyProcessing, .historyCancel {
     display: flex;
@@ -134,7 +136,7 @@ export const TableStyle = styled.div`
   }
   .ant-table-tbody{
     > tr:hover:not(.ant-table-expanded-row) > td,.ant-table-row-hover,.ant-table-row-hover>td{
-      background: #F4F4F5!important;
+      background: #EAEAEA  !important;
     }
   }
   .ant-table-fixed{
@@ -143,7 +145,6 @@ export const TableStyle = styled.div`
     }
   }
 `
-
 export const ModalStyle = styled.div`
   display: flex;
   flex-direction: column;
@@ -184,7 +185,6 @@ export const ModalStyle = styled.div`
     margin-bottom: 23.5px;
   }
 `
-
 export const StatusModalStyle = styled.div`
   display: flex;
   flex-direction: column;

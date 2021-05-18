@@ -5,4 +5,7 @@ export const CardFooterStyle = styled.div`
   color: #8E8E8E;
   font-weight: 400;
   margin-top: 24.5px;
+  .issueNum {
+    margin-left: 4px;
+  }
 `

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { IssueBtcInputStyle, IssueStyle, AccountSwitch } from "./style";
+import { LoadingOutlined } from '@ant-design/icons';
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import BCHs from '../CoinSelect/icons/BCH_s.svg'
 import BTCs from '../CoinSelect/icons/BTC_S.svg'
@@ -71,7 +72,7 @@ function Issue(): React.ReactElement {
     const currAddress = <>{currentAccount?.address}</>
     const hypothecateNum = <>{IssueAmount / pcxPrice / 10 || 0} PCX</>
     const chargeNum = <>0.00 {coinSymol.coinName}</>
-
+    const key = 'testIssue'
     const handleMatchVault = async ()=> {
       if(IssueAmount <=0){
         notification.warn({message:"发行的值必须大于0"})
@@ -98,8 +99,10 @@ function Issue(): React.ReactElement {
           ({ status, dispatchError, events }) => {
               if (status.isInBlock) {
                 notification["success"]({
+                  key,
                   message: `Completed at block hash ${status.asInBlock.toString()}`,
                   duration: 0,
+                  icon: <LoadingOutlined style={{ fontSize: 24,color:"#F6C94A" }}/>,
                 });
               } else if (dispatchError) {
                 if (dispatchError.isModule) {
@@ -108,26 +111,36 @@ function Issue(): React.ReactElement {
                     );
                     const { documentation, name, section } = decoded;
                     notification["error"]({
+                      key,
                       message: `${section}.${name}: ${documentation.join(" ")}`,
                       duration: 0,
                     });
                   setButtonLoading(false)
                 }
               } else {
-                notification["success"]({
+                if (status.type === "Finalized") {
+                  notification["success"]({
+                    key,
                     message: `Current status: ${status.type}`,
                     duration: 0,
-                });
-                if (status.type === "Finalized") {
-                    setShowIssueNext(true)
+                  });
+                  setShowIssueNext(true)
+                } else {
+                  notification["success"]({
+                    key,
+                    message: `Current status: ${status.type}`,
+                    duration: 0,
+                    icon: <LoadingOutlined style={{ fontSize: 24,color:"#F6C94A" }}/>,
+                  });
                 }
               }
           }
       )
       .catch((error) => {
         notification["error"]({
-            message: `:( transaction failed', ${error}`,
-            duration: 0,
+          key,
+          message: `:( transaction failed', ${error}`,
+          duration: 0,
         });
         setButtonLoading(false)
       });

@@ -4,7 +4,7 @@ import ExplainTag from "../../ExplainTag";
 
 interface Props{
     lockCollateral: React.ReactNode;
-    issueAmount: number;
+    issueAmount: React.ReactNode;
     toAccount: React.ReactNode;
 }
 const CardFooter:React.FunctionComponent<Props> = ({lockCollateral,issueAmount,toAccount}) =>{

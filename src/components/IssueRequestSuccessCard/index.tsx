@@ -35,7 +35,7 @@ function IssueRequestSuccessCard({currAddress, hypothecateNum, chargeNum, IssueA
             </div>
             <CardMain opreturn={stringToHex(currentAccount?.address)} address={vaultBtcAddress} issueAmount={IssueAmount}/>
             <div className={"line"}/>
-            <CardFooter lockCollateral={hypothecateNum} issueAmount={IssueAmount} toAccount={currAddress}/>
+            <CardFooter lockCollateral={hypothecateNum} issueAmount={<>{IssueAmount}<span className='issueNum'>{coinSymol.coinName}</span></>} toAccount={currAddress}/>
         </IssueRequestCardStyle>
     )
 }

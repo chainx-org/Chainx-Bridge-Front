@@ -29,13 +29,14 @@ export const ChainStatusStyle = styled.div`
   }
 `
 export const PointStyle = styled.div`
-    width: 10px;
-    height: 10px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
+  margin-right: 4px;
   &&.running{
     background:#34C69A ;
   }
   &&.error{
     background: red;
   }
-  `
+`
