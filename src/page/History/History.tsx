@@ -2,12 +2,9 @@ import React, {useState, useEffect} from "react";
 import {FunctionSwitchButton, HistoryStyle, ModalStyle, TableStyle} from "./style";
 import {useTranslation} from "react-i18next";
 import {Space, Table, Modal} from "antd";
-import {ColumnType} from "antd/lib/table";
 import useAccountModel from "../../hooks/useAccountModel"
-import {decodeAddress, encodeAddress} from "@polkadot/keyring";
-import CardMain from "../../components/CardMain";
-import RequestID from "../../components/RequestID";
-import ModalFooter from "../../components/ModalFooter";
+// import {decodeAddress, encodeAddress} from "@polkadot/keyring";
+// import ModalFooter from "../../components/ModalFooter";
 import ProcessingModal from "../../components/ProcessingModal/ProcessingModal";
 import StatusModal from "../../components/StatusModal";
 import axios from "axios";
@@ -22,8 +19,9 @@ interface HistoryRow {
     status: "process" | "completed" | "cancelled";
 }
 
-function History() {
+function History():React.ReactElement {
     const {currentAccount} = useAccountModel();
+    const requester = currentAccount?.address
     const {t} = useTranslation()
     const [page, setPage] = useState(0);
     const [currentTable, setCurrentTable] = useState("issue")
@@ -162,11 +160,11 @@ function History() {
         },
     ];
     useEffect(() => {
-        axios.get('https://api-btc.chainx.org/xbridge/issue_requests?page=0&pageSize=5&requester=5UzcC9WB4VAXRs3TqebcsbfLNKmpengHQU4tHpPs43udpEpW').then((res) => {
+        axios.get(`https://api-btc.chainx.org/xbridge/issue_requests?page=0&pageSize=5&requester=${requester}`).then((res) => {
             console.log(res)
             setIssueData(res.data.items)
         })
-    }, [])
+    }, [requester])
     return (
         <HistoryStyle>
             <FunctionSwitchButton>

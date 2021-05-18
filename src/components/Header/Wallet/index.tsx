@@ -20,7 +20,7 @@ function Wallet():React.ReactElement {
     const {api} = useApi();
     async function getAssets(account: string) {
         const res = await api.query.xAssets.assetBalance(account,1);
-        setXbtcBalance(JSON.parse(JSON.stringify(res)).Usable.div(10e8))
+        setXbtcBalance(JSON.parse(JSON.stringify(res)).Usable / 100000000)
     }
     async function getPCXBalance(){
         const res = await api.query.system.account(currentAccount?.address!!)
@@ -40,7 +40,7 @@ function Wallet():React.ReactElement {
         {
             icon: SBTCLogo,
             title: 'SBTC',
-            balance: xBtcBalance
+            balance: `${xBtcBalance ? xBtcBalance : 0}`
         },
         {
             icon: SBCHLogo,

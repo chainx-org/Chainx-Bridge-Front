@@ -34,9 +34,6 @@ export const AccountSwitch = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    // background: #EFEFEF;
-    // box-shadow: -2px -2px 3px 0 rgba(0,0,0,0.10), 2px 2px 3px 0 #FFFFFF;
-    // border-radius: 15px;
     width: 142px;
     height: 40px;
     .currNames {
@@ -118,124 +115,111 @@ export const IssueBtcInputStyle = styled.div`
   }
 `
 
+// export const CurrentAccountStyle = styled.div`
+//   background: #F6F6F6;
+//   border-radius: 6px;
+//   width: 419px;
+//   height: 70px;
+//   padding: 16px;
+//   font-size: 12px;
+//   color: #282828;
+//   .current-account {
+//     margin-top: 4px;
+//     font-size: 12px;
+//     color: #8E8E8E;
+//   }
+// `
 
+// export const LockingCollateralStyle = styled.div`
+//   color: #282828;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-top: 24px;
+//   .locking-title {
+//     font-size: 14px;
+//   }
+//   .locking-num {
+//     margin-left: 8px;
+//     font-size: 14px;
+//   }
+//   .locking-tip {
+//     margin-left: 8px;
+//     padding: 0 4px;
+//     height: 20px;
+//     background: #FDF5E0;
+//     border-radius: 4px;
+//     font-size: 12px;
+//     color: #9B7E2E;
+//     line-height: 20px;
+//     text-align: center;
+//   }
+// `
+// export const IssueFooterStyle = styled.footer`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   .issue-footer-title {
+//     font-size: 12px;
+//     color: #282828;
+//   }
+//   .issue-footer-num {
+//     font-size: 24px;
+//     color: #282828;
+//     margin-top: 8px;
+//   }
+//   button {
+//     width: 419px;
+//     height: 44px;
+//     margin-top: 20px;
+//   }
+// `
+// export const ConfirmationIssueModalStyle = styled.div`
+//   position: absolute;
+//   display: flex;
+//   .ant-modal-body{
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//   }
+// `
+// export const ConfirmationIssueModalFooter = styled.div`
+//   margin-top: 20px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   .issue-footer-title {
+//     font-size: 12px;
+//     color: #282828;
+//   }
+//   .issue-footer-num {
+//     font-size: 24px;
+//     color: #282828;
+//     margin-top: 8px;
+//   }
+// `
+// export const VaultAccountStyle = styled.div`
+//   margin-top: 10px;
+//   background: #F6F6F6;
+//   border-radius: 6px;
+//   width: 419px;
+//   height: 70px;
+//   padding: 16px;
+//   font-size: 12px;
+//   color: #282828;
 
-
-export const CurrentAccountStyle = styled.div`
-  background: #F6F6F6;
-  border-radius: 6px;
-  width: 419px;
-  height: 70px;
-  padding: 16px;
-  font-size: 12px;
-  color: #282828;
-  .current-account {
-    margin-top: 4px;
-    font-size: 12px;
-    color: #8E8E8E;
-  }
-`
-
-export const LockingCollateralStyle = styled.div`
-  color: #282828;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 24px;
-
-  .locking-title {
-    font-size: 14px;
-  }
-
-  .locking-num {
-    margin-left: 8px;
-    font-size: 14px;
-  }
-
-  .locking-tip {
-    margin-left: 8px;
-    padding: 0 4px;
-    height: 20px;
-    background: #FDF5E0;
-    border-radius: 4px;
-    font-size: 12px;
-    color: #9B7E2E;
-    line-height: 20px;
-    text-align: center;
-  }
-`
-export const IssueFooterStyle = styled.footer`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .issue-footer-title {
-    font-size: 12px;
-    color: #282828;
-  }
-
-  .issue-footer-num {
-    font-size: 24px;
-    color: #282828;
-    margin-top: 8px;
-  }
-
-  button {
-    width: 419px;
-    height: 44px;
-    margin-top: 20px;
-  }
-`
-export const ConfirmationIssueModalStyle = styled.div`
-  position: absolute;
-  display: flex;
-  .ant-modal-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-`
-export const ConfirmationIssueModalFooter = styled.div`
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .issue-footer-title {
-    font-size: 12px;
-    color: #282828;
-  }
-
-  .issue-footer-num {
-    font-size: 24px;
-    color: #282828;
-    margin-top: 8px;
-  }
-
-`
-export const VaultAccountStyle = styled.div`
-  margin-top: 10px;
-  background: #F6F6F6;
-  border-radius: 6px;
-  width: 419px;
-  height: 70px;
-  padding: 16px;
-  font-size: 12px;
-  color: #282828;
-
-  .current-account {
-    margin-top: 4px;
-    font-size: 12px;
-    color: #8E8E8E;
-  }
-`
-export const PCXbalanceStyle = styled.div`
-margin-top: 20px;
-display: flex;
-justify-content: center;
-font-size: 14px;
-color: #282828;
-font-weight: bold;
-
-`
+//   .current-account {
+//     margin-top: 4px;
+//     font-size: 12px;
+//     color: #8E8E8E;
+//   }
+// `
+// export const PCXbalanceStyle = styled.div`
+//   margin-top: 20px;
+//   display: flex;
+//   justify-content: center;
+//   font-size: 14px;
+//   color: #282828;
+//   font-weight: bold;
+// `
 

@@ -1,12 +1,12 @@
 import React from "react";
 import {IssueRequestCardStyle} from "./style";
-// import SBTCLogo from "../../components/Header/Wallet/icons/SBTC.svg"
 import Question from '../ExplainTag/icons/question.svg'
 import CardMain from "../CardMain";
-import CardFooter from "../CardFooter";
+import CardFooter from "./CardFooter";
 import { useLeftBlock } from "../../hooks/useLeftBlock";
 import { stringToHex } from '@polkadot/util'
 import useAccountModel from "../../hooks/useAccountModel";
+
 interface IssueSuccessProps {
     currAddress: React.ReactNode;
     hypothecateNum: React.ReactNode;
@@ -17,12 +17,6 @@ interface IssueSuccessProps {
     openTime: any;
 }
 function IssueRequestSuccessCard({currAddress, hypothecateNum, chargeNum, IssueAmount, vaultBtcAddress, coinSymol, openTime }: IssueSuccessProps): React.ReactElement {
-    // console.log(JSON.parse(JSON.stringify(currAddress)),
-    // JSON.parse(JSON.stringify(hypothecateNum)),
-    // JSON.parse(JSON.stringify(chargeNum)),
-    // JSON.parse(JSON.stringify(IssueAmount)),
-    // JSON.parse(JSON.stringify(vaultBtcAddress)),
-    // JSON.parse(JSON.stringify(coinSymol)))
     const leftBlock = useLeftBlock(+openTime[0]);
     const {currentAccount} = useAccountModel();
     return (

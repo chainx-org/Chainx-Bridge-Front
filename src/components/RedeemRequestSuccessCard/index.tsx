@@ -3,7 +3,6 @@ import {RedeemRequestCardStyle} from "./style";
 import BTCLogo from "../../icons/BTC.svg"
 import Question from '../ExplainTag/icons/question.svg'
 import CardMain from "../CardMain";
-import CardFooter from "../CardFooter";
 import warningYellowLogo from "../../icons/warm_yellow.svg";
 import RequestID from "../RequestID";
 import RedeemModalFooter from "../RedeemModalFooter";

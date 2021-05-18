@@ -7,7 +7,7 @@ import DOGEs from '../CoinSelect/icons/DOGE_s.svg'
 import Sherpaxs from '../CoinSelect/icons/sherpax_s.svg'
 import arrowYellow from './icons/arrow_yellow.svg'
 import arrowGray from './icons/arrow_gray.svg'
-import {InputNumber, Divider, Button, notification} from "antd";
+import {InputNumber, Button, notification} from "antd";
 import { useTranslation } from "react-i18next";
 import ExplainTag from '../ExplainTag'
 import CoinSelect from "../CoinSelect";
@@ -17,7 +17,6 @@ import { web3FromAddress } from "@polkadot/extension-dapp";
 import {useApi} from "../../hooks/useApi";
 import ChangeChainXAddress from "../../util";
 import IssueRequestSuccessCard from "../IssueRequestSuccessCard";
-import { Json } from "@polkadot/types";
 import { IssueRequestsContext } from "../../hooks/useIssueRequests";
 
 interface coinProps {
@@ -26,15 +25,12 @@ interface coinProps {
   symol: string;
 }
 
-interface IssueProps {
-  className?: string;
-}
-function Issue({ className = '' }: IssueProps): React.ReactElement<IssueProps> {
+function Issue(): React.ReactElement {
     const value = useContext(IssueRequestsContext);
     const [IssueRequestList,SetIssueRequestList] = useState([] as any[]);
     const Fee = useContext(FeeContext)
     const pcxPrice = Fee.pcxPrice
-    const {api} = useApi();
+    const { api } = useApi();
     const { t } = useTranslation();
     const {currentAccount} = useAccountModel();
     const [showIssueNext, setShowIssueNext] = useState(false)

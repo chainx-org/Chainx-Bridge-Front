@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import React from "react";
 
 export const IssueRequestCardStyle = styled.div`
   width: 500px;
@@ -27,12 +26,10 @@ export const IssueRequestCardStyle = styled.div`
     img {
       height: 32px;
     }
-
     .time {
       display: flex;
       margin-top: 8.5px;
       align-items: center;
-
       .time-title {
         font-size: 14px;
         color: #AEAEAE;
@@ -40,7 +37,6 @@ export const IssueRequestCardStyle = styled.div`
         line-height: 20px;
         font-weight: 400;
       }
-
       .time-content {
         font-size: 14px;
         color: #282828;
@@ -50,13 +46,11 @@ export const IssueRequestCardStyle = styled.div`
         margin-left: 6px;
         margin-right: 5px;
       }
-
       img {
         width: 12px;
         height: 12px;
       }
     }
-
     .assets-text {
       display: flex;
       margin-top: 20.5px;
@@ -64,7 +58,6 @@ export const IssueRequestCardStyle = styled.div`
       color: #282828;
       line-height: 44px;
       font-weight: 600;
-
       .assets-number {
         margin-right: 20px;
       }
