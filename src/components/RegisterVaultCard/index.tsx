@@ -91,17 +91,17 @@ function RegisterVaultCard():React.ReactElement {
                     <div className={"current-account"}>{currentAccount?.address}</div>
                 </RegisterAccountStyle>
                 <Line  className='line'/>
-                  <RegisterInput balance={FormatBalance(pcxBalance)} icon={false} num={true}
+                <RegisterInput balance={FormatBalance(pcxBalance)} icon={false} num={true}
                     children={<Form.Item name={"collateral"} 
-                      rules={[{required: true, message: t('Please enter the number of collateral')}]}>
+                    rules={[{required: true, message: t('Please enter the number of collateral')}]}>
                         <InputNumber min={1000} placeholder={t('Please enter the number of collateral')}/>
-                      </Form.Item>} 
-                  />
-                  <RegisterInput balance={FormatBalance(accountInfo?.data.free)} icon={true} num={false}
+                    </Form.Item>} 
+                />
+                <RegisterInput balance={FormatBalance(accountInfo?.data.free)} icon={true} num={false}
                     children={<Form.Item name={"address"} rules={[{required: true, message: t('Please enter BTC address')}]}>
                       <Input placeholder={t('Please enter BTC address')} onChange={(e)=> setBtcAddress(e.target.value)}/>
                     </Form.Item>} 
-                  />
+                />
                 <AgreementStyle>
                     <Form.Item name={"checked"} valuePropName="checked" rules={[
                       {validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error(t('Should accept agreement'))),},]}>

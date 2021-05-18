@@ -1,6 +1,5 @@
 import React from "react";
 import {StatusModalStyle} from "../../page/History/style";
-import RequestID from "../RequestID";
 import ModalFooter from "../ModalFooter";
 import {Button, Modal} from "antd";
 import successLogo from "./icons/complete.svg"

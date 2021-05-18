@@ -4,7 +4,7 @@ import EarnCard from "./EarnCard";
 import BtcInfoCard from "./BtcInfoCard";
 import HistoryCard from "./HistoryCard";
 
-function VaultCard() {
+function VaultCard():React.ReactElement {
     return (
         <VaultCardStyle>
             <div className={"vault-card-title"}>

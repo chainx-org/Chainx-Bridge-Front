@@ -1,7 +1,6 @@
 import React from "react";
 import {ModalStyle} from "../../page/History/style";
 import CardMain from "../CardMain";
-import RequestID from "../RequestID";
 import ModalFooter from "../ModalFooter";
 import {Modal} from "antd";
 import Question from '../ExplainTag/icons/question.svg'

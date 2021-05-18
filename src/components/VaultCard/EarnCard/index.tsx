@@ -3,19 +3,17 @@ import {
   EarnCardStyle,
   EarnCardTopStyle,
 } from "./style";
-import { Button, Divider, Input, InputNumber, Modal, notification } from "antd";
+import { Button, Input } from "antd";
 import { useTranslation } from "react-i18next";
-import arrowLogo from "./icons/arrow.svg";
 import useAccountModel from "../../../hooks/useAccountModel";
-import { AccountId, Balance } from "@polkadot/types/interfaces";
+import { Balance } from "@polkadot/types/interfaces";
 import { BtcAddress } from "../../../interfaces";
 import { useApi } from "../../../hooks/useApi";
 import { BalanceSpan } from "../../BalanceSpan";
-
 import { useFeeContext, FeeContext } from "../../../hooks/useFeeContext";
 import {useAccountInfo} from "../../../hooks/useAccountInfo";
-import FormatBalance from "../../../hooks/useFormatBalance";
-import { web3FromAddress } from "@polkadot/extension-dapp";
+// import FormatBalance from "../../../hooks/useFormatBalance";
+// import { web3FromAddress } from "@polkadot/extension-dapp";
 import EarnModal from "../EarnModal";
 import { AddCollateralModalStyle } from "../EarnModal/style";
 
@@ -28,7 +26,7 @@ interface VaultModel {
   collateral: Balance;
 }
 
-function EarnCard() {
+function EarnCard(): React.ReactElement {
   const value = useContext(FeeContext);
   const pcxPrice = value.pcxPrice;
   const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import {HistoryCardStyle} from "./style";
 import {FunctionSwitchButton, TableStyle} from "../../../page/History/style";
 import {useTranslation} from "react-i18next";
@@ -6,29 +6,13 @@ import {Space, Table} from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
 import {useApi} from "../../../hooks/useApi";
 import {useRedeemRequests} from "../../../hooks/useRedeemRequestList";
-import {convertBalanceToDisplayValue} from '../../../util'
-import {decodeAddress, encodeAddress} from "@polkadot/keyring";
+// import {convertBalanceToDisplayValue} from '../../../util'
+// import {decodeAddress, encodeAddress} from "@polkadot/keyring";
 import LastTime from './icons/time.svg'
 import SuccessStatus from './icons/success.svg'
 import FailStatus from './icons/fail.svg'
 import Canceled from './icons/cancel.svg'
 
-const data = [
-    {
-        id: 'id',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-    },
-];
-const data2 = [
-    {
-        key: '1',
-        name: '赎回',
-        age: 32,
-        address: '赎回',
-    },
-];
 interface HistoryRow {
     id: string;
     amount: string;
@@ -38,7 +22,7 @@ interface HistoryRow {
     countedBlock: string;
     status: string;
   }
-function HistoryCard() {
+function HistoryCard():React.ReactElement {
     const {currentAccount} = useAccountModel();
     const {api} =useApi()
     const {t} = useTranslation()

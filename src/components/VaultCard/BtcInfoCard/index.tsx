@@ -1,13 +1,13 @@
-import React, {useState, useEffect, useContext} from "react";
-import {Option} from "@polkadot/types";
-import {Vault} from "../../../interfaces"
+import React, {useState, useEffect} from "react";
+// import {Option} from "@polkadot/types";
+// import {Vault} from "../../../interfaces"
 import useAccountModel from "../../../hooks/useAccountModel"
 import {useApi} from "../../../hooks/useApi"
 import {BtcInfoCardStyle, TradeInfoStyle} from "./style";
 import axios from 'axios';
-
 // import useVaults from "../../../hooks/useVaults"
-function BtcInfoCard() {
+
+function BtcInfoCard():React.ReactElement {
     const {currentAccount} = useAccountModel();
     const {api, isApiReady} = useApi();
     const [btcAddress, SetBtcAddress] = useState("")
@@ -43,26 +43,6 @@ function BtcInfoCard() {
                 </div>
             </div>
             <div className='line'/>
-            {/* <TradeInfoStyle>
-                <div className={"trade-info-header"}>
-                    <div className={"header-title"}>最新交易哈希</div>
-                    <div className={"trade-hash"}>-</div>
-                </div>
-                <ul>
-                    <li>
-                        <div className={"trade-title"}>确认数</div>
-                        <div className={"trade-data"}>-</div>
-                    </li>
-                    <li>
-                        <div className={"trade-title"}>出块时间</div>
-                        <div className={"trade-data"}>-</div>
-                    </li>
-                    <li>
-                        <div className={"trade-title"}>金额</div>
-                        <div className={"trade-data"}>-</div>
-                    </li>
-                </ul>
-            </TradeInfoStyle> */}
             <div className='allAmount'>
                 <div className={"card-item"}>
                     <div className={"card-title"}>总接收</div>
