@@ -83,7 +83,7 @@ function RegisterVaultCard():React.ReactElement {
       <>
         {regVault ? <VaultCard/> : 
         <RegisterVaultCardStyle>
-          <div className={"card-title"}>注册成为资产保险库</div>
+          <div className={"card-title"}>{t('Register as an Asset Vault')}</div>
           <div className='cardContent'>
             <Form name={"register"} onFinish={onFinish}>
                 <RegisterAccountStyle>
@@ -106,14 +106,14 @@ function RegisterVaultCard():React.ReactElement {
                     <Form.Item name={"checked"} valuePropName="checked" rules={[
                       {validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error(t('Should accept agreement'))),},]}>
                         <Checkbox onChange={() => console.log('checked')}>
-                            <span>确认是否同意</span>
-                            <a href={"/"}>资产保险库协议</a>
+                            <span>{t('Confirmation of consent')}</span>
+                            <a href={"/"}>{t('Asset Vault Agreement')}</a>
                         </Checkbox>
                     </Form.Item>
                 </AgreementStyle>
                 <Form.Item>
                     <Button htmlType="submit">
-                        注册
+                        {t('Register')}
                     </Button>
                 </Form.Item>
             </Form>

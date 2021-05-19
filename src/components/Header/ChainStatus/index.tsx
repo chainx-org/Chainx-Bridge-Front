@@ -14,11 +14,11 @@ function ChainStatus(): React.ReactElement {
                 <img src={logo} alt=""/>
                 <div className={"status-content"}>
                     <PointStyle className={value === "Running" ? "status running" : "status error"}/>
-                    <div><Tooltip title={value} placement="right">
+                    <div>
                         <div className={"status-info"}>
                             {value === "Running" ? t(`${value}`) : t("Error")}
                         </div>
-                    </Tooltip></div>
+                    </div>
                 </div>
             </div>
         </ChainStatusStyle>

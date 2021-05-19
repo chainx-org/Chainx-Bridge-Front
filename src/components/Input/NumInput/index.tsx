@@ -119,7 +119,7 @@ export default function NumInput({children, className = '' , coinSymol, symol, s
                         <img src={Question} alt=""/>
                     </Tooltip>
                     }
-                  { description && <p className='tradeTip'>{coinSymol.coinName}{description} {children}</p> }
+                  { description && <p className='tradeTip'>{coinSymol.coinName}{" "}{description}{children}</p> }
                 </div>
             </div>
             <div className='issueNum'>

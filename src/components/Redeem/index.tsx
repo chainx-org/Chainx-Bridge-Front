@@ -124,10 +124,10 @@ function Redeem(): React.ReactElement {
                 <RedeemBtcInputStyle>
                     <NumInput 
                         RedeemAmount={RedeemAmount} 
-                        title='赎回金额'
+                        title={t('Redemption amount')}
                         setRedeemAmount={setRedeemAmount} 
                         coinSymol={coinSymol}
-                        description={'余额'}
+                        description={t('balance')}
                         // children={<span>{XbtcBalance ? XbtcBalance : "0"}</span>}
                         symol={coinSymol.coinName}
                     />
@@ -135,7 +135,7 @@ function Redeem(): React.ReactElement {
                     <img src={ true ? arrowYellow : arrowGray } alt='to' className='arrow' />
                     <NumInput 
                         RedeemAmount={RedeemAmount} 
-                        title='您将收到'
+                        title={t('you will receive')}
                         setRedeemAmount={setRedeemAmount} 
                         coinSymol={coinSymol}
                         symol={'BTC'}

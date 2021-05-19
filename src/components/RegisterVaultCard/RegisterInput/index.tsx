@@ -108,9 +108,9 @@ export default function RegisterInput({className = '' , children, balance, icon,
                   { icon ? 
                     <>
                         <img src={Verify} alt='Verify' />
-                        <p className='verify'>校验</p>
+                        <p className='verify'>{t('Calibration')}</p>
                     </>
-                   : <p className='balance'>PCX余额： {balance}</p> }
+                   : <p className='balance'>PCX {t('balance')}： {balance}</p> }
                 </div>
             </div>
             <div className='addressIpt'>
