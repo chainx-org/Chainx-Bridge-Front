@@ -9,11 +9,13 @@ export const HistoryStyle = styled.div`
   width: 100%;
   margin: 0 30px;
 `
+
 export const FunctionSwitchButton = styled.div`
   font-size: 16px;
   color: #8E8E8E;
   text-align: center;
   font-weight: 400;
+  margin-bottom: 28px;
   ul{
     width: 500px;
     height: 52px;
@@ -40,11 +42,10 @@ export const FunctionSwitchButton = styled.div`
       text-align: center;
       font-weight: 600;
     }
-  };
+  }
 `
 export const TableStyle = styled.div`
   width: 100%;
-  // margin-top: 28px;
   .ant-table-pagination.ant-pagination {
     margin: 24px 0;
   }
@@ -80,6 +81,7 @@ export const TableStyle = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     img {
       margin-left: 6px;
     }
@@ -118,6 +120,7 @@ export const TableStyle = styled.div`
     text-align: right;
     line-height: 16px;
     font-weight: 400;
+    cursor: pointer;
   }
   .fail{
     font-size: 12px;
@@ -125,6 +128,7 @@ export const TableStyle = styled.div`
     text-align: right;
     line-height: 16px;
     font-weight: 400;
+    cursor: pointer;
   }
   .redeemHashAddress {
     color: #34C69A;
@@ -146,164 +150,17 @@ export const TableStyle = styled.div`
     }
   }
 `
-export const ModalStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 17px;
-  .card-header{
-    font-size: 14px;
-    color: #282828;
-    text-align: center;
-    font-weight: 400;
-    .timeRemaining {
-      display: flex;
-      justify-content: center;
-      .remaining {
-        font-family: PingFangSC-Regular;
-        margin-right: 5px;
-      }
-    }
-  }
-  .time{
-    font-size: 32px;
-    color: #EA754B;
-    text-align: right;
-    font-weight: 600;
-  }
-  .line{
-    width: 100%;
-    height: 2px;
-    background: #F4F4F5;
-    box-shadow: -1px -1px 2px 0 rgba(0,0,0,0.04), 1px 1px 2px 0 #FFFFFF;
-    margin: 32px 0 24px;
-  }
-  .dotted-line{
-    width: 100%;
-    height: 2px;
-    border: 1px dashed #E5E5E5;
-    box-shadow: 0 2px 1px 0 #FFFFFF;
-    margin-bottom: 23.5px;
-  }
-`
-export const StatusModalStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-    .redeemFail, .redeemSuccess {
-      padding-top: 27px;
-      width: 100%;
-    }
-    .redeemPending, .issueSuccess, .redeemFail, .redeemSuccess, .issueFail {
-      text-align: center;
-    }
-    .issueSuccess, .issueFail {
-      padding-top: 17px;
-    }
-    .titleCon{
-      opacity: 0.85;
-      font-size: 20px;
-      color: #000000;
-      line-height: 28px;
-      font-weight: bold;
-      margin-top: 22px;
-    }
-    .number{
-      margin-top: 8px;
-      opacity: 0.45;
-      font-size: 14px;
-      color: #000000;
-      text-align: center;
-      line-height: 22px;
-      font-weight: 400;
-    }
-    .tip-redeem{
-      margin-top: 24px;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      border: 1px solid #FAAD14;
-      text-align: left;
-      border-radius: 6px;
-      width: 366px;
-      height: 44px;
-      background:rgba(250,173,20,0.1);
-      font-size: 12px;
-      color: #554D4E;
-      font-weight: 400;
-      img{
-        margin-right: 8px;
-      }
-    }
-    .number-redeem{
-      margin-bottom: 32px;
-      margin-top: 8px;
-      opacity: 0.45;
-      font-size: 14px;
-      color: #000000;
-      text-align: center;
-      line-height: 22px;
-      font-weight: 400;
-    }
-    .force-redeem{
-      font-size: 14px;
-      color: #E9B112;
-      font-weight: bold;
-      margin-top: 16px;
-    }
-    .redeem-btc{
-      margin-top: 20.5px;
-      font-size: 32px;
-      color: #22BE8F;
-      text-align: center;
-      line-height: 44px;
-      font-weight: 600;
-      margin-bottom: 8.5px;
-    }
-    .title-redeem{
-      margin-top: 8px;
-      opacity: 0.45;
-      font-size: 14px;
-      color: #000000;
-      text-align: center;
-      line-height: 22px;
-      font-weight: 400;
-    }
-  .modalFooterContent {
-    width: 100%;
-    padding-bottom: 18px;
-  }
-  .time{
-    font-size: 32px;
-    color: #EA754B;
-    text-align: right;
-    font-weight: 600;
-  }
-  .line{
-    width: 100%;
-    height: 2px;
-    background: #F4F4F5;
-    box-shadow: -1px -1px 2px 0 rgba(0,0,0,0.04), 1px 1px 2px 0 #FFFFFF;
-    margin: 32px 0 24px;
-  }
-  .dotted-line{
-    width: 100%;
-    height: 2px;
-    border: 1px dashed #E5E5E5;
-    box-shadow: 0 2px 1px 0 #FFFFFF;
-    margin-bottom: 23.5px;
-  }
-`
 
-export  const TabsWrapper = styled(SwitchTabs)`
-  width: 500px;
-  height: 52px;
-  background-image: linear-gradient(134deg, #FAFAFB 0%, #F4F4F5 100%);
-  box-shadow: -3px -3px 4px 0 rgba(0,0,0,0.10), 3px 3px 4px 0 #FFFFFF;
-  border-radius: 19px;
+export const TabsWrapper = styled(SwitchTabs)`
   .ant-tabs-nav{
     margin: 0;
     height: 100%;
+    width: 500px;
+    height: 52px;
+    background-image: linear-gradient(134deg, #FAFAFB 0%, #F4F4F5 100%);
+    box-shadow: -3px -3px 4px 0 rgba(0,0,0,0.10), 3px 3px 4px 0 #FFFFFF;
+    border-radius: 19px;
+    margin: 28px;
     .ant-tabs-nav-list {
       width: 100%;
       display: flex;
@@ -346,5 +203,8 @@ export  const TabsWrapper = styled(SwitchTabs)`
         }
       }
     }
+  }
+  .ant-tabs-content-holder {
+    padding: 0 28px;
   }
 `;

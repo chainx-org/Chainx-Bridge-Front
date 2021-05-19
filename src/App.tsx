@@ -34,7 +34,7 @@ import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import NoExtensions from "./components/NoExtensions";
 import Maskbg from './components/Loading/background.webp'
 const Bridge = lazy(() => import("./page/Bridge/home"));
-const History = lazy(() => import("./page/History/index"));
+const History = lazy(() => import("./page/History"));
 const Vault = lazy(() => import("./page/Vault"));
 
 const LayoutWrapper = styled.div`

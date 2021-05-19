@@ -4,28 +4,36 @@ import {useTranslation} from "react-i18next";
 import {Space, Table} from "antd";
 import axios from "axios";
 import useAccountModel from "../../../hooks/useAccountModel";
-import StatusModal from "../../../components/StatusModal";
+import RedeemStatusModal from "../../../components/RedeemStatusModal/RedeemStatusModal";
 
 function RedeemHistory():React.ReactElement {
     const {currentAccount} = useAccountModel();
     const requester = currentAccount?.address
     const {t} = useTranslation()
     const [RedeemSuccessModalVisible, setRedeemSuccessModalVisible] = useState(false)
-    const [RedeemfailModalVisible, setRedeemfailModalVisible] = useState(false)
-    const [RedeemProcessingModalVisible, setRedeemProcessingModalVisible] = useState(false)
+    const [RedeemStatus, setRedeemStatus] = useState('processing')
     const [RedeemData,setRedeemData] = useState([])
     const [initLoading,setInitLoading] = useState(true)
     
+    function RedeemModal(val:string) {
+        setRedeemStatus(val)
+        setRedeemSuccessModalVisible(true)
+    }
     const Redeemcolumns = [
         {
             title: '更新时间',
             dataIndex: 'time',
-            key: 'title'
+            key: 'time'
         },
         {
             title: '数量（XBTC）',
-            dataIndex: 'number',
-            key: 'number',
+            dataIndex: 'btcAmount',
+            key: 'btcAmount',
+            render: (text: any, record: any) => (
+                <Space size="middle">
+                    <div >{record.btcAmount / 100000000}</div>
+                </Space>
+            ),
         },
         {
             title: 'BTC交易',
@@ -39,20 +47,16 @@ function RedeemHistory():React.ReactElement {
         },
         {
             title: 'Chainx块高',
-            dataIndex: 'number',
-            key: 'number',
+            dataIndex: 'openTime',
+            key: 'openTime',
         },
         {
             title: '状态',
             key: 'action',
             render: (text: any, record: any) => (
                 <Space size="middle">
-                    {record.status === "进行中" && <div className={"processing"}
-                                                     onClick={() => setRedeemProcessingModalVisible(true)}>{record.status}</div>}
-                    {record.status === "失败" &&
-                    <div onClick={() => setRedeemfailModalVisible(true)} className={"fail"}>{record.status}</div>}
-                    {record.status === "成功" &&
-                    <div onClick={() => setRedeemSuccessModalVisible(true)}>{record.status}</div>}
+                    <div className={"processing"}
+                    onClick={() => RedeemModal(record.status)}>{record.status}</div>
                 </Space>
             ),
         },
@@ -71,16 +75,18 @@ function RedeemHistory():React.ReactElement {
     return (
         <>
             <TableStyle>
-                    <Table columns={Redeemcolumns} dataSource={RedeemData} loading={initLoading}
-                           pagination={{pageSize: 5, defaultPageSize: 5}}/>
+                <Table 
+                    columns={Redeemcolumns} 
+                    dataSource={RedeemData} 
+                    loading={initLoading}
+                    pagination={{pageSize: 5, defaultPageSize: 5}}
+                />
             </TableStyle>
-            <StatusModal visible={RedeemSuccessModalVisible} cancle={() => setRedeemSuccessModalVisible(false)}
-                         type={"redeem-success"}/>
-
-            <StatusModal visible={RedeemfailModalVisible} cancle={() => setRedeemfailModalVisible(false)}
-                         type={"redeem-fail"}/>
-            <StatusModal visible={RedeemProcessingModalVisible} cancle={() => setRedeemProcessingModalVisible(false)}
-                         type={"redeem-processing"}/>
+            <RedeemStatusModal 
+                visible={RedeemSuccessModalVisible} 
+                cancle={() => setRedeemSuccessModalVisible(false)}
+                type={RedeemStatus}
+            />
         </>
     )
 }

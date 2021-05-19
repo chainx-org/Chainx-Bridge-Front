@@ -3,6 +3,28 @@ import React from "react";
 import styled from "styled-components";
 import Question from './icons/question.svg'
 
+interface ExplainTagProps {
+  className?: string;
+  title: string;
+  children: React.ReactNode;
+  tooltip?: string
+}
+
+export default function ExplainTag({className = '' , title, children, tooltip }:ExplainTagProps): React.ReactElement<ExplainTagProps>{
+    
+    return (
+       <Wrapper className={``}>
+           <div className='leftTitle'>
+               <div className={`title ${className} `}>{title}</div>
+               <Tooltip title={tooltip}>
+                    <img src={Question} alt=""/>
+               </Tooltip>       
+           </div>
+           <div className={`rightContent  ${className}`}>{children}</div>
+       </Wrapper>
+    )
+}
+
 const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
@@ -31,25 +53,3 @@ const Wrapper = styled.div`
         color: #282828;
     }
 `
-
-interface ExplainTagProps {
-  className?: string;
-  title: string;
-  children: React.ReactNode;
-  tooltip?: string
-}
-
-export default function ExplainTag({className = '' , title, children, tooltip }:ExplainTagProps): React.ReactElement<ExplainTagProps>{
-    
-    return (
-       <Wrapper className={``}>
-           <div className='leftTitle'>
-               <div className={`title ${className} `}>{title}</div>
-               <Tooltip title={tooltip}>
-                    <img src={Question} alt=""/>
-               </Tooltip>       
-           </div>
-           <div className={`rightContent  ${className}`}>{children}</div>
-       </Wrapper>
-    )
-}

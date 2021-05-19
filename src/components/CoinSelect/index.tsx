@@ -1,9 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-// import BCHs from './icons/BCH_s.svg'
-// import BTCs from './icons/BTC_S.svg'
-// import DOGEs from './icons/DOGE_s.svg'
-// import Sherpaxs from './icons/sherpax_s.svg'
 import Fill from './icons/fill.svg'
 
 interface CoinSelectProps {
@@ -16,7 +12,6 @@ interface CoinSelectProps {
 }
 
 export default function CoinSelect({className = '' , optionList, isShow, currCoin, ShowSelect, coinSymol }:CoinSelectProps): React.ReactElement<CoinSelectProps>{
-    
     
     return (
        <Wrapper className={` ${className}`}>
