@@ -7,7 +7,7 @@ import Header from "./components/Header";
 import Loading from "./components/Loading";
 import styled from "styled-components";
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import { ApiContext} from "./hooks/useApi";
+import { ApiContext } from "./hooks/useApi";
 import * as definitions from "./interfaces/definitions";
 import useAccountModel from "./hooks/useAccountModel";
 import ChangeChainXAddress from "./util";
@@ -32,7 +32,7 @@ import { FeeContext } from "./hooks/useFeeContext";
 import type { Percent } from "@polkadot/types/interfaces/runtime";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import NoExtensions from "./components/NoExtensions";
-import Maskbg from './components/Loading/background.webp'
+import Maskbg from "./components/Loading/background.webp";
 const Bridge = lazy(() => import("./page/Bridge/home"));
 const History = lazy(() => import("./page/History"));
 const Vault = lazy(() => import("./page/Vault"));
@@ -58,7 +58,7 @@ const Content = styled.main`
   .empty {
     width: 40px;
   }
-`
+`;
 
 export const App: React.FC = () => {
   const { t } = useTranslation();
@@ -72,19 +72,18 @@ export const App: React.FC = () => {
   // Redeem requests context
   const [redeemRequest, setReedemRequest] = useState<RedeemRequestRow[]>([]);
   // const [RedeemRequests, setRedeemRequests] = useState<IssueRequest[]>([]);
-  const [downExtensions, setExtensitions] = useState(false)
+  const [downExtensions, setExtensitions] = useState(false);
 
   const [exchangeRate, setExchangeRate] = useState<TradingPrice | null>(null);
   const [percent, setPercent] = useState<Percent | null>(null);
   const [pcxPrice, setPcxPrice] = useState<number | null>(null);
-  const [bridgeStatus,setBridgeStatus] = useState("")
+  const [bridgeStatus, setBridgeStatus] = useState("");
 
   // Accounts Context
   const accountModel = useAccountModel();
- 
 
   // Init Api
-  useEffect(() => {808
+  useEffect(() => {
     const types = Object.values(definitions).reduce(
       (res, { types }) => ({ ...res, ...types }),
       {}
@@ -93,7 +92,7 @@ export const App: React.FC = () => {
     // const provider = new WsProvider("ws://192.168.1.227:8087");
     const provider = new WsProvider("ws://localhost:8087");
     const api = new ApiPromise({ provider, types });
-    console.log(types,'dasda')
+    console.log(types, "dasda");
     api.on("disconnected", () => setApiReady(false));
     api.on("ready", () => {
       setApi(api);
@@ -104,7 +103,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (isApiReady) {
-      api!!.query.xGatewayBitcoinV2.issueRequests.entries().then((data) => {
+      api!!.query.xGatewayBitcoinBridge.issueRequests.entries().then((data) => {
         setIssueRequests(
           data.map(([requestId, value]) => ({
             id: requestId.args[0],
@@ -112,24 +111,9 @@ export const App: React.FC = () => {
           }))
         );
       });
-      api!!.query.xGatewayBitcoinV2.redeemRequests.entries().then((data) => {
-        setReedemRequest(
-          data.map(([requestId, value]) => ({
-            id: requestId.args[0],
-            ...value.unwrap(),
-          }))
-        );
-      });
-      api!!.rpc.chain.subscribeNewHeads(async () => {
-        api!!.query.xGatewayBitcoinV2.issueRequests.entries().then((data) => {
-          setIssueRequests(
-            data.map(([requestId, value]) => ({
-              id: requestId.args[0],
-              ...value.unwrap(),
-            }))
-          );
-        });
-        api!!.query.xGatewayBitcoinV2.redeemRequests.entries().then((data) => {
+      api!!.query.xGatewayBitcoinBridge.redeemRequests
+        .entries()
+        .then((data) => {
           setReedemRequest(
             data.map(([requestId, value]) => ({
               id: requestId.args[0],
@@ -137,33 +121,53 @@ export const App: React.FC = () => {
             }))
           );
         });
+      api!!.rpc.chain.subscribeNewHeads(async () => {
+        api!!.query.xGatewayBitcoinBridge.issueRequests
+          .entries()
+          .then((data) => {
+            setIssueRequests(
+              data.map(([requestId, value]) => ({
+                id: requestId.args[0],
+                ...value.unwrap(),
+              }))
+            );
+          });
+        api!!.query.xGatewayBitcoinBridge.redeemRequests
+          .entries()
+          .then((data) => {
+            setReedemRequest(
+              data.map(([requestId, value]) => ({
+                id: requestId.args[0],
+                ...value.unwrap(),
+              }))
+            );
+          });
       });
     }
   }, [isApiReady]);
 
- 
   // Init accounts
   useEffect(() => {
-    async function initial () {
-      const extensions = await web3Enable('polkadot-js/apps');
-      if(extensions.length > 0){
+    async function initial() {
+      const extensions = await web3Enable("polkadot-js/apps");
+      if (extensions.length > 0) {
         web3Enable("X bridge").then(async () => {
           const accounts = await web3Accounts();
-    
+
           if (accounts.length > 0) {
             accountModel.setCurrentAccount({
               name: accounts[0].meta.name,
               address: ChangeChainXAddress(accounts[0].address),
             });
           }
-    
+
           accountModel.setAccounts(
             accounts.map(({ address, meta: { name } }) => ({
               name,
               address: encodeAddress(decodeAddress(address), 44),
             }))
           );
-    
+
           web3AccountsSubscribe((accounts) => {
             accountModel.setAccounts(
               accounts.map(({ address, meta: { name } }) => ({
@@ -173,8 +177,8 @@ export const App: React.FC = () => {
             );
           });
         });
-      }else{
-        setExtensitions(true)
+      } else {
+        setExtensitions(true);
       }
     }
     initial();
@@ -184,8 +188,8 @@ export const App: React.FC = () => {
   useEffect(() => {
     if (isApiReady) {
       (async () => {
-        const tradingPrice = await api!!.query.xGatewayBitcoinV2.exchangeRate();
-        const percent = await api!!.query.xGatewayBitcoinV2.issueGriefingFee();
+        const tradingPrice = await api!!.query.xGatewayBitcoinBridge.exchangeRate();
+        const percent = await api!!.query.xGatewayBitcoinBridge.issueGriefingFee();
         const price = +JSON.stringify(tradingPrice.price);
         const decimal = +JSON.stringify(tradingPrice.decimal);
         const mult = Math.pow(10, decimal);
@@ -193,8 +197,8 @@ export const App: React.FC = () => {
         setExchangeRate(tradingPrice);
         setPcxPrice(price / mult);
         await api!!.rpc.chain.subscribeNewHeads(async () => {
-          const tradingPrice = await api!!.query.xGatewayBitcoinV2.exchangeRate();
-          const percent = await api!!.query.xGatewayBitcoinV2.issueGriefingFee();
+          const tradingPrice = await api!!.query.xGatewayBitcoinBridge.exchangeRate();
+          const percent = await api!!.query.xGatewayBitcoinBridge.issueGriefingFee();
           const price = +JSON.stringify(tradingPrice.price);
           const decimal = +JSON.stringify(tradingPrice.decimal);
           const mult = Math.pow(10, decimal);
@@ -211,15 +215,15 @@ export const App: React.FC = () => {
       })();
     }
   }, [isApiReady]);
- // init status
+  // init status
   useEffect(() => {
-    if(isApiReady){
-      (async()=> {
-        const status =await api!!.query.xGatewayBitcoinV2.bridgeStatus();
-        setBridgeStatus(status.toString())
-      })()
+    if (isApiReady) {
+      (async () => {
+        const status = await api!!.query.xGatewayBitcoinBridge.bridgeStatus();
+        setBridgeStatus(status.toString());
+      })();
     }
-  },[isApiReady]);
+  }, [isApiReady]);
 
   return (
     <>
@@ -254,19 +258,19 @@ export const App: React.FC = () => {
                 }}
               >
                 <bridgeStatusContext.Provider value={bridgeStatus}>
-                <Header />
+                  <Header />
                 </bridgeStatusContext.Provider>
-                <Content >
+                <Content>
                   <SideBar />
-                  <Suspense fallback={<Loading/>}>
+                  <Suspense fallback={<Loading />}>
                     <Switch>
                       <Route path="/bridge" component={Bridge} />
                       <Route path="/history" component={History} />
                       <Route path="/vault" component={Vault} />
-                      <Redirect from='/' to='/bridge' />
+                      <Redirect from="/" to="/bridge" />
                     </Switch>
                   </Suspense>
-                  <div className='empty'/>
+                  <div className="empty" />
                 </Content>
               </FeeContext.Provider>
             </RedeemRequestsContext.Provider>
@@ -276,4 +280,4 @@ export const App: React.FC = () => {
     </>
   );
 };
-export const bridgeStatusContext = React.createContext("")
+export const bridgeStatusContext = React.createContext("");

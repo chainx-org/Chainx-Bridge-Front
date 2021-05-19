@@ -838,6 +838,15 @@ import type { Multiplier } from "@polkadot/types/interfaces/txpayment";
 import type { Multisig, Timepoint } from "@polkadot/types/interfaces/utility";
 import type { VestingInfo } from "@polkadot/types/interfaces/vesting";
 import type {
+  ChainId,
+  DepositNonce,
+  Erc721Token,
+  ProposalStatus,
+  ProposalVotes,
+  ResourceId,
+  TokenId,
+} from "./assetsHandler";
+import type {
   AddrStr,
   Amount,
   AmountOf,
@@ -965,12 +974,14 @@ declare module "@polkadot/types/types/registry" {
     "Compact<BlockNumber>": Compact<BlockNumber>;
     "Compact<BlockNumberFor>": Compact<BlockNumberFor>;
     "Compact<BountyIndex>": Compact<BountyIndex>;
+    "Compact<ChainId>": Compact<ChainId>;
     "Compact<ConsensusEngineId>": Compact<ConsensusEngineId>;
     "Compact<ContractDiscriminant>": Compact<ContractDiscriminant>;
     "Compact<CoreIndex>": Compact<CoreIndex>;
     "Compact<CurrencyId>": Compact<CurrencyId>;
     "Compact<CurrencyIdOf>": Compact<CurrencyIdOf>;
     "Compact<Decimals>": Compact<Decimals>;
+    "Compact<DepositNonce>": Compact<DepositNonce>;
     "Compact<EraIndex>": Compact<EraIndex>;
     "Compact<EventIndex>": Compact<EventIndex>;
     "Compact<ExtendedBalance>": Compact<ExtendedBalance>;
@@ -1024,6 +1035,7 @@ declare module "@polkadot/types/types/registry" {
     "Compact<SubId>": Compact<SubId>;
     "Compact<TAssetBalance>": Compact<TAssetBalance>;
     "Compact<TAssetDepositBalance>": Compact<TAssetDepositBalance>;
+    "Compact<TokenId>": Compact<TokenId>;
     "Compact<TradingHistoryIndex>": Compact<TradingHistoryIndex>;
     "Compact<TradingPairId>": Compact<TradingPairId>;
     "Compact<TransactionPriority>": Compact<TransactionPriority>;
@@ -1180,6 +1192,7 @@ declare module "@polkadot/types/types/registry" {
     "Option<CandidateReceipt>": Option<CandidateReceipt>;
     "Option<Chain>": Option<Chain>;
     "Option<ChainAddress>": Option<ChainAddress>;
+    "Option<ChainId>": Option<ChainId>;
     "Option<ChainProperties>": Option<ChainProperties>;
     "Option<ChainType>": Option<ChainType>;
     "Option<ChangesTrieConfiguration>": Option<ChangesTrieConfiguration>;
@@ -1249,6 +1262,7 @@ declare module "@polkadot/types/types/registry" {
     "Option<Delegations>": Option<Delegations>;
     "Option<DeletedContract>": Option<DeletedContract>;
     "Option<DepositAsset>": Option<DepositAsset>;
+    "Option<DepositNonce>": Option<DepositNonce>;
     "Option<DepositReserveAsset>": Option<DepositReserveAsset>;
     "Option<Depth>": Option<Depth>;
     "Option<Desc>": Option<Desc>;
@@ -1289,6 +1303,7 @@ declare module "@polkadot/types/types/registry" {
     "Option<EraPoints>": Option<EraPoints>;
     "Option<EraRewardPoints>": Option<EraRewardPoints>;
     "Option<EraRewards>": Option<EraRewards>;
+    "Option<Erc721Token>": Option<Erc721Token>;
     "Option<ErrorCode>": Option<ErrorCode>;
     "Option<ErrorMetadataLatest>": Option<ErrorMetadataLatest>;
     "Option<ErrorMetadataV10>": Option<ErrorMetadataV10>;
@@ -1622,6 +1637,8 @@ declare module "@polkadot/types/types/registry" {
     "Option<PropIndex>": Option<PropIndex>;
     "Option<Proposal>": Option<Proposal>;
     "Option<ProposalIndex>": Option<ProposalIndex>;
+    "Option<ProposalStatus>": Option<ProposalStatus>;
+    "Option<ProposalVotes>": Option<ProposalVotes>;
     "Option<ProxyAnnouncement>": Option<ProxyAnnouncement>;
     "Option<ProxyDefinition>": Option<ProxyDefinition>;
     "Option<ProxyState>": Option<ProxyState>;
@@ -1672,6 +1689,7 @@ declare module "@polkadot/types/types/registry" {
     "Option<ReportIdOf>": Option<ReportIdOf>;
     "Option<RequestId>": Option<RequestId>;
     "Option<ReserveAssetDeposit>": Option<ReserveAssetDeposit>;
+    "Option<ResourceId>": Option<ResourceId>;
     "Option<Retriable>": Option<Retriable>;
     "Option<RewardDestination>": Option<RewardDestination>;
     "Option<RewardPoint>": Option<RewardPoint>;
@@ -1808,6 +1826,7 @@ declare module "@polkadot/types/types/registry" {
     "Option<Text>": Option<Text>;
     "Option<Timepoint>": Option<Timepoint>;
     "Option<Token>": Option<Token>;
+    "Option<TokenId>": Option<TokenId>;
     "Option<TombstoneContractInfo>": Option<TombstoneContractInfo>;
     "Option<TotalAssetInfo>": Option<TotalAssetInfo>;
     "Option<TradingHistoryIndex>": Option<TradingHistoryIndex>;
@@ -2038,6 +2057,7 @@ declare module "@polkadot/types/types/registry" {
     "Vec<CandidateReceipt>": Vec<CandidateReceipt>;
     "Vec<Chain>": Vec<Chain>;
     "Vec<ChainAddress>": Vec<ChainAddress>;
+    "Vec<ChainId>": Vec<ChainId>;
     "Vec<ChainProperties>": Vec<ChainProperties>;
     "Vec<ChainType>": Vec<ChainType>;
     "Vec<ChangesTrieConfiguration>": Vec<ChangesTrieConfiguration>;
@@ -2107,6 +2127,7 @@ declare module "@polkadot/types/types/registry" {
     "Vec<Delegations>": Vec<Delegations>;
     "Vec<DeletedContract>": Vec<DeletedContract>;
     "Vec<DepositAsset>": Vec<DepositAsset>;
+    "Vec<DepositNonce>": Vec<DepositNonce>;
     "Vec<DepositReserveAsset>": Vec<DepositReserveAsset>;
     "Vec<Depth>": Vec<Depth>;
     "Vec<Desc>": Vec<Desc>;
@@ -2147,6 +2168,7 @@ declare module "@polkadot/types/types/registry" {
     "Vec<EraPoints>": Vec<EraPoints>;
     "Vec<EraRewardPoints>": Vec<EraRewardPoints>;
     "Vec<EraRewards>": Vec<EraRewards>;
+    "Vec<Erc721Token>": Vec<Erc721Token>;
     "Vec<ErrorCode>": Vec<ErrorCode>;
     "Vec<ErrorMetadataLatest>": Vec<ErrorMetadataLatest>;
     "Vec<ErrorMetadataV10>": Vec<ErrorMetadataV10>;
@@ -2480,6 +2502,8 @@ declare module "@polkadot/types/types/registry" {
     "Vec<PropIndex>": Vec<PropIndex>;
     "Vec<Proposal>": Vec<Proposal>;
     "Vec<ProposalIndex>": Vec<ProposalIndex>;
+    "Vec<ProposalStatus>": Vec<ProposalStatus>;
+    "Vec<ProposalVotes>": Vec<ProposalVotes>;
     "Vec<ProxyAnnouncement>": Vec<ProxyAnnouncement>;
     "Vec<ProxyDefinition>": Vec<ProxyDefinition>;
     "Vec<ProxyState>": Vec<ProxyState>;
@@ -2530,6 +2554,7 @@ declare module "@polkadot/types/types/registry" {
     "Vec<ReportIdOf>": Vec<ReportIdOf>;
     "Vec<RequestId>": Vec<RequestId>;
     "Vec<ReserveAssetDeposit>": Vec<ReserveAssetDeposit>;
+    "Vec<ResourceId>": Vec<ResourceId>;
     "Vec<Retriable>": Vec<Retriable>;
     "Vec<RewardDestination>": Vec<RewardDestination>;
     "Vec<RewardPoint>": Vec<RewardPoint>;
@@ -2666,6 +2691,7 @@ declare module "@polkadot/types/types/registry" {
     "Vec<Text>": Vec<Text>;
     "Vec<Timepoint>": Vec<Timepoint>;
     "Vec<Token>": Vec<Token>;
+    "Vec<TokenId>": Vec<TokenId>;
     "Vec<TombstoneContractInfo>": Vec<TombstoneContractInfo>;
     "Vec<TotalAssetInfo>": Vec<TotalAssetInfo>;
     "Vec<TradingHistoryIndex>": Vec<TradingHistoryIndex>;
@@ -2896,6 +2922,7 @@ declare module "@polkadot/types/types/registry" {
     CandidateReceipt: CandidateReceipt;
     Chain: Chain;
     ChainAddress: ChainAddress;
+    ChainId: ChainId;
     ChainProperties: ChainProperties;
     ChainType: ChainType;
     ChangesTrieConfiguration: ChangesTrieConfiguration;
@@ -2965,6 +2992,7 @@ declare module "@polkadot/types/types/registry" {
     Delegations: Delegations;
     DeletedContract: DeletedContract;
     DepositAsset: DepositAsset;
+    DepositNonce: DepositNonce;
     DepositReserveAsset: DepositReserveAsset;
     Depth: Depth;
     Desc: Desc;
@@ -3005,6 +3033,7 @@ declare module "@polkadot/types/types/registry" {
     EraPoints: EraPoints;
     EraRewardPoints: EraRewardPoints;
     EraRewards: EraRewards;
+    Erc721Token: Erc721Token;
     ErrorCode: ErrorCode;
     ErrorMetadataLatest: ErrorMetadataLatest;
     ErrorMetadataV10: ErrorMetadataV10;
@@ -3338,6 +3367,8 @@ declare module "@polkadot/types/types/registry" {
     PropIndex: PropIndex;
     Proposal: Proposal;
     ProposalIndex: ProposalIndex;
+    ProposalStatus: ProposalStatus;
+    ProposalVotes: ProposalVotes;
     ProxyAnnouncement: ProxyAnnouncement;
     ProxyDefinition: ProxyDefinition;
     ProxyState: ProxyState;
@@ -3388,6 +3419,7 @@ declare module "@polkadot/types/types/registry" {
     ReportIdOf: ReportIdOf;
     RequestId: RequestId;
     ReserveAssetDeposit: ReserveAssetDeposit;
+    ResourceId: ResourceId;
     Retriable: Retriable;
     RewardDestination: RewardDestination;
     RewardPoint: RewardPoint;
@@ -3525,6 +3557,7 @@ declare module "@polkadot/types/types/registry" {
     Text: Text;
     Timepoint: Timepoint;
     Token: Token;
+    TokenId: TokenId;
     TombstoneContractInfo: TombstoneContractInfo;
     TotalAssetInfo: TotalAssetInfo;
     TradingHistoryIndex: TradingHistoryIndex;
