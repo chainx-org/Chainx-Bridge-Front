@@ -9,11 +9,10 @@ import styled from "styled-components";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { ApiContext} from "./hooks/useApi";
 import * as definitions from "./interfaces/definitions";
-import { notification } from "antd";
 import useAccountModel from "./hooks/useAccountModel";
 import ChangeChainXAddress from "./util";
-import { Keyring } from "@polkadot/ui-keyring";
-import { hexToU8a, isHex } from "@polkadot/util";
+// import { Keyring } from "@polkadot/ui-keyring";
+// import { hexToU8a, isHex } from "@polkadot/util";
 import {
   web3Accounts,
   web3AccountsSubscribe,
@@ -27,14 +26,15 @@ import {
   RedeemRequestsContext,
   RedeemRequestRow,
 } from "./hooks/useRedeemRequest";
-import { IssueRequest, RequestId, TradingPrice } from "./interfaces";
+import { TradingPrice } from "./interfaces";
+// import { IssueRequest, RequestId, TradingPrice } from "./interfaces";
 import { FeeContext } from "./hooks/useFeeContext";
 import type { Percent } from "@polkadot/types/interfaces/runtime";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import NoExtensions from "./components/NoExtensions";
 import Maskbg from './components/Loading/background.webp'
 const Bridge = lazy(() => import("./page/Bridge/home"));
-const History = lazy(() => import("./page/History/History"));
+const History = lazy(() => import("./page/History/index"));
 const Vault = lazy(() => import("./page/Vault"));
 
 const LayoutWrapper = styled.div`
