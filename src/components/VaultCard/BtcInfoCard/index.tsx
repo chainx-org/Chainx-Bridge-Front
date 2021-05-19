@@ -17,7 +17,7 @@ function BtcInfoCard():React.ReactElement {
 
     async function getVaults() {
         const valuts = await api.query.xGatewayBitcoinV2.vaults(currentAccount?.address!!)
-        SetBtcAddress(valuts.unwrap().wallet.toString())
+        SetBtcAddress(JSON.parse(JSON.stringify(valuts))?.wallet)
     }
 
     useEffect(() => {
