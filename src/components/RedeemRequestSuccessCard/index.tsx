@@ -2,8 +2,7 @@ import React from "react";
 import {RedeemRequestCardStyle} from "./style";
 import BTCLogo from "../../icons/BTC.svg"
 import warningYellowLogo from "../../icons/warm_yellow.svg";
-import RedeemModalFooter from "../RedeemModalFooter";
-import ExplainTag from "../ExplainTag";
+import RedeemStatusFooter from "../RedeemStatusModal/RedeemStatusFooter";
 
 function RedeemRequestSuccessCard(): React.ReactElement {
     return (
@@ -24,14 +23,7 @@ function RedeemRequestSuccessCard(): React.ReactElement {
                     <div className='tipMsg'>如果在 8 小时后仍未收到赎回的 BTC，可取消赎回后重新发起赎回请求</div>
                 </div>
             </div>
-            <div className={"line"}/>
-            <ExplainTag title='请求ID' children={'3123213123'} className='bold' />
-            <div className={"dotted-line"}/>
-            <RedeemModalFooter 
-                btcReceiveAddress={"mHpAy3ahw2S7LvX...UXhG6wWRg1WBb"}
-                vaultPCXAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
-                vaultBTCAddress={"5HpAy3ahw2S7…G6wWRg1WBb"}
-            />
+            <RedeemStatusFooter />
         </RedeemRequestCardStyle>
     )
 }

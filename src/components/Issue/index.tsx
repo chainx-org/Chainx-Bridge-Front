@@ -100,7 +100,8 @@ function Issue(): React.ReactElement {
               if (status.isInBlock) {
                 notification["success"]({
                   key,
-                  message: `Completed at block hash ${status.asInBlock.toString()}`,
+                  // message: `Completed at block hash ${status.asInBlock.toString()}`,
+                  message: `Waiting For Confirmation`,
                   duration: 0,
                   icon: <LoadingOutlined style={{ fontSize: 24,color:"#F6C94A" }}/>,
                 });
@@ -113,7 +114,7 @@ function Issue(): React.ReactElement {
                     notification["error"]({
                       key,
                       message: `${section}.${name}: ${documentation.join(" ")}`,
-                      duration: 0,
+                      duration: 3,
                     });
                   setButtonLoading(false)
                 }
@@ -122,13 +123,13 @@ function Issue(): React.ReactElement {
                   notification["success"]({
                     key,
                     message: `Current status: ${status.type}`,
-                    duration: 0,
+                    duration: 3,
                   });
                   setShowIssueNext(true)
                 } else {
                   notification["success"]({
                     key,
-                    message: `Current status: ${status.type}`,
+                    message: `Waiting For Confirmation`,
                     duration: 0,
                     icon: <LoadingOutlined style={{ fontSize: 24,color:"#F6C94A" }}/>,
                   });
@@ -140,7 +141,7 @@ function Issue(): React.ReactElement {
         notification["error"]({
           key,
           message: `:( transaction failed', ${error}`,
-          duration: 0,
+          duration: 3,
         });
         setButtonLoading(false)
       });

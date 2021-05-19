@@ -6,7 +6,6 @@ import {Space, Table} from "antd";
 import axios from "axios";
 import useAccountModel from "../../../hooks/useAccountModel";
 import ProcessingModal from "../../../components/ProcessingModal/ProcessingModal";
-import StatusModal from "../../../components/StatusModal";
 
 interface HistoryRow {
     id: number;
@@ -22,11 +21,14 @@ function IssueHistory():React.ReactElement {
     const {currentAccount} = useAccountModel();
     const requester = currentAccount?.address
     const {t} = useTranslation()
-    const [IssueprocessingModalVisbible, SetIssueprocessingModalVisbible] = useState(false)
-    const [IssuesuccessModalVisible, setIssueSuccessModalVisible] = useState(false)
-    const [IssuefailModalVisible, setIssueFailModalVisible] = useState(false)
+    const [IssueprocessingModalVisbible, setIssueprocessingModalVisbible] = useState(false)
+    const [IssueStatus, setIssueStatus] = useState("processing")
     const [IssueData,setIssueData] = useState([])
     const [initLoading,setInitLoading] = useState(true)
+    function IssueModal(val:string) {
+        setIssueStatus(val)
+        setIssueprocessingModalVisbible(true)
+    }
 
     const Issuecolumns = [
         {
@@ -62,14 +64,9 @@ function IssueHistory():React.ReactElement {
         {
             title: '状态',
             key: 'status',
-            render: (text: any, record: any) => (
+            render: (record: any) => (
                 <Space size="middle">
-                    {record.status === "processing" && <div className={"processing"}
-                    onClick={() => SetIssueprocessingModalVisbible(true)}>{record.status}</div>}
-                    {record.status === "失败" &&
-                    <div onClick={() => setIssueFailModalVisible(true)} className={"fail"}>{record.status}</div>}
-                    {record.status === "成功" &&
-                    <div onClick={() => setIssueSuccessModalVisible(true)}>{record.status}</div>}
+                    <div className={"processing"} onClick={()=>IssueModal(record.status)}>{record.status}</div>
                 </Space>
             ),
         },
@@ -88,15 +85,18 @@ function IssueHistory():React.ReactElement {
     return (
         <>
             <TableStyle>
-                    <Table columns={Issuecolumns} dataSource={IssueData} loading={initLoading}
-                           pagination={{pageSize: 5, defaultPageSize: 5}}/>
+                <Table 
+                    columns={Issuecolumns} 
+                    dataSource={IssueData} 
+                    loading={initLoading}
+                    pagination={{pageSize: 5, defaultPageSize: 5}}
+                />
             </TableStyle>
-            <ProcessingModal visible={IssueprocessingModalVisbible}
-                             cancle={() => SetIssueprocessingModalVisbible(false)}/>
-            <StatusModal visible={IssuesuccessModalVisible} cancle={() => setIssueSuccessModalVisible(false)}
-                         type={"issue-success"}/>
-            <StatusModal visible={IssuefailModalVisible} cancle={() => setIssueFailModalVisible(false)}
-                         type={"issue-fail"}/>
+            <ProcessingModal 
+                visible={IssueprocessingModalVisbible} 
+                type={IssueStatus}
+                cancle={() => setIssueprocessingModalVisbible(false)}
+            />
         </>
     )
 }
