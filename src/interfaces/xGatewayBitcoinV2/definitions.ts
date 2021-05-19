@@ -11,13 +11,10 @@ export default {
     RequestId: "u128",
     BlockNumberFor: "BlockNumber",
     Vault: {
-      id: "AccountId",
       toBeIssuedTokens: "Balance",
-      issuedTokens: "Balance",
       toBeRedeemedTokens: "Balance",
       wallet: "BtcAddress",
       bannedUntil: "BlockNumber",
-      status: "VaultStatus",
     },
     SystemVault: {
       id: "AccountId",
@@ -25,20 +22,9 @@ export default {
       issuedTokens: "Balance",
       toBeRedeemedTokens: "Balance",
     },
-    VaultStatus: {
-      _enum: ["Active", "Liquidated", "CommittedTheft"],
-    },
     TradingPrice: {
       price: "u128",
       decimal: "u8",
-    },
-    IssueRequest: {
-      vault: "AccountId",
-      openTime: "BlockNumber",
-      requester: "AccountId",
-      btcAddress: "BtcAddress",
-      btcAmount: "Balance",
-      griefingCollateral: "Balance",
     },
     RpcVaultInfo: {
       account: "AccountId",
@@ -67,5 +53,48 @@ export default {
         "ExchangeRateExpired",
       ],
     },
+    BlockLength: "u32",
+    BlockWeights: {
+      baseBlock: "Weight",
+      maxBlock: "Weight",
+      perClass: "PerDispatchClass"
+    },
+    WeightPerClass: {
+      baseExtrinsic: "Weight",
+      maxExtrinsic: "Weight",
+      maxTotal: "Option<Weight>",
+      reserved: "Option<Weight>"
+    },
+    Address: "MultiAddress",
+    LookupSource: "MultiAddress",
+    AddrStr: "Text",
+    Network: {
+      "_enum": [
+        "Mainnet",
+        "Testnet"
+      ]
+    },
+    AddressHash: "H160",
+    IssueRequest: {
+      vault: "AccountId",
+      openTime: "BlockNumber",
+      requester: "AccountId",
+      btcAddress: "BtcAddress",
+      btcAmount: "Balance",
+      griefingCollateral: "Balance"
+    },
+    ChainId: "u8",
+    ResourceId: "[u8; 32]",
+    DepositNonce: "u64",
+    ProposalVotes: {
+      "votes_for": "Vec<AccountId>",
+      "votes_against": "Vec<AccountId>",
+      "status": "enum"
+    },
+    Erc721Token: {
+      "id": "TokenId",
+      "metadata": "Vec<u8>"
+    },
+    TokenId: "U256"
   },
 };

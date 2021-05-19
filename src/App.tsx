@@ -84,15 +84,16 @@ export const App: React.FC = () => {
  
 
   // Init Api
-  useEffect(() => {
+  useEffect(() => {808
     const types = Object.values(definitions).reduce(
       (res, { types }) => ({ ...res, ...types }),
       {}
     );
     // notification.warn({ message: "Wait ws connecting..." });
     // const provider = new WsProvider("ws://192.168.1.227:8087");
-    const provider = new WsProvider("wss://xbridge.spiderx.pro/ws");
+    const provider = new WsProvider("ws://localhost:8087");
     const api = new ApiPromise({ provider, types });
+    console.log(types,'dasda')
     api.on("disconnected", () => setApiReady(false));
     api.on("ready", () => {
       setApi(api);

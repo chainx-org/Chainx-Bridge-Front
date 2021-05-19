@@ -105,7 +105,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package x-bridge-v2/interfaces --input ./src/interfaces",
-    "generate:meta": "ts-node --skip-project node_modules/.bin/polkadot-types-from-chain --package . --endpoint wss://xbridge.spiderx.pro/ws --output ./src/interfaces --strict"
+    "generate:meta": "ts-node --skip-project node_modules/.bin/polkadot-types-from-chain --package . --endpoint ws://localhost:8087 --output ./src/interfaces --strict"
   },
   "eslintConfig": {
     "extends": [
