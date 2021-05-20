@@ -3,7 +3,7 @@ import { TableStyle } from "../style";
 import { useTranslation } from "react-i18next";
 import { Space, Table } from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
-import RedeemStatusModal from "../../../components/RedeemStatusModal/RedeemStatusModal";
+import RedeemStatusModal from "../../../components/RedeemStatusModal/index";
 
 function RedeemHistory(): React.ReactElement {
   const { currentAccount } = useAccountModel();
