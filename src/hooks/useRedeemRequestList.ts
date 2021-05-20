@@ -19,11 +19,19 @@ export interface RedeemHistoryRow {
 
 export const useRedeemRequests = () => {
   const { api, isApiReady } = useApi();
-  const [redeemRequestsList, setRedeemRequestList] = useState<RedeemHistoryRow[]>([]);
+  const [redeemRequestsList, setRedeemRequestList] = useState<
+    RedeemHistoryRow[]
+  >([]);
 
   const fetchData = async () => {
-    const data = await api.query.xGatewayBitcoinV2.redeemRequests.entries<Option<RedeemRequest>, [U128]>();
-    const vaults = await api.query.xGatewayBitcoinV2.vaults.entries<Option<Vault>, [AccountId]>();
+    const data = await api.query.xGatewayBitcoinBridge.redeemRequests.entries<
+      Option<RedeemRequest>,
+      [U128]
+    >();
+    const vaults = await api.query.xGatewayBitcoinBridge.vaults.entries<
+      Option<Vault>,
+      [AccountId]
+    >();
     let initIssueLog = data.map(([key, value]) => {
       let request: RedeemRequest = value.unwrap();
       const [, vault] = vaults.find(([key]) => request.vault.eq(key.args[0]))!!;
@@ -37,7 +45,7 @@ export const useRedeemRequests = () => {
         openTime: request.openTime.toNumber(),
         hash: "",
         countedBlock: 0,
-        status: "processing"
+        status: "processing",
       };
     });
     initIssueLog.sort((a, b) => a.id - b.id);

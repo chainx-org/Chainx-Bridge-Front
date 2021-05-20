@@ -3,3 +3,4 @@
 
 export * from './xGatewayBitcoinV2/types';
 export * from './chainx/types';
+export * from './assetsHandler/types';

@@ -4,7 +4,6 @@
 import type {
   BTreeMap,
   Bytes,
-  Data,
   Option,
   U8aFixed,
   Vec,
@@ -14,11 +13,16 @@ import type {
 } from "@polkadot/types";
 import type { AnyNumber, ITuple, Observable } from "@polkadot/types/types";
 import type {
+  ChainId,
+  DepositNonce,
+  ProposalVotes,
+  ResourceId,
+} from "./assetsHandler";
+import type {
+  AddrStr,
   AssetInfo,
-  AssetLedger,
   AssetRestrictions,
   AssetType,
-  BondRequirement,
   BtcDepositCache,
   BtcHeader,
   BtcHeaderIndex,
@@ -29,30 +33,6 @@ import type {
   BtcTxVerifier,
   BtcWithdrawalProposal,
   Chain,
-  ChainAddress,
-  ClaimRestriction,
-  FixedAssetPower,
-  GenericTrusteeIntentionProps,
-  GenericTrusteeSessionInfo,
-  GlobalDistribution,
-  HandicapInfo,
-  LockedType,
-  MinerLedger,
-  MiningDistribution,
-  NetworkType,
-  NominatorLedger,
-  OrderId,
-  OrderInfo,
-  Price,
-  PriceFluctuation,
-  ReferralId,
-  TradingHistoryIndex,
-  TradingPairId,
-  TradingPairInfo,
-  TradingPairProfile,
-  TrusteeInfoConfig,
-  ValidatorLedger,
-  ValidatorProfile,
   WithdrawalRecordId,
   WithdrawalRecordOf,
   WithdrawalState,
@@ -64,86 +44,37 @@ import type {
   RedeemRequest,
   RequestId,
   Status,
-  SystemVault,
   TradingPrice,
   Vault,
 } from "./xGatewayBitcoinV2";
-import type { UncleEntryItem } from "@polkadot/types/interfaces/authorship";
-import type {
-  BabeAuthorityWeight,
-  MaybeRandomness,
-  NextConfigDescriptor,
-  Randomness,
-} from "@polkadot/types/interfaces/babe";
 import type {
   AccountData,
   BalanceLock,
 } from "@polkadot/types/interfaces/balances";
+import type { Proposal } from "@polkadot/types/interfaces/democracy";
 import type {
-  ProposalIndex,
-  Votes,
-} from "@polkadot/types/interfaces/collective";
-import type { AuthorityId } from "@polkadot/types/interfaces/consensus";
-import type {
-  PreimageStatus,
-  PropIndex,
-  Proposal,
-  ReferendumIndex,
-  ReferendumInfo,
-  Voting,
-} from "@polkadot/types/interfaces/democracy";
-import type { VoteThreshold } from "@polkadot/types/interfaces/elections";
-import type {
-  SetId,
-  StoredPendingChange,
-  StoredState,
-} from "@polkadot/types/interfaces/grandpa";
-import type {
-  RegistrarInfo,
-  Registration,
-} from "@polkadot/types/interfaces/identity";
-import type { AuthIndex } from "@polkadot/types/interfaces/imOnline";
-import type {
-  DeferredOffenceOf,
-  Kind,
-  OffenceDetails,
-  OpaqueTimeSlot,
-  ReportIdOf,
-} from "@polkadot/types/interfaces/offences";
-import type {
-  ProxyAnnouncement,
-  ProxyDefinition,
-} from "@polkadot/types/interfaces/proxy";
+  AbridgedHostConfiguration,
+  MessageQueueChain,
+  MessagingStateSnapshot,
+  ParaId,
+  PersistedValidationData,
+  RelayChainBlockNumber,
+  UpwardMessage,
+} from "@polkadot/types/interfaces/parachains";
 import type {
   AccountId,
-  AccountIndex,
   AssetId,
   Balance,
   BalanceOf,
   BlockNumber,
   H256,
   Hash,
-  KeyTypeId,
   Moment,
   OpaqueCall,
-  Perbill,
   Percent,
   Releases,
-  Slot,
-  ValidatorId,
+  Weight,
 } from "@polkadot/types/interfaces/runtime";
-import type {
-  Scheduled,
-  TaskAddress,
-} from "@polkadot/types/interfaces/scheduler";
-import type { Keys, SessionIndex } from "@polkadot/types/interfaces/session";
-import type {
-  ActiveEraInfo,
-  EraIndex,
-  Forcing,
-  SeatHolder,
-  Voter,
-} from "@polkadot/types/interfaces/staking";
 import type {
   AccountInfo,
   ConsumedWeight,
@@ -153,18 +84,240 @@ import type {
   LastRuntimeUpgradeInfo,
   Phase,
 } from "@polkadot/types/interfaces/system";
-import type {
-  Bounty,
-  BountyIndex,
-  OpenTip,
-  TreasuryProposal,
-} from "@polkadot/types/interfaces/treasury";
 import type { Multiplier } from "@polkadot/types/interfaces/txpayment";
 import type { Multisig } from "@polkadot/types/interfaces/utility";
 import type { ApiTypes } from "@polkadot/api/types";
 
 declare module "@polkadot/api/types/storage" {
   export interface AugmentedQueries<ApiType> {
+    assetsHandler: {
+      currencyIds: AugmentedQuery<
+        ApiType,
+        (arg: ResourceId | string | Uint8Array) => Observable<Option<AssetId>>,
+        [ResourceId]
+      >;
+      resourceIds: AugmentedQuery<
+        ApiType,
+        (
+          arg: AssetId | AnyNumber | Uint8Array
+        ) => Observable<Option<ResourceId>>,
+        [AssetId]
+      >;
+    };
+    chainBridge: {
+      /**
+       * All whitelisted chains and their respective transaction counts
+       **/
+      chainNonces: AugmentedQuery<
+        ApiType,
+        (
+          arg: ChainId | AnyNumber | Uint8Array
+        ) => Observable<Option<DepositNonce>>,
+        [ChainId]
+      >;
+      /**
+       * Number of relayers in set
+       **/
+      relayerCount: AugmentedQuery<ApiType, () => Observable<u32>, []>;
+      /**
+       * Tracks current relayer set
+       **/
+      relayers: AugmentedQuery<
+        ApiType,
+        (arg: AccountId | string | Uint8Array) => Observable<bool>,
+        [AccountId]
+      >;
+      /**
+       * Number of votes required for a proposal to execute
+       **/
+      relayerThreshold: AugmentedQuery<ApiType, () => Observable<u32>, []>;
+      /**
+       * Utilized by the bridge software to map resource IDs to actual methods
+       **/
+      resources: AugmentedQuery<
+        ApiType,
+        (arg: ResourceId | string | Uint8Array) => Observable<Option<Bytes>>,
+        [ResourceId]
+      >;
+      /**
+       * All known proposals.
+       * The key is the hash of the call and the deposit ID, to ensure it's unique.
+       **/
+      votes: AugmentedQueryDoubleMap<
+        ApiType,
+        (
+          key1: ChainId | AnyNumber | Uint8Array,
+          key2:
+            | ITuple<[DepositNonce, Proposal]>
+            | [
+                DepositNonce | AnyNumber | Uint8Array,
+                Proposal | { callIndex?: any; args?: any } | string | Uint8Array
+              ]
+        ) => Observable<Option<ProposalVotes>>,
+        [ChainId, ITuple<[DepositNonce, Proposal]>]
+      >;
+    };
+    parachainInfo: {
+      parachainId: AugmentedQuery<ApiType, () => Observable<ParaId>, []>;
+    };
+    parachainSystem: {
+      /**
+       * The number of HRMP messages we observed in `on_initialize` and thus used that number for
+       * announcing the weight of `on_initialize` and `on_finalize`.
+       **/
+      announcedHrmpMessagesPerCandidate: AugmentedQuery<
+        ApiType,
+        () => Observable<u32>,
+        []
+      >;
+      /**
+       * The next authorized upgrade, if there is one.
+       **/
+      authorizedUpgrade: AugmentedQuery<
+        ApiType,
+        () => Observable<Option<Hash>>,
+        []
+      >;
+      /**
+       * Were the validation data set to notify the relay chain?
+       **/
+      didSetValidationCode: AugmentedQuery<ApiType, () => Observable<bool>, []>;
+      /**
+       * The parachain host configuration that was obtained from the relay parent.
+       *
+       * This field is meant to be updated each block with the validation data inherent. Therefore,
+       * before processing of the inherent, e.g. in `on_initialize` this data may be stale.
+       *
+       * This data is also absent from the genesis.
+       **/
+      hostConfiguration: AugmentedQuery<
+        ApiType,
+        () => Observable<Option<AbridgedHostConfiguration>>,
+        []
+      >;
+      /**
+       * The last downward message queue chain head we have observed.
+       *
+       * This value is loaded before and saved after processing inbound downward messages carried
+       * by the system inherent.
+       **/
+      lastDmqMqcHead: AugmentedQuery<
+        ApiType,
+        () => Observable<MessageQueueChain>,
+        []
+      >;
+      /**
+       * The message queue chain heads we have observed per each channel incoming channel.
+       *
+       * This value is loaded before and saved after processing inbound downward messages carried
+       * by the system inherent.
+       **/
+      lastHrmpMqcHeads: AugmentedQuery<
+        ApiType,
+        () => Observable<BTreeMap<ParaId, MessageQueueChain>>,
+        []
+      >;
+      /**
+       * The last relay parent block number at which we signalled the code upgrade.
+       **/
+      lastUpgrade: AugmentedQuery<ApiType, () => Observable<BlockNumber>, []>;
+      /**
+       * We need to store the new validation function for the span between
+       * setting it and applying it. If it has a
+       * value, then [`PendingValidationFunction`] must have a real value, and
+       * together will coordinate the block number where the upgrade will happen.
+       **/
+      pendingRelayChainBlockNumber: AugmentedQuery<
+        ApiType,
+        () => Observable<Option<RelayChainBlockNumber>>,
+        []
+      >;
+      pendingUpwardMessages: AugmentedQuery<
+        ApiType,
+        () => Observable<Vec<UpwardMessage>>,
+        []
+      >;
+      /**
+       * The new validation function we will upgrade to when the relay chain
+       * reaches [`PendingRelayChainBlockNumber`]. A real validation function must
+       * exist here as long as [`PendingRelayChainBlockNumber`] is set.
+       **/
+      pendingValidationFunction: AugmentedQuery<
+        ApiType,
+        () => Observable<Bytes>,
+        []
+      >;
+      /**
+       * The snapshot of some state related to messaging relevant to the current parachain as per
+       * the relay parent.
+       *
+       * This field is meant to be updated each block with the validation data inherent. Therefore,
+       * before processing of the inherent, e.g. in `on_initialize` this data may be stale.
+       *
+       * This data is also absent from the genesis.
+       **/
+      relevantMessagingState: AugmentedQuery<
+        ApiType,
+        () => Observable<Option<MessagingStateSnapshot>>,
+        []
+      >;
+      /**
+       * The weight we reserve at the beginning of the block for processing XCMP messages. This
+       * overrides the amount set in the Config trait.
+       **/
+      reservedXcmpWeightOverride: AugmentedQuery<
+        ApiType,
+        () => Observable<Option<Weight>>,
+        []
+      >;
+      /**
+       * The [`PersistedValidationData`] set for this block.
+       **/
+      validationData: AugmentedQuery<
+        ApiType,
+        () => Observable<Option<PersistedValidationData>>,
+        []
+      >;
+    };
+    swap: {
+      /**
+       * ((AssetId, AssetId), AccountId) -> BalanceOf<T>
+       **/
+      swapLedger: AugmentedQuery<
+        ApiType,
+        (
+          arg:
+            | ITuple<[ITuple<[AssetId, AssetId]>, AccountId]>
+            | [
+                (
+                  | ITuple<[AssetId, AssetId]>
+                  | [
+                      AssetId | AnyNumber | Uint8Array,
+                      AssetId | AnyNumber | Uint8Array
+                    ]
+                ),
+                AccountId | string | Uint8Array
+              ]
+        ) => Observable<BalanceOf>,
+        [ITuple<[ITuple<[AssetId, AssetId]>, AccountId]>]
+      >;
+      /**
+       * TWOX-NOTE: `AssetId` is trusted, so this is safe.
+       * (AssetId, AssetId) -> (PairAccountId, TotalSupply)
+       **/
+      swapMetadata: AugmentedQuery<
+        ApiType,
+        (
+          arg:
+            | ITuple<[AssetId, AssetId]>
+            | [
+                AssetId | AnyNumber | Uint8Array,
+                AssetId | AnyNumber | Uint8Array
+              ]
+        ) => Observable<Option<ITuple<[AccountId, BalanceOf]>>>,
+        [ITuple<[AssetId, AssetId]>]
+      >;
+    };
     xAssets: {
       /**
        * asset balance for user&asset_id, use btree_map to accept different asset type
@@ -352,15 +505,15 @@ declare module "@polkadot/api/types/storage" {
         []
       >;
     };
-    xGatewayBitcoinV2: {
+    xGatewayBitcoinBridge: {
       bridgeStatus: AugmentedQuery<ApiType, () => Observable<Status>, []>;
       /**
-       * Mapping btc address to vault id.
+       * Collateral for each vault.
        **/
-      btcAddresses: AugmentedQuery<
+      collaterals: AugmentedQuery<
         ApiType,
-        (arg: BtcAddress | string) => Observable<Option<AccountId>>,
-        [BtcAddress]
+        (arg: AccountId | string | Uint8Array) => Observable<BalanceOf>,
+        [AccountId]
       >;
       /**
        * Exchange rate from pcx to btc.
@@ -394,18 +547,18 @@ declare module "@polkadot/api/types/storage" {
         ) => Observable<Option<IssueRequest>>,
         [RequestId]
       >;
-      /**
-       * Specicial `SystemVault`
-       **/
-      liquidator: AugmentedQuery<ApiType, () => Observable<SystemVault>, []>;
-      /**
-       * Liquidator account id
-       **/
-      liquidatorId: AugmentedQuery<ApiType, () => Observable<AccountId>, []>;
       oracleAccounts: AugmentedQuery<
         ApiType,
         () => Observable<Vec<AccountId>>,
         []
+      >;
+      /**
+       * Mapping out chain address to vault id.
+       **/
+      outerAddresses: AugmentedQuery<
+        ApiType,
+        (arg: AddrStr | string) => Observable<Option<AccountId>>,
+        [AddrStr]
       >;
       /**
        * Slashed when excuting redeem if vault's collateral is below than `PremiumThreshold`
@@ -435,9 +588,191 @@ declare module "@polkadot/api/types/storage" {
         [RequestId]
       >;
       /**
-       * Total collateral locked by xbridge.
+       * Mapping account to vault struct.
        **/
-      totalCollateral: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []>;
+      vaults: AugmentedQuery<
+        ApiType,
+        (arg: AccountId | string | Uint8Array) => Observable<Option<Vault>>,
+        [AccountId]
+      >;
+    };
+    xGatewayDogecoin: {
+      /**
+       * best header info
+       **/
+      bestIndex: AugmentedQuery<ApiType, () => Observable<BtcHeaderIndex>, []>;
+      /**
+       * block hash list for a height, include forked header hash
+       **/
+      blockHashFor: AugmentedQuery<
+        ApiType,
+        (arg: u32 | AnyNumber | Uint8Array) => Observable<Vec<H256>>,
+        [u32]
+      >;
+      /**
+       * min deposit value limit, default is 10w sotashi(0.001 BTC)
+       **/
+      btcMinDeposit: AugmentedQuery<ApiType, () => Observable<u64>, []>;
+      /**
+       * get BtcWithdrawalFee from genesis_config
+       **/
+      btcWithdrawalFee: AugmentedQuery<ApiType, () => Observable<u64>, []>;
+      /**
+       * get ConfirmationNumber from genesis_config
+       **/
+      confirmationNumber: AugmentedQuery<ApiType, () => Observable<u32>, []>;
+      /**
+       * confirmed header info
+       **/
+      confirmedIndex: AugmentedQuery<
+        ApiType,
+        () => Observable<Option<BtcHeaderIndex>>,
+        []
+      >;
+      /**
+       * get GenesisInfo (header, height)
+       **/
+      genesisInfo: AugmentedQuery<
+        ApiType,
+        () => Observable<ITuple<[BtcHeader, u32]>>,
+        []
+      >;
+      /**
+       * all valid blockheader (include forked blockheader)
+       **/
+      headers: AugmentedQuery<
+        ApiType,
+        (arg: H256 | string | Uint8Array) => Observable<Option<BtcHeaderInfo>>,
+        [H256]
+      >;
+      /**
+       * mark this blockhash is in mainchain
+       **/
+      mainChain: AugmentedQuery<
+        ApiType,
+        (arg: H256 | string | Uint8Array) => Observable<bool>,
+        [H256]
+      >;
+      /**
+       * max withdraw account count in bitcoin withdrawal transaction
+       **/
+      maxWithdrawalCount: AugmentedQuery<ApiType, () => Observable<u32>, []>;
+      /**
+       * NetworkId for testnet or mainnet
+       **/
+      networkId: AugmentedQuery<ApiType, () => Observable<BtcNetwork>, []>;
+      /**
+       * get ParamsInfo from genesis_config
+       **/
+      paramsInfo: AugmentedQuery<ApiType, () => Observable<BtcParams>, []>;
+      /**
+       * unclaimed deposit info, addr => tx_hash, btc value,
+       **/
+      pendingDeposits: AugmentedQuery<
+        ApiType,
+        (arg: BtcAddress | string) => Observable<Vec<BtcDepositCache>>,
+        [BtcAddress]
+      >;
+      /**
+       * mark tx has been handled, in case re-handle this tx, and log handle result
+       **/
+      txState: AugmentedQuery<
+        ApiType,
+        (arg: H256 | string | Uint8Array) => Observable<Option<BtcTxState>>,
+        [H256]
+      >;
+      verifier: AugmentedQuery<ApiType, () => Observable<BtcTxVerifier>, []>;
+      /**
+       * withdrawal tx outs for account, tx_hash => outs ( out index => withdrawal account )
+       **/
+      withdrawalProposal: AugmentedQuery<
+        ApiType,
+        () => Observable<Option<BtcWithdrawalProposal>>,
+        []
+      >;
+    };
+    xGatewayDogecoinBridge: {
+      bridgeStatus: AugmentedQuery<ApiType, () => Observable<Status>, []>;
+      /**
+       * Collateral for each vault.
+       **/
+      collaterals: AugmentedQuery<
+        ApiType,
+        (arg: AccountId | string | Uint8Array) => Observable<BalanceOf>,
+        [AccountId]
+      >;
+      /**
+       * Exchange rate from pcx to btc.
+       **/
+      exchangeRate: AugmentedQuery<ApiType, () => Observable<TradingPrice>, []>;
+      exchangeRateUpdateTime: AugmentedQuery<
+        ApiType,
+        () => Observable<BlockNumberFor>,
+        []
+      >;
+      /**
+       * Percentage to lock, when user requests issue
+       **/
+      issueGriefingFee: AugmentedQuery<ApiType, () => Observable<Percent>, []>;
+      /**
+       * Auto-increament id to identify each issue request.
+       * Also presents total amount of created requests.
+       **/
+      issueRequestCount: AugmentedQuery<
+        ApiType,
+        () => Observable<RequestId>,
+        []
+      >;
+      /**
+       * Mapping from issue id to `IssueRequest`
+       **/
+      issueRequests: AugmentedQuery<
+        ApiType,
+        (
+          arg: RequestId | AnyNumber | Uint8Array
+        ) => Observable<Option<IssueRequest>>,
+        [RequestId]
+      >;
+      oracleAccounts: AugmentedQuery<
+        ApiType,
+        () => Observable<Vec<AccountId>>,
+        []
+      >;
+      /**
+       * Mapping out chain address to vault id.
+       **/
+      outerAddresses: AugmentedQuery<
+        ApiType,
+        (arg: AddrStr | string) => Observable<Option<AccountId>>,
+        [AddrStr]
+      >;
+      /**
+       * Slashed when excuting redeem if vault's collateral is below than `PremiumThreshold`
+       **/
+      premiumFee: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []>;
+      /**
+       * Redeem fee when use request redeem
+       **/
+      redeemFee: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []>;
+      /**
+       * Auto-increament id to identify each redeem request.
+       * Also presents total amount of created requests.
+       **/
+      redeemRequestCount: AugmentedQuery<
+        ApiType,
+        () => Observable<RequestId>,
+        []
+      >;
+      /**
+       * Mapping from redeem id to `RedeemRequest`
+       **/
+      redeemRequests: AugmentedQuery<
+        ApiType,
+        (
+          arg: RequestId | AnyNumber | Uint8Array
+        ) => Observable<Option<RedeemRequest>>,
+        [RequestId]
+      >;
       /**
        * Mapping account to vault struct.
        **/
@@ -447,152 +782,7 @@ declare module "@polkadot/api/types/storage" {
         [AccountId]
       >;
     };
-    xGatewayCommon: {
-      /**
-       * The account of the corresponding chain and chain address.
-       **/
-      addressBindingOf: AugmentedQueryDoubleMap<
-        ApiType,
-        (
-          key1:
-            | Chain
-            | "ChainX"
-            | "Bitcoin"
-            | "Ethereum"
-            | "Polkadot"
-            | number
-            | Uint8Array,
-          key2: ChainAddress | string | Uint8Array
-        ) => Observable<Option<AccountId>>,
-        [Chain, ChainAddress]
-      >;
-      /**
-       * The bound address of the corresponding account and chain.
-       **/
-      boundAddressOf: AugmentedQueryDoubleMap<
-        ApiType,
-        (
-          key1: AccountId | string | Uint8Array,
-          key2:
-            | Chain
-            | "ChainX"
-            | "Bitcoin"
-            | "Ethereum"
-            | "Polkadot"
-            | number
-            | Uint8Array
-        ) => Observable<Vec<ChainAddress>>,
-        [AccountId, Chain]
-      >;
-      /**
-       * The referral account of the corresponding account and chain.
-       **/
-      referralBindingOf: AugmentedQueryDoubleMap<
-        ApiType,
-        (
-          key1: AccountId | string | Uint8Array,
-          key2:
-            | Chain
-            | "ChainX"
-            | "Bitcoin"
-            | "Ethereum"
-            | "Polkadot"
-            | number
-            | Uint8Array
-        ) => Observable<Option<AccountId>>,
-        [AccountId, Chain]
-      >;
-      /**
-       * Trustee info config of the corresponding chain.
-       **/
-      trusteeInfoConfigOf: AugmentedQuery<
-        ApiType,
-        (
-          arg:
-            | Chain
-            | "ChainX"
-            | "Bitcoin"
-            | "Ethereum"
-            | "Polkadot"
-            | number
-            | Uint8Array
-        ) => Observable<TrusteeInfoConfig>,
-        [Chain]
-      >;
-      /**
-       * Trustee intention properties of the corresponding account and chain.
-       **/
-      trusteeIntentionPropertiesOf: AugmentedQueryDoubleMap<
-        ApiType,
-        (
-          key1: AccountId | string | Uint8Array,
-          key2:
-            | Chain
-            | "ChainX"
-            | "Bitcoin"
-            | "Ethereum"
-            | "Polkadot"
-            | number
-            | Uint8Array
-        ) => Observable<Option<GenericTrusteeIntentionProps>>,
-        [AccountId, Chain]
-      >;
-      trusteeMultiSigAddr: AugmentedQuery<
-        ApiType,
-        (
-          arg:
-            | Chain
-            | "ChainX"
-            | "Bitcoin"
-            | "Ethereum"
-            | "Polkadot"
-            | number
-            | Uint8Array
-        ) => Observable<AccountId>,
-        [Chain]
-      >;
-      /**
-       * Next Trustee session info number of the chain.
-       *
-       * Auto generate a new session number (0) when generate new trustee of a chain.
-       * If the trustee of a chain is changed, the corresponding number will increase by 1.
-       *
-       * NOTE: The number can't be modified by users.
-       **/
-      trusteeSessionInfoLen: AugmentedQuery<
-        ApiType,
-        (
-          arg:
-            | Chain
-            | "ChainX"
-            | "Bitcoin"
-            | "Ethereum"
-            | "Polkadot"
-            | number
-            | Uint8Array
-        ) => Observable<u32>,
-        [Chain]
-      >;
-      /**
-       * Trustee session info of the corresponding chain and number.
-       **/
-      trusteeSessionInfoOf: AugmentedQueryDoubleMap<
-        ApiType,
-        (
-          key1:
-            | Chain
-            | "ChainX"
-            | "Bitcoin"
-            | "Ethereum"
-            | "Polkadot"
-            | number
-            | Uint8Array,
-          key2: u32 | AnyNumber | Uint8Array
-        ) => Observable<Option<GenericTrusteeSessionInfo>>,
-        [Chain, u32]
-      >;
-    };
-    xGatewayRecords: {
+    xGatewayRecord: {
       /**
        * The id of next withdrawal record.
        **/
@@ -620,381 +810,6 @@ declare module "@polkadot/api/types/storage" {
           arg: WithdrawalRecordId | AnyNumber | Uint8Array
         ) => Observable<Option<WithdrawalState>>,
         [WithdrawalRecordId]
-      >;
-    };
-    xMiningAsset: {
-      /**
-       * Mining weight information of the mining assets.
-       **/
-      assetLedgers: AugmentedQuery<
-        ApiType,
-        (arg: AssetId | AnyNumber | Uint8Array) => Observable<AssetLedger>,
-        [AssetId]
-      >;
-      /**
-       * Can not claim if the claimer violates the restriction.
-       **/
-      claimRestrictionOf: AugmentedQuery<
-        ApiType,
-        (arg: AssetId | AnyNumber | Uint8Array) => Observable<ClaimRestriction>,
-        [AssetId]
-      >;
-      /**
-       * Possible reward for the new asset owners that does not have native coins yet.
-       **/
-      depositReward: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []>;
-      /**
-       * Mining power map of X-type assets.
-       **/
-      fixedAssetPowerOf: AugmentedQuery<
-        ApiType,
-        (arg: AssetId | AnyNumber | Uint8Array) => Observable<FixedAssetPower>,
-        [AssetId]
-      >;
-      /**
-       * The map from nominator to the vote weight ledger of all mining assets.
-       **/
-      minerLedgers: AugmentedQueryDoubleMap<
-        ApiType,
-        (
-          key1: AccountId | string | Uint8Array,
-          key2: AssetId | AnyNumber | Uint8Array
-        ) => Observable<MinerLedger>,
-        [AccountId, AssetId]
-      >;
-      /**
-       * External Assets that have the mining rights.
-       **/
-      miningPrevilegedAssets: AugmentedQuery<
-        ApiType,
-        () => Observable<Vec<AssetId>>,
-        []
-      >;
-    };
-    xSpot: {
-      /**
-       * TradingPairId => (highest_bid, lowest_ask)
-       **/
-      handicapOf: AugmentedQuery<
-        ApiType,
-        (
-          arg: TradingPairId | AnyNumber | Uint8Array
-        ) => Observable<HandicapInfo>,
-        [TradingPairId]
-      >;
-      /**
-       * Record the exact balance of reserved native coins in Spot.
-       **/
-      nativeReserves: AugmentedQuery<
-        ApiType,
-        (arg: AccountId | string | Uint8Array) => Observable<BalanceOf>,
-        [AccountId]
-      >;
-      /**
-       * Total orders made by an account.
-       **/
-      orderCountOf: AugmentedQuery<
-        ApiType,
-        (arg: AccountId | string | Uint8Array) => Observable<OrderId>,
-        [AccountId]
-      >;
-      /**
-       * Details of an user order given the account ID and order ID.
-       **/
-      orderInfoOf: AugmentedQueryDoubleMap<
-        ApiType,
-        (
-          key1: AccountId | string | Uint8Array,
-          key2: OrderId | AnyNumber | Uint8Array
-        ) => Observable<Option<OrderInfo>>,
-        [AccountId, OrderId]
-      >;
-      /**
-       * The map of trading pair ID to the price fluctuation. Use with caution!
-       **/
-      priceFluctuationOf: AugmentedQuery<
-        ApiType,
-        (
-          arg: TradingPairId | AnyNumber | Uint8Array
-        ) => Observable<PriceFluctuation>,
-        [TradingPairId]
-      >;
-      /**
-       * All the accounts and the order number given the trading pair ID and price.
-       **/
-      quotationsOf: AugmentedQueryDoubleMap<
-        ApiType,
-        (
-          key1: TradingPairId | AnyNumber | Uint8Array,
-          key2: Price | AnyNumber | Uint8Array
-        ) => Observable<Vec<ITuple<[AccountId, OrderId]>>>,
-        [TradingPairId, Price]
-      >;
-      /**
-       * Total transactions has been made for a trading pair.
-       **/
-      tradingHistoryIndexOf: AugmentedQuery<
-        ApiType,
-        (
-          arg: TradingPairId | AnyNumber | Uint8Array
-        ) => Observable<TradingHistoryIndex>,
-        [TradingPairId]
-      >;
-      /**
-       * How many trading pairs so far.
-       **/
-      tradingPairCount: AugmentedQuery<
-        ApiType,
-        () => Observable<TradingPairId>,
-        []
-      >;
-      /**
-       * (latest price, last update height) of trading pair
-       **/
-      tradingPairInfoOf: AugmentedQuery<
-        ApiType,
-        (
-          arg: TradingPairId | AnyNumber | Uint8Array
-        ) => Observable<Option<TradingPairInfo>>,
-        [TradingPairId]
-      >;
-      /**
-       * The map from trading pair id to its static profile.
-       **/
-      tradingPairOf: AugmentedQuery<
-        ApiType,
-        (
-          arg: TradingPairId | AnyNumber | Uint8Array
-        ) => Observable<Option<TradingPairProfile>>,
-        [TradingPairId]
-      >;
-    };
-    xStaking: {
-      /**
-       * The active era information, it holds index and start.
-       *
-       * The active era is the era currently rewarded.
-       * Validator set of this era must be equal to `SessionInterface::validators`.
-       **/
-      activeEra: AugmentedQuery<
-        ApiType,
-        () => Observable<Option<ActiveEraInfo>>,
-        []
-      >;
-      /**
-       * The length of the bonding duration in blocks.
-       **/
-      bondingDuration: AugmentedQuery<
-        ApiType,
-        () => Observable<BlockNumber>,
-        []
-      >;
-      /**
-       * The current era index.
-       *
-       * This is the latest planned era, depending on how the Session pallet queues the validator
-       * set, it might be active or not.
-       **/
-      currentEra: AugmentedQuery<
-        ApiType,
-        () => Observable<Option<EraIndex>>,
-        []
-      >;
-      /**
-       * The session index at which the era start for the last `HISTORY_DEPTH` eras.
-       **/
-      erasStartSessionIndex: AugmentedQuery<
-        ApiType,
-        (
-          arg: EraIndex | AnyNumber | Uint8Array
-        ) => Observable<Option<SessionIndex>>,
-        [EraIndex]
-      >;
-      /**
-       * Mode of era forcing.
-       **/
-      forceEra: AugmentedQuery<ApiType, () => Observable<Forcing>, []>;
-      /**
-       * (Treasury, Staking)
-       **/
-      globalDistributionRatio: AugmentedQuery<
-        ApiType,
-        () => Observable<GlobalDistribution>,
-        []
-      >;
-      /**
-       * Immortal validators will always be elected if any.
-       *
-       * Immortals will be intialized from the genesis validators.
-       **/
-      immortals: AugmentedQuery<
-        ApiType,
-        () => Observable<Option<Vec<AccountId>>>,
-        []
-      >;
-      /**
-       * True if the current **planned** session is final. Note that this does not take era
-       * forcing into account.
-       **/
-      isCurrentSessionFinal: AugmentedQuery<
-        ApiType,
-        () => Observable<bool>,
-        []
-      >;
-      /**
-       * The map from nominator to the block number of last `rebond` operation.
-       **/
-      lastRebondOf: AugmentedQuery<
-        ApiType,
-        (
-          arg: AccountId | string | Uint8Array
-        ) => Observable<Option<BlockNumber>>,
-        [AccountId]
-      >;
-      /**
-       * All kinds of locked balances of an account in Staking.
-       **/
-      locks: AugmentedQuery<
-        ApiType,
-        (
-          arg: AccountId | string | Uint8Array
-        ) => Observable<BTreeMap<LockedType, BalanceOf>>,
-        [AccountId]
-      >;
-      /**
-       * Maximum number of on-going unbonded chunk.
-       **/
-      maximumUnbondedChunkSize: AugmentedQuery<
-        ApiType,
-        () => Observable<u32>,
-        []
-      >;
-      /**
-       * Maximum number of staking participants before emergency conditions are imposed.
-       **/
-      maximumValidatorCount: AugmentedQuery<ApiType, () => Observable<u32>, []>;
-      /**
-       * Minimum penalty for each slash.
-       **/
-      minimumPenalty: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []>;
-      /**
-       * Minimum number of staking participants before emergency conditions are imposed.
-       **/
-      minimumValidatorCount: AugmentedQuery<ApiType, () => Observable<u32>, []>;
-      /**
-       * (Staker, Asset Miners)
-       **/
-      miningDistributionRatio: AugmentedQuery<
-        ApiType,
-        () => Observable<MiningDistribution>,
-        []
-      >;
-      /**
-       * The map from nominator to the vote weight ledger of all nominees.
-       **/
-      nominations: AugmentedQueryDoubleMap<
-        ApiType,
-        (
-          key1: AccountId | string | Uint8Array,
-          key2: AccountId | string | Uint8Array
-        ) => Observable<NominatorLedger>,
-        [AccountId, AccountId]
-      >;
-      /**
-       * Offenders reported in last session.
-       **/
-      sessionOffenders: AugmentedQuery<
-        ApiType,
-        () => Observable<Option<BTreeMap<AccountId, Perbill>>>,
-        []
-      >;
-      /**
-       * The length of a staking era in sessions.
-       **/
-      sessionsPerEra: AugmentedQuery<
-        ApiType,
-        () => Observable<SessionIndex>,
-        []
-      >;
-      /**
-       * Maximum value of total_bonded/self_bonded.
-       **/
-      upperBoundFactorOfAcceptableVotes: AugmentedQuery<
-        ApiType,
-        () => Observable<u32>,
-        []
-      >;
-      /**
-       * The length of the bonding duration in blocks for validator.
-       **/
-      validatorBondingDuration: AugmentedQuery<
-        ApiType,
-        () => Observable<BlockNumber>,
-        []
-      >;
-      /**
-       * Minimum value (self_bonded, total_bonded) to be a candidate of validator election.
-       **/
-      validatorCandidateRequirement: AugmentedQuery<
-        ApiType,
-        () => Observable<BondRequirement>,
-        []
-      >;
-      /**
-       * The ideal number of staking participants.
-       **/
-      validatorCount: AugmentedQuery<ApiType, () => Observable<u32>, []>;
-      /**
-       * The validator account behind the referral id.
-       **/
-      validatorFor: AugmentedQuery<
-        ApiType,
-        (arg: ReferralId | string) => Observable<Option<AccountId>>,
-        [ReferralId]
-      >;
-      /**
-       * The map from validator key to the vote weight ledger of that validator.
-       **/
-      validatorLedgers: AugmentedQuery<
-        ApiType,
-        (arg: AccountId | string | Uint8Array) => Observable<ValidatorLedger>,
-        [AccountId]
-      >;
-      /**
-       * The map from (wannabe) validator key to the profile of that validator.
-       **/
-      validators: AugmentedQuery<
-        ApiType,
-        (arg: AccountId | string | Uint8Array) => Observable<ValidatorProfile>,
-        [AccountId]
-      >;
-      /**
-       * The beneficiary account of vesting schedule.
-       **/
-      vestingAccount: AugmentedQuery<ApiType, () => Observable<AccountId>, []>;
-    };
-    xSystem: {
-      /**
-       * The accounts that are blocked.
-       **/
-      blacklist: AugmentedQuery<
-        ApiType,
-        (arg: AccountId | string | Uint8Array) => Observable<bool>,
-        [AccountId]
-      >;
-      /**
-       * Network property (Mainnet / Testnet).
-       **/
-      networkProps: AugmentedQuery<ApiType, () => Observable<NetworkType>, []>;
-      /**
-       * Paused pallet call.
-       **/
-      paused: AugmentedQuery<
-        ApiType,
-        (
-          arg: Bytes | string | Uint8Array
-        ) => Observable<BTreeMap<Bytes, ITuple<[]>>>,
-        [Bytes]
       >;
     };
   }
