@@ -40,7 +40,6 @@ function RegisterVaultCard(): React.ReactElement {
     getPCXBalance();
   }, [currentAccount, getPCXBalance]);
   async function onFinish(values: any) {
-    console.log(values);
     // let valid =  WAValidator.validate(BtcAddress,'BTC')
     // if(!valid){
     //     notification.warn({message: "请输入合法的BTC地址"});

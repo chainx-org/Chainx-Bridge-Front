@@ -97,12 +97,12 @@ function Issue(): React.ReactElement {
       })
     );
     setVaultAddress(
-      results
+      results.length > 0
         ? ChangeChainXAddress(JSON.parse(JSON.stringify(results))[0][0])
         : ""
     );
     setVaultBtcAddress(
-      results ? JSON.parse(JSON.stringify(results))[0][2] : ""
+      results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : ""
     );
     const injector = await web3FromAddress(currentAccount!!.address);
     api.tx.xGatewayBitcoinBridge
