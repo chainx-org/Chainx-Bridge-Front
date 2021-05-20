@@ -10,13 +10,12 @@ import ExplainTag from "../ExplainTag";
 interface IssueSuccessProps {
     currAddress: React.ReactNode;
     hypothecateNum: React.ReactNode;
-    chargeNum?: React.ReactNode;
     IssueAmount: number;
     vaultBtcAddress: string;
     coinSymol: any;
     openTime: any;
 }
-function IssueRequestSuccessCard({currAddress, hypothecateNum, chargeNum, IssueAmount, vaultBtcAddress, coinSymol, openTime }: IssueSuccessProps): React.ReactElement {
+function IssueRequestSuccessCard({currAddress, hypothecateNum, IssueAmount, vaultBtcAddress, coinSymol, openTime }: IssueSuccessProps): React.ReactElement {
     const leftBlock = useLeftBlock(+openTime[0]);
     const {currentAccount} = useAccountModel();
     return (

@@ -1,8 +1,6 @@
-import { Input, InputNumber, Tooltip } from "antd";
-import React, { Children, useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import Question from '../ExplainTag/icons/question.svg'
 import Verify from './icons/verify.svg'
 
 const Wrapper = styled.div`
