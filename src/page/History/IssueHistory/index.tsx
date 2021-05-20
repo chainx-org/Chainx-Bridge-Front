@@ -3,7 +3,7 @@ import { TableStyle } from "../style";
 import { useTranslation } from "react-i18next";
 import { Space, Table } from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
-import ProcessingModal from "../../../components/ProcessingModal/ProcessingModal";
+import ProcessingModal from "../../../components/ProcessingModal";
 
 interface HistoryRow {
   id: number;

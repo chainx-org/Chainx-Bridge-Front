@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { IssueBtcInputStyle, IssueStyle, AccountSwitch } from "./style";
 import { LoadingOutlined } from "@ant-design/icons";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
