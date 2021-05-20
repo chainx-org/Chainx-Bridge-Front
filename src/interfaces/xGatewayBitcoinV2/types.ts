@@ -66,14 +66,6 @@ export interface Status extends Enum {
   readonly isShutdown: boolean;
 }
 
-/** @name SystemVault */
-export interface SystemVault extends Struct {
-  readonly id: AccountId;
-  readonly toBeIssuedTokens: Balance;
-  readonly issuedTokens: Balance;
-  readonly toBeRedeemedTokens: Balance;
-}
-
 /** @name TradingPrice */
 export interface TradingPrice extends Struct {
   readonly price: u128;
@@ -82,20 +74,10 @@ export interface TradingPrice extends Struct {
 
 /** @name Vault */
 export interface Vault extends Struct {
-  readonly id: AccountId;
   readonly toBeIssuedTokens: Balance;
-  readonly issuedTokens: Balance;
   readonly toBeRedeemedTokens: Balance;
   readonly wallet: BtcAddress;
   readonly bannedUntil: BlockNumber;
-  readonly status: VaultStatus;
-}
-
-/** @name VaultStatus */
-export interface VaultStatus extends Enum {
-  readonly isActive: boolean;
-  readonly isLiquidated: boolean;
-  readonly isCommittedTheft: boolean;
 }
 
 export type PHANTOM_XGATEWAYBITCOINV2 = 'xGatewayBitcoinV2';

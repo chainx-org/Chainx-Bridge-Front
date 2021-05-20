@@ -11,22 +11,10 @@ export default {
     RequestId: "u128",
     BlockNumberFor: "BlockNumber",
     Vault: {
-      id: "AccountId",
       toBeIssuedTokens: "Balance",
-      issuedTokens: "Balance",
       toBeRedeemedTokens: "Balance",
       wallet: "BtcAddress",
       bannedUntil: "BlockNumber",
-      status: "VaultStatus",
-    },
-    SystemVault: {
-      id: "AccountId",
-      toBeIssuedTokens: "Balance",
-      issuedTokens: "Balance",
-      toBeRedeemedTokens: "Balance",
-    },
-    VaultStatus: {
-      _enum: ["Active", "Liquidated", "CommittedTheft"],
     },
     TradingPrice: {
       price: "u128",

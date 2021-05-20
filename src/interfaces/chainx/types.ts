@@ -1,33 +1,12 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type {
-  BTreeMap,
-  Bytes,
-  Enum,
-  Option,
-  Struct,
-  Text,
-  Vec,
-  bool,
-  i128,
-  u128,
-  u16,
-  u32,
-  u64,
-  u8,
-} from "@polkadot/types";
-import type { ITuple } from "@polkadot/types/types";
-import type { Order } from "@polkadot/types/interfaces/parachains";
-import type {
-  AccountId,
-  AssetId,
-  Balance,
-  BlockNumber,
-  H256,
-} from "@polkadot/types/interfaces/runtime";
-import type { VoteWeight } from "@polkadot/types/interfaces/staking";
-import type { BtcAddress } from "../xGatewayBitcoinV2";
+import type { BTreeMap, Bytes, Enum, Option, Struct, Text, Vec, bool, i128, u128, u16, u32, u64, u8 } from '@polkadot/types';
+import type { ITuple } from '@polkadot/types/types';
+import type { Order } from '@polkadot/types/interfaces/parachains';
+import type { AccountId, AssetId, Balance, BlockNumber, H256 } from '@polkadot/types/interfaces/runtime';
+import type { VoteWeight } from '@polkadot/types/interfaces/staking';
+import type { BtcAddress } from 'x-bridge-v2/interfaces/xGatewayBitcoinV2';
 
 /** @name AddrStr */
 export interface AddrStr extends Text {}
@@ -590,4 +569,4 @@ export interface WithdrawalState extends Enum {
   readonly isRootCancel: boolean;
 }
 
-export type PHANTOM_CHAINX = "chainx";
+export type PHANTOM_CHAINX = 'chainx';
