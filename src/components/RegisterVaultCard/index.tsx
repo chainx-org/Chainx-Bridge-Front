@@ -41,7 +41,7 @@ function RegisterVaultCard(): React.ReactElement {
   }
   useEffect(() => {
     getPCXBalance();
-  }, [currentAccount, getPCXBalance,isApiReady]);
+  }, [currentAccount,isApiReady]);
   async function onFinish(values: any) {
     // let valid =  WAValidator.validate(BtcAddress,'BTC')
     // if(!valid){
