@@ -19,6 +19,8 @@ import { useApi } from "../../hooks/useApi";
 import ChangeChainXAddress from "../../util";
 import IssueRequestSuccessCard from "../IssueRequestSuccessCard";
 import { IssueRequestsContext } from "../../hooks/useIssueRequests";
+import {Vault} from "../../interfaces";
+import type {BTreeMap} from "@polkadot/types";
 
 interface coinProps {
   img_url: any;
@@ -82,23 +84,21 @@ function Issue(): React.ReactElement {
     const vaults = await api.query.xGatewayBitcoinBridge.vaults.entries();
     const results = await Promise.all(
       vaults.map(async ([key, value]) => {
-        const vault = value.unwrap();
-        const collateral = await (await api.query.system.account(vault.id)).data
-          .reserved;
+        const vault: Vault = value.unwrap();
+        const collateral = await (await api.query.system.account(key.args[0])).data.reserved;
+        const assetId =  api.consts.xGatewayBitcoinBridge.tokenAssetId;
+        const balance = await api.query.xAssets.assetBalance(key.args[0], assetId);
         const maxToken = collateral.muln(pcxPrice).divn(3);
         return [
-          vault.id,
-          maxToken
-            .sub(vault.issuedTokens)
-            .sub(vault.issuedTokens)
-            .sub(vault.toBeIssuedTokens),
+          key.args[0],
+          maxToken.sub(vault.toBeIssuedTokens).toNumber() - ((balance.toJSON()["Usable"] as number) || 0),
           vault.wallet,
         ];
       })
     );
     setVaultAddress(
       results.length > 0
-        ? ChangeChainXAddress(JSON.parse(JSON.stringify(results))[0][0])
+        ? JSON.parse(JSON.stringify(results))[0][0]
         : ""
     );
     setVaultBtcAddress(

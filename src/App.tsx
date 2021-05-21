@@ -92,7 +92,6 @@ export const App: React.FC = () => {
     // const provider = new WsProvider("ws://192.168.1.227:8087");
     const provider = new WsProvider("ws://localhost:8087");
     const api = new ApiPromise({ provider, types });
-    console.log(types, "dasda");
     api.on("disconnected", () => setApiReady(false));
     api.on("ready", () => {
       setApi(api);

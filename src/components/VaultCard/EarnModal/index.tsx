@@ -116,6 +116,7 @@ function EarnModal({
             btcAddress: vaultInfo.wallet,
             toBeRedeemToken: vaultInfo.toBeRedeemedTokens,
             toBeIssuedToken: vaultInfo.toBeIssuedTokens,
+            // @ts-ignore
             issuedToken: vaultInfo.issuedTokens,
             collateral: collateral.data.reserved,
           });

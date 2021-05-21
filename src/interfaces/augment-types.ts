@@ -53,9 +53,9 @@ import type { Bounty, BountyIndex, BountyStatus, BountyStatusActive, BountyStatu
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces/utility';
 import type { VestingInfo } from '@polkadot/types/interfaces/vesting';
-import type { ChainId, DepositNonce, Erc721Token, ProposalStatus, ProposalVotes, ResourceId, TokenId } from 'x-bridge-v2/interfaces/assetsHandler';
-import type { AddrStr, Amount, AmountOf, AssetInfo, AssetLedger, AssetRestriction, AssetRestrictions, AssetType, BondRequirement, BtcDepositCache, BtcHeader, BtcHeaderIndex, BtcHeaderInfo, BtcNetwork, BtcParams, BtcPartialMerkleTree, BtcRelayedTxInfo, BtcTransaction, BtcTrusteeAddrInfo, BtcTrusteeIntentionProps, BtcTrusteeSessionInfo, BtcTrusteeType, BtcTxResult, BtcTxState, BtcTxType, BtcTxVerifier, BtcVoteResult, BtcWithdrawalProposal, Chain, ChainAddress, ClaimRestriction, CurrencyId, CurrencyPair, Decimals, Depth, Desc, FixedAssetPower, FullPairInfo, GenericTrusteeIntentionProps, GenericTrusteeSessionInfo, GlobalDistribution, Handicap, HandicapInfo, LockedType, Memo, MinerLedger, MiningAssetInfo, MiningDistribution, MiningWeight, NetworkType, NominatorLedger, OrderExecutedInfo, OrderId, OrderInfo, OrderProperty, OrderStatus, OrderType, Page, Price, PriceFluctuation, ReferralId, RpcBalance, RpcFeeDetails, RpcInclusionFee, RpcMiningDividendInfo, RpcMiningWeight, RpcOrder, RpcPrice, RpcTotalAssetInfo, RpcVoteWeight, RpcWithdrawalRecord, Side, StakingRequirement, String, Token, TotalAssetInfo, TradingHistoryIndex, TradingPairId, TradingPairInfo, TradingPairProfile, TrusteeInfoConfig, Unbonded, UnbondedIndex, ValidatorInfo, ValidatorLedger, ValidatorProfile, WithdrawalLimit, WithdrawalRecord, WithdrawalRecordId, WithdrawalRecordOf, WithdrawalState } from 'x-bridge-v2/interfaces/chainx';
-import type { BlockNumberFor, BtcAddress, CurrencyIdOf, ErrorCode, IssueRequest, PerDispatchClass, RedeemRequest, RequestId, RpcVaultInfo, Status, TradingPrice, Vault } from 'x-bridge-v2/interfaces/xGatewayBitcoinV2';
+import type { ChainId, DepositNonce, Erc721Token, ProposalStatus, ProposalVotes, ResourceId, TokenId } from './assetsHandler';
+import type { AddrStr, Amount, AmountOf, AssetInfo, AssetLedger, AssetRestriction, AssetRestrictions, AssetType, BondRequirement, BtcDepositCache, BtcHeader, BtcHeaderIndex, BtcHeaderInfo, BtcNetwork, BtcParams, BtcPartialMerkleTree, BtcRelayedTxInfo, BtcTransaction, BtcTrusteeAddrInfo, BtcTrusteeIntentionProps, BtcTrusteeSessionInfo, BtcTrusteeType, BtcTxResult, BtcTxState, BtcTxType, BtcTxVerifier, BtcVoteResult, BtcWithdrawalProposal, Chain, ChainAddress, ClaimRestriction, CurrencyId, CurrencyPair, Decimals, Depth, Desc, FixedAssetPower, FullPairInfo, GenericTrusteeIntentionProps, GenericTrusteeSessionInfo, GlobalDistribution, Handicap, HandicapInfo, LockedType, Memo, MinerLedger, MiningAssetInfo, MiningDistribution, MiningWeight, NetworkType, NominatorLedger, OrderExecutedInfo, OrderId, OrderInfo, OrderProperty, OrderStatus, OrderType, Page, Price, PriceFluctuation, ReferralId, RpcBalance, RpcFeeDetails, RpcInclusionFee, RpcMiningDividendInfo, RpcMiningWeight, RpcOrder, RpcPrice, RpcTotalAssetInfo, RpcVoteWeight, RpcWithdrawalRecord, Side, StakingRequirement, String, Token, TotalAssetInfo, TradingHistoryIndex, TradingPairId, TradingPairInfo, TradingPairProfile, TrusteeInfoConfig, Unbonded, UnbondedIndex, ValidatorInfo, ValidatorLedger, ValidatorProfile, WithdrawalLimit, WithdrawalRecord, WithdrawalRecordId, WithdrawalRecordOf, WithdrawalState } from './chainx';
+import type { BlockNumberFor, BtcAddress, CurrencyIdOf, ErrorCode, IssueRequest, PerDispatchClass, RedeemRequest, RequestId, RpcVaultInfo, Status, TradingPrice, Vault } from './xGatewayBitcoinV2';
 
 declare module '@polkadot/types/types/registry' {
   export interface InterfaceTypes {
@@ -924,7 +924,6 @@ declare module '@polkadot/types/types/registry' {
     'Option<TAssetDepositBalance>': Option<TAssetDepositBalance>;
     'Option<TeleportAsset>': Option<TeleportAsset>;
     'Option<Text>': Option<Text>;
-    'Option<Text>': Option<Text>;
     'Option<Timepoint>': Option<Timepoint>;
     'Option<Token>': Option<Token>;
     'Option<TokenId>': Option<TokenId>;
@@ -1788,7 +1787,6 @@ declare module '@polkadot/types/types/registry' {
     'Vec<TAssetDepositBalance>': Vec<TAssetDepositBalance>;
     'Vec<TeleportAsset>': Vec<TeleportAsset>;
     'Vec<Text>': Vec<Text>;
-    'Vec<Text>': Vec<Text>;
     'Vec<Timepoint>': Vec<Timepoint>;
     'Vec<Token>': Vec<Token>;
     'Vec<TokenId>': Vec<TokenId>;
@@ -1820,7 +1818,6 @@ declare module '@polkadot/types/types/registry' {
     'Vec<u64>': Vec<u64>;
     'Vec<U64>': Vec<U64>;
     'Vec<u8>': Vec<u8>;
-    'Vec<U8>': Vec<U8>;
     'Vec<UnappliedSlash>': Vec<UnappliedSlash>;
     'Vec<UnappliedSlashOther>': Vec<UnappliedSlashOther>;
     'Vec<Unbonded>': Vec<Unbonded>;

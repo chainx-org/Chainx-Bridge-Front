@@ -87,7 +87,7 @@ function IssueHistory(): React.ReactElement {
         .then((res) => res.json())
         .then((res) => {
           console.log(res);
-          setIssueData(res.data.items);
+          setIssueData(res.data);
           setInitLoading(false);
         });
     }

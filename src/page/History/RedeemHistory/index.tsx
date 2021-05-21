@@ -76,7 +76,7 @@ function RedeemHistory(): React.ReactElement {
         .then((res) => res.json())
         .then((res) => {
           console.log(res);
-          setRedeemData(res.data.items);
+          setRedeemData(res.data);
           setInitLoading(false);
         });
     }
