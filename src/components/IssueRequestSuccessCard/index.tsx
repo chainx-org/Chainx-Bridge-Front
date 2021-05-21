@@ -32,7 +32,7 @@ function IssueRequestSuccessCard({currAddress, hypothecateNum, IssueAmount, vaul
                     <img src={Question} alt="" />
                 </div>
             </div>
-            <CardMain opreturn={stringToHex(currentAccount?.address)} address={vaultBtcAddress} issueAmount={IssueAmount}/>
+            <CardMain opreturn={stringToHex(currentAccount?.address)} address={vaultBtcAddress} issueAmount={IssueAmount} coinSymol={coinSymol} />
             <div className={"line"}/>
             <CardFooterStyle>
                 <ExplainTag title='锁定抵押品' children={hypothecateNum}/>
