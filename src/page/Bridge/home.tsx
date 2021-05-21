@@ -29,7 +29,7 @@ function BridgeHome(): React.ReactElement {
       <FunctionSwitchButton>
         {
           tabList.map((item)=>{
-            return <div className='tabList'>
+            return <div className='tabList' key={item.title}>
               <Link to={item.link} onClick={()=>changeTab(item.title)} className={item.title === isActive ? 'active': ''}>{item.nodeName}</Link>
             </div>
           })

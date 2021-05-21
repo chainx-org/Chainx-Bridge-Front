@@ -35,7 +35,7 @@ function RegisterVaultCard(): React.ReactElement {
   const [path,setPath] = useState("")
   let location = useLocation()
   async function getPCXBalance() {
-    const res = await api?.query.system.account(currentAccount?.address!!);
+    const res = await api?.query.system.account(currentAccount?.address!! || "");
     setPcxBalance(res?.data.free.toNumber());
     setPath(location.pathname.slice(7))
   }
@@ -192,7 +192,7 @@ function RegisterVaultCard(): React.ReactElement {
                     rules={[
                       {
                         required: true,
-                        message: t("Please enter BTC address"),
+                        message: t(`Please enter ${path} address`),
                       },
                     ]}
                   >

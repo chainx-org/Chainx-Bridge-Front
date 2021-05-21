@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import RegisterVaultCard from "../../../components/RegisterVaultCard";
-import VaultCard from "../../../components/VaultCard";
 import { Option } from "@polkadot/types";
 import { Vault } from "../../../interfaces";
 import useAccountModel from "../../../hooks/useAccountModel";
 import { useApi } from "../../../hooks/useApi";
 import { createModel } from "hox";
+import DogVaultCard from "../../../components/DogVaultCard";
 
 const useVaultModel = createModel(() => useState<Vault | null>(null));
 function VaultDoge(): React.ReactElement {
@@ -24,7 +24,7 @@ function VaultDoge(): React.ReactElement {
       GetStatus();
     }
   }, [currentAccount, isApiReady]);
-  return <>{vault ? <VaultCard /> : <RegisterVaultCard />}</>;
+  return <>{vault ? <DogVaultCard /> : <RegisterVaultCard />}</>;
 }
 export default VaultDoge;
 

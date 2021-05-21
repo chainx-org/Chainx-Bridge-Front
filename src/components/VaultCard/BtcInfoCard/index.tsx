@@ -16,7 +16,7 @@ function BtcInfoCard(): React.ReactElement {
 
   async function getVaults() {
     const valut = await api.query.xGatewayBitcoinBridge.vaults(
-      currentAccount?.address!!
+      currentAccount?.address!! || ''
     );
     SetBtcAddress(valut.unwrap().wallet.toString());
   }
@@ -31,9 +31,10 @@ function BtcInfoCard(): React.ReactElement {
       )
         .then((res) => res.json())
         .then((res: any) => {
-          setBtcBalance(res.data.balance);
-          setTotal_received(res.data.total_received);
-          setfinalTx(res.data.final_n_tx);
+          console.log(res)
+          // setBtcBalance(res.data.balance);
+          // setTotal_received(res.data.total_received);
+          // setfinalTx(res.data.final_n_tx);
         });
     })();
   }, [btcAddress]);

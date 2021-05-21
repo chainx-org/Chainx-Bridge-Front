@@ -3,7 +3,7 @@ import { EarnCardStyle, EarnCardTopStyle } from "./style";
 import { Button, Input } from "antd";
 import { useTranslation } from "react-i18next";
 import useAccountModel from "../../../hooks/useAccountModel";
-import { Balance } from "@polkadot/types/interfaces";
+import { Balance, BlockNumber } from "@polkadot/types/interfaces";
 import { BtcAddress } from "../../../interfaces";
 import { useApi } from "../../../hooks/useApi";
 import { BalanceSpan } from "../../BalanceSpan";
@@ -16,11 +16,15 @@ import { AddCollateralModalStyle } from "../EarnModal/style";
 
 interface VaultModel {
   address: string;
-  btcAddress: BtcAddress;
-  issuedToken: Balance;
-  toBeIssuedToken: Balance;
-  toBeRedeemToken: Balance;
-  collateral: Balance;
+  // btcAddress: BtcAddress;
+  // issuedToken: Balance;
+  // toBeIssuedToken: Balance;
+  // toBeRedeemToken: Balance;
+  // collateral: Balance;
+  toBeIssuedTokens: Balance,
+  toBeRedeemedTokens: Balance,
+  wallet: BtcAddress,
+  bannedUntil: BlockNumber,
 }
 
 function EarnCard(): React.ReactElement {
@@ -57,12 +61,16 @@ function EarnCard(): React.ReactElement {
           );
           setVault({
             address: currentAccount.address,
-            btcAddress: vaultInfo.wallet,
-            toBeRedeemToken: vaultInfo.toBeRedeemedTokens,
-            toBeIssuedToken: vaultInfo.toBeIssuedTokens,
-            // @ts-ignore
-            issuedToken: vaultInfo.issuedTokens,
-            collateral: collateral.data.reserved,
+            // btcAddress: vaultInfo.wallet,
+            // toBeRedeemToken: vaultInfo.toBeRedeemedTokens,
+            // toBeIssuedToken: vaultInfo.toBeIssuedTokens,
+            // // @ts-ignore
+            // issuedToken: vaultInfo.issuedTokens,
+            // collateral: collateral.data.reserved,
+            toBeIssuedTokens: vaultInfo.toBeIssuedTokens,
+            toBeRedeemedTokens: vaultInfo.toBeRedeemedTokens,
+            wallet: vaultInfo.wallet,
+            bannedUntil: vaultInfo.bannedUntil,
           });
         }
       })();
@@ -95,29 +103,29 @@ function EarnCard(): React.ReactElement {
         </div>
         <div className="earnItem">
           <div className={"earn-card-title"}>可发行量</div>
-          <div className={"issuable-num"}>
+          {/* <div className={"issuable-num"}>
             {(
               ((+vault?.collateral!! / 100000000) * pcxPrice) /
               secureThreshold
             ).toFixed(5)}{" "}
             BTC
-          </div>
+          </div> */}
         </div>
         <div className="earnItem">
           <div className={"earn-card-title"}>累计发行 / 赎回</div>
           <div className={"issue-redeem-num"}>
-            <BalanceSpan balance={vault?.issuedToken} /> XBTC /{" "}
-            <BalanceSpan balance={vault?.toBeRedeemToken} /> 缺值 BTC
+            {/* <BalanceSpan balance={vault?.issuedToken} /> XBTC /{" "} */}
+            {/* <BalanceSpan balance={vault?.toBeRedeemToken} /> 缺值 BTC */}
           </div>
         </div>
         <div className="earnItem">
           <div className={"earn-card-title"}>抵押品 / 抵押率</div>
           <div className={"collateral-rate"}>
             <div>
-              <BalanceSpan balance={vault?.collateral} />
+              {/* <BalanceSpan balance={vault?.collateral} /> */}
               PCX /
             </div>
-            <div className={"collateral-rate-num"}>
+            {/* <div className={"collateral-rate-num"}>
               {isFinite(
                 +vault?.collateral!! /
                   100000000 /
@@ -130,7 +138,7 @@ function EarnCard(): React.ReactElement {
                   ).toFixed(2)
                 : "-"}{" "}
               %
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="earnItem">

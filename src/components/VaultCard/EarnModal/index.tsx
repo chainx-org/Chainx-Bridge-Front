@@ -7,7 +7,7 @@ import {
 import { Button, InputNumber, Modal, notification } from "antd";
 import { useTranslation } from "react-i18next";
 import useAccountModel from "../../../hooks/useAccountModel";
-import { AccountId, Balance } from "@polkadot/types/interfaces";
+import { AccountId, Balance, BlockNumber } from "@polkadot/types/interfaces";
 import { BtcAddress } from "../../../interfaces";
 import { useApi } from "../../../hooks/useApi";
 import { BalanceSpan } from "../../BalanceSpan";
@@ -20,11 +20,16 @@ import arrowYellow from "../../Issue/icons/arrow_yellow.svg";
 
 interface VaultModel {
   address: string;
-  btcAddress: BtcAddress;
-  issuedToken: Balance;
-  toBeIssuedToken: Balance;
-  toBeRedeemToken: Balance;
-  collateral: Balance;
+  // btcAddress: BtcAddress;
+  // issuedToken: Balance;
+  // toBeIssuedToken: Balance;
+  // toBeRedeemToken: Balance;
+  // collateral: Balance;
+  
+  toBeRedeemedTokens: Balance,
+  wallet: BtcAddress,
+  bannedUntil: BlockNumber,
+  toBeIssuedTokens: Balance
 }
 interface EarnModalProps {
   AddCollateralModal: boolean;
@@ -113,12 +118,16 @@ function EarnModal({
           );
           setVault({
             address: currentAccount.address,
-            btcAddress: vaultInfo.wallet,
-            toBeRedeemToken: vaultInfo.toBeRedeemedTokens,
-            toBeIssuedToken: vaultInfo.toBeIssuedTokens,
-            // @ts-ignore
-            issuedToken: vaultInfo.issuedTokens,
-            collateral: collateral.data.reserved,
+            // btcAddress: vaultInfo.wallet,
+            // toBeRedeemToken: vaultInfo.toBeRedeemedTokens,
+            // toBeIssuedToken: vaultInfo.toBeIssuedTokens,
+            // // @ts-ignore
+            // issuedToken: vaultInfo.issuedTokens,
+            // collateral: collateral.data.reserved,
+            toBeIssuedTokens: vaultInfo.toBeIssuedTokens,
+            toBeRedeemedTokens: vaultInfo.toBeRedeemedTokens,
+            wallet: vaultInfo.wallet,
+            bannedUntil: vaultInfo.bannedUntil,
           });
         }
       })();
@@ -176,7 +185,7 @@ function EarnModal({
       <CollateralDisplayStyle>
         <CollateralRate>
           <div className="title">当前抵押率</div>
-          <div className={"collateralNum"}>
+          {/* <div className={"collateralNum"}>
             {isFinite(
               +vault?.collateral!! /
                 100000000 /
@@ -189,12 +198,12 @@ function EarnModal({
                 ).toFixed(5)
               : "-"}
             %
-          </div>
+          </div> */}
         </CollateralRate>
         <img src={arrowYellow} alt="arrowYellow" className="arrowYellow" />
         <CollateralRate>
           <div className="title">增加后抵押率</div>
-          <div className={"collateralNum"}>
+          {/* <div className={"collateralNum"}>
             {isFinite(
               (+vault?.collateral!! + addPCX) /
                 100000000 /
@@ -207,7 +216,7 @@ function EarnModal({
                 ).toFixed(5)
               : "-"}
             %
-          </div>
+          </div> */}
         </CollateralRate>
       </CollateralDisplayStyle>
     </AddCollateralModalStyle>
