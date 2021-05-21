@@ -92,7 +92,7 @@ export const App: React.FC = () => {
     );
     // notification.warn({ message: "Wait ws connecting..." });
     // const provider = new WsProvider("ws://192.168.1.227:8087");
-    const provider = new WsProvider("ws://localhost:8087");
+    const provider = new WsProvider("ws://localhost:9977");
     const api = new ApiPromise({ provider, types });
     api.on("disconnected", () => setApiReady(false));
     api.on("ready", () => {

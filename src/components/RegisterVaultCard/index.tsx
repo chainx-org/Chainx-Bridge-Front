@@ -22,8 +22,8 @@ import { web3FromAddress } from "@polkadot/extension-dapp";
 import { useApi } from "../../hooks/useApi";
 import VaultCard from "../VaultCard";
 import RegisterInput from "./RegisterInput";
+import { useLocation } from 'react-router-dom'
 // var WAValidator = require('wallet-address-validator');
-
 function RegisterVaultCard(): React.ReactElement {
   const { t } = useTranslation();
   const { currentAccount } = useAccountModel();
@@ -32,12 +32,14 @@ function RegisterVaultCard(): React.ReactElement {
   const [regVault, setRegVault] = useState(false);
   const [BtcAddress, setBtcAddress] = useState("");
   const [pcxBalance, setPcxBalance] = useState(0);
+  const [path,setPath] = useState("")
+  let location = useLocation()
   async function getPCXBalance() {
     const res = await api?.query.system.account(currentAccount?.address!!);
     setPcxBalance(res?.data.free.toNumber());
+    setPath(location.pathname.slice(7))
   }
   useEffect(() => {
-
     getPCXBalance();
   }, [currentAccount, getPCXBalance,isApiReady]);
   async function onFinish(values: any) {
@@ -47,52 +49,101 @@ function RegisterVaultCard(): React.ReactElement {
     //     return
     // }
     const injector = await web3FromAddress(currentAccount!!.address);
-    api.tx.xGatewayBitcoinBridge
-      .registerVault(values.collateral * 100000000, values.address)
-      .signAndSend(
-        currentAccount!!.address,
-        { signer: injector.signer },
-        ({ status, dispatchError, events }) => {
-          if (status.isInBlock) {
-            notification["success"]({
-              message: `Completed at block hash ${status.asInBlock.toString()}`,
+    if(path === "btc"){
+      api.tx.xGatewayBitcoinBridge
+          .registerVault(values.collateral * 100000000, values.address)
+          .signAndSend(
+              currentAccount!!.address,
+              { signer: injector.signer },
+              ({ status, dispatchError, events }) => {
+                if (status.isInBlock) {
+                  notification["success"]({
+                    message: `Completed at block hash ${status.asInBlock.toString()}`,
+                    duration: 0,
+                  });
+                } else if (dispatchError) {
+                  if (dispatchError.isModule) {
+                    const decoded = api.registry.findMetaError(
+                        dispatchError.asModule
+                    );
+                    const { documentation, name, section } = decoded;
+                    notification["error"]({
+                      message: `注册失败！原因：${section}.${name}: ${documentation.join(
+                          " "
+                      )}`,
+                      duration: 0,
+                    });
+                  }
+                } else {
+                  notification["success"]({
+                    message: `Current status: ${status.type}`,
+                    duration: 0,
+                  });
+                  if (status.type === "Finalized") {
+                    message.success({
+                      content: "注册成功！",
+                      className: "MsgSuccess",
+                      duration: 3,
+                    });
+                    setRegVault(true);
+                  }
+                }
+              }
+          )
+          .catch((error: any) => {
+            notification["error"]({
+              message: `:( transaction failed', ${error}`,
               duration: 0,
             });
-          } else if (dispatchError) {
-            if (dispatchError.isModule) {
-              const decoded = api.registry.findMetaError(
-                dispatchError.asModule
-              );
-              const { documentation, name, section } = decoded;
-              notification["error"]({
-                message: `注册失败！原因：${section}.${name}: ${documentation.join(
-                  " "
-                )}`,
-                duration: 0,
-              });
-            }
-          } else {
-            notification["success"]({
-              message: `Current status: ${status.type}`,
+          });
+    }else{
+      api.tx.xGatewayDogecoinBridge
+          .registerVault(values.collateral * 100000000, values.address)
+          .signAndSend(
+              currentAccount!!.address,
+              { signer: injector.signer },
+              ({ status, dispatchError, events }) => {
+                if (status.isInBlock) {
+                  notification["success"]({
+                    message: `Completed at block hash ${status.asInBlock.toString()}`,
+                    duration: 0,
+                  });
+                } else if (dispatchError) {
+                  if (dispatchError.isModule) {
+                    const decoded = api.registry.findMetaError(
+                        dispatchError.asModule
+                    );
+                    const { documentation, name, section } = decoded;
+                    notification["error"]({
+                      message: `注册失败！原因：${section}.${name}: ${documentation.join(
+                          " "
+                      )}`,
+                      duration: 0,
+                    });
+                  }
+                } else {
+                  notification["success"]({
+                    message: `Current status: ${status.type}`,
+                    duration: 0,
+                  });
+                  if (status.type === "Finalized") {
+                    message.success({
+                      content: "注册成功！",
+                      className: "MsgSuccess",
+                      duration: 3,
+                    });
+                    setRegVault(true);
+                  }
+                }
+              }
+          )
+          .catch((error: any) => {
+            notification["error"]({
+              message: `:( transaction failed', ${error}`,
               duration: 0,
             });
-            if (status.type === "Finalized") {
-              message.success({
-                content: "注册成功！",
-                className: "MsgSuccess",
-                duration: 3,
-              });
-              setRegVault(true);
-            }
-          }
-        }
-      )
-      .catch((error: any) => {
-        notification["error"]({
-          message: `:( transaction failed', ${error}`,
-          duration: 0,
-        });
-      });
+          });
+    }
   }
   return (
     <>
@@ -146,7 +197,7 @@ function RegisterVaultCard(): React.ReactElement {
                     ]}
                   >
                     <Input
-                      placeholder={t("Please enter BTC address")}
+                      placeholder={t(`Please enter ${path} address`)}
                       onChange={(e) => setBtcAddress(e.target.value)}
                     />
                   </Form.Item>

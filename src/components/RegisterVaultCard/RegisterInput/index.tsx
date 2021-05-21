@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Verify from './icons/verify.svg'
+import {useLocation} from "react-router-dom";
 
 const Wrapper = styled.div`
     display: flex;
@@ -90,6 +91,11 @@ interface AddressInputProps {
 
 export default function RegisterInput({className = '' , children, balance, icon, num, title }:AddressInputProps): React.ReactElement<AddressInputProps>{
     const {t} = useTranslation()
+    let location = useLocation()
+    const [path,setPath] = useState("")
+    useEffect(()=> {
+        setPath(location.pathname.slice(7))
+    },[])
     return (
        <Wrapper className={` ${className}`}>
            <div className='topTitle'>
@@ -99,7 +105,7 @@ export default function RegisterInput({className = '' , children, balance, icon,
                     <p className='collateralNum'>({t('Minimum value')} 1000)</p>
                   </div> : title ?
                   <div>{title}</div> :
-                  <div>{t('Bitcoin address')}</div> 
+                  <div>{t(`${path} address`)}</div>
                   }
                 </>
                 <div className='righTooltip'>    

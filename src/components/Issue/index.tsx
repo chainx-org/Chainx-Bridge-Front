@@ -33,6 +33,7 @@ function Issue(): React.ReactElement {
   const [IssueRequestList, SetIssueRequestList] = useState([] as any[]);
   const Fee = useContext(FeeContext);
   const pcxPrice = Fee.pcxPrice;
+  const dogePCXPrice = Fee.dogePCXprice;
   const { api } = useApi();
   const { t } = useTranslation();
   const { currentAccount } = useAccountModel();
