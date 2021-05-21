@@ -17,10 +17,13 @@ function Wallet():React.ReactElement {
     const { t } = useTranslation();
     const [xBtcBalance,setXbtcBalance] = useState(0)
     const [pcxBalance,setPcxBalance] = useState(0)
+    const [sDoge,setSDoge] = useState(0)
     const {api} = useApi();
     async function getAssets(account: string) {
-        const res = await api.query.xAssets.assetBalance(account,1);
+        const res = await api.query.xAssets.assetBalance(account,3221225473);
+        const dogeRes = await api.query.xAssets.assetBalance(account,3221225475);
         setXbtcBalance(JSON.parse(JSON.stringify(res)).Usable / 100000000)
+        setSDoge(JSON.parse(JSON.stringify(dogeRes)).Usable / 100000000)
     }
     async function getPCXBalance(){
         const res = await api.query.system.account(currentAccount?.address!!)
