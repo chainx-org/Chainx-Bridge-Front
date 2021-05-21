@@ -86,7 +86,6 @@ function Issue(): React.ReactElement {
     setButtonLoading(true);
     if(coinSymol.coinName === 'BTC') {
       const vaults = await api.query.xGatewayBitcoinBridge.vaults.entries();
-      console.log(vaults.toString,'',vaults.map((item)=>item))
       const results = await Promise.all(
         vaults.map(async ([key, value]) => {
           const vault: Vault = value.unwrap();

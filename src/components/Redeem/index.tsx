@@ -78,52 +78,102 @@ function Redeem(): React.ReactElement {
       return;
     }
     setButtonLoading(true);
+    console.log(coinSymol.coinName)
     const injector = await web3FromAddress(currentAccount!!.address);
-    api.tx.xGatewayBitcoinBridge
-      .requestRedeem(
-        currentAccount!!.address,
-        RedeemAmount * 100000000,
-        BtcAddress
-      )
-      .signAndSend(
-        currentAccount!!.address,
-        { signer: injector.signer },
-        ({ status, dispatchError, events }) => {
-          if (status.isInBlock) {
-            notification["success"]({
-              message: `Completed at block hash ${status.asInBlock.toString()}`,
+    if (coinSymol.coinName === 'SBTC'){
+      api.tx.xGatewayBitcoinBridge
+          .requestRedeem(
+              currentAccount!!.address,
+              RedeemAmount * 100000000,
+              BtcAddress
+          )
+          .signAndSend(
+              currentAccount!!.address,
+              { signer: injector.signer },
+              ({ status, dispatchError, events }) => {
+                if (status.isInBlock) {
+                  notification["success"]({
+                    message: `Completed at block hash ${status.asInBlock.toString()}`,
+                    duration: 0,
+                  });
+                } else if (dispatchError) {
+                  if (dispatchError.isModule) {
+                    const decoded = api.registry.findMetaError(
+                        dispatchError.asModule
+                    );
+                    const { documentation, name, section } = decoded;
+                    notification["error"]({
+                      message: `${section}.${name}: ${documentation.join(" ")}`,
+                      duration: 0,
+                    });
+                    setButtonLoading(false);
+                  }
+                } else {
+                  notification["success"]({
+                    message: `Current status: ${status.type}`,
+                    duration: 0,
+                  });
+                  if (status.type === "Finalized") {
+                    setN(n + 1);
+                    setShowRedeemNext(true);
+                  }
+                }
+              }
+          )
+          .catch((error) => {
+            notification["error"]({
+              message: `:( transaction failed', ${error}`,
               duration: 0,
             });
-          } else if (dispatchError) {
-            if (dispatchError.isModule) {
-              const decoded = api.registry.findMetaError(
-                dispatchError.asModule
-              );
-              const { documentation, name, section } = decoded;
-              notification["error"]({
-                message: `${section}.${name}: ${documentation.join(" ")}`,
-                duration: 0,
-              });
-              setButtonLoading(false);
-            }
-          } else {
-            notification["success"]({
-              message: `Current status: ${status.type}`,
+            setButtonLoading(false);
+          });
+    }else if(coinSymol.coinName === "SDOG"){
+      api.tx.xGatewayDogecoinBridge
+          .requestRedeem(
+              currentAccount!!.address,
+              RedeemAmount * 100000000,
+              BtcAddress
+          )
+          .signAndSend(
+              currentAccount!!.address,
+              { signer: injector.signer },
+              ({ status, dispatchError, events }) => {
+                if (status.isInBlock) {
+                  notification["success"]({
+                    message: `Completed at block hash ${status.asInBlock.toString()}`,
+                    duration: 0,
+                  });
+                } else if (dispatchError) {
+                  if (dispatchError.isModule) {
+                    const decoded = api.registry.findMetaError(
+                        dispatchError.asModule
+                    );
+                    const { documentation, name, section } = decoded;
+                    notification["error"]({
+                      message: `${section}.${name}: ${documentation.join(" ")}`,
+                      duration: 0,
+                    });
+                    setButtonLoading(false);
+                  }
+                } else {
+                  notification["success"]({
+                    message: `Current status: ${status.type}`,
+                    duration: 0,
+                  });
+                  if (status.type === "Finalized") {
+                    setN(n + 1);
+                    setShowRedeemNext(true);
+                  }
+                }
+              }
+          )
+          .catch((error) => {
+            notification["error"]({
+              message: `:( transaction failed', ${error}`,
               duration: 0,
             });
-            if (status.type === "Finalized") {
-              setN(n + 1);
-              setShowRedeemNext(true);
-            }
-          }
-        }
-      )
-      .catch((error) => {
-        notification["error"]({
-          message: `:( transaction failed', ${error}`,
-          duration: 0,
-        });
-      });
+          });
+    }
   };
   return (
     <>
@@ -166,7 +216,7 @@ function Redeem(): React.ReactElement {
                 title={t("you will receive")}
                 setRedeemAmount={setRedeemAmount}
                 coinSymol={coinSymol}
-                symol={"BTC"}
+                symol={coinSymol.coinName.slice(1)}
               />
               <Button
                 loading={buttonLoading}
