@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { IssueBtcInputStyle, IssueStyle, AccountSwitch } from "./style";
 import { LoadingOutlined } from "@ant-design/icons";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
@@ -21,6 +21,7 @@ import IssueRequestSuccessCard from "../IssueRequestSuccessCard";
 import { IssueRequestsContext } from "../../hooks/useIssueRequests";
 import {Vault} from "../../interfaces";
 import type {BTreeMap} from "@polkadot/types";
+import Item from "antd/lib/list/Item";
 
 interface coinProps {
   img_url: any;
@@ -74,6 +75,7 @@ function Issue(): React.ReactElement {
   };
   const currAddress = <>{currentAccount?.address}</>;
   const hypothecateNum = <>{IssueAmount / pcxPrice * 0.1 || 0} PCX</>;
+  const dogHypothecateNum = <>{IssueAmount / dogePCXPrice * 0.1 || 0} PCX</>;
   const chargeNum = <>0.00 {coinSymol.coinName}</>;
   const key = "testIssue";
   const handleMatchVault = async () => {
@@ -82,31 +84,33 @@ function Issue(): React.ReactElement {
       return;
     }
     setButtonLoading(true);
-    const vaults = await api.query.xGatewayBitcoinBridge.vaults.entries();
-    const results = await Promise.all(
-      vaults.map(async ([key, value]) => {
-        const vault: Vault = value.unwrap();
-        const collateral = await (await api.query.system.account(key.args[0])).data.reserved;
-        const assetId =  api.consts.xGatewayBitcoinBridge.tokenAssetId;
-        const balance = await api.query.xAssets.assetBalance(key.args[0], assetId);
-        const maxToken = collateral.muln(pcxPrice).divn(3);
-        return [
-          key.args[0],
-          maxToken.sub(vault.toBeIssuedTokens).toNumber() - ((balance.toJSON()["Usable"] as number) || 0),
-          vault.wallet,
-        ];
-      })
-    );
-    setVaultAddress(
-      results.length > 0
-        ? JSON.parse(JSON.stringify(results))[0][0]
-        : ""
-    );
-    setVaultBtcAddress(
-      results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : ""
-    );
-    const injector = await web3FromAddress(currentAccount!!.address);
-    api.tx.xGatewayBitcoinBridge
+    if(coinSymol.coinName === 'BTC') {
+      const vaults = await api.query.xGatewayBitcoinBridge.vaults.entries();
+      console.log(vaults.toString,'',vaults.map((item)=>item))
+      const results = await Promise.all(
+        vaults.map(async ([key, value]) => {
+          const vault: Vault = value.unwrap();
+          const collateral = await (await api.query.system.account(key.args[0])).data.reserved;
+          const assetId =  api.consts.xGatewayBitcoinBridge.tokenAssetId;
+          const balance = await api.query.xAssets.assetBalance(key.args[0], assetId);
+          const maxToken = collateral.muln(pcxPrice).divn(3);
+          return [
+            key.args[0],
+            maxToken.sub(vault.toBeIssuedTokens).toNumber() - ((balance.toJSON()["Usable"] as number) || 0),
+            vault.wallet,
+          ];
+        })
+      );
+      setVaultAddress(
+        results.length > 0
+          ? JSON.parse(JSON.stringify(results))[0][0]
+          : ""
+      );
+      setVaultBtcAddress(
+        results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : ""
+      );
+      const injector = await web3FromAddress(currentAccount!!.address);
+      api.tx.xGatewayBitcoinBridge
       .requestIssue(vaultAddress, IssueAmount * 100000000)
       .signAndSend(
         currentAccount!!.address,
@@ -164,7 +168,94 @@ function Issue(): React.ReactElement {
         });
         setButtonLoading(false);
       });
-  };
+    };
+    if(coinSymol.coinName === 'DOG') {
+      const vaults = await api.query.xGatewayDogecoinBridge.vaults.entries();
+      console.log(vaults.toString())
+      const results = await Promise.all(
+        vaults.map(async ([key, value]) => {
+          const vault: Vault = value.unwrap();
+          const collateral = await (await api.query.system.account(key.args[0])).data.reserved;
+          const assetId =  api.consts.xGatewayDogecoinBridge.tokenAssetId;
+          const balance = await api.query.xAssets.assetBalance(key.args[0], assetId);
+          const maxToken = collateral.muln(pcxPrice).divn(3);
+          return [
+            key.args[0],
+            maxToken.sub(vault.toBeIssuedTokens).toNumber() - ((balance.toJSON()["Usable"] as number) || 0),
+            vault.wallet,
+          ];
+        })
+      );
+      setVaultAddress(
+        results.length > 0
+          ? JSON.parse(JSON.stringify(results))[0][0]
+          : ""
+      );
+      setVaultBtcAddress(
+        results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : ""
+      );
+      const injector = await web3FromAddress(currentAccount!!.address);
+      api.tx.xGatewayDogecoinBridge
+      .requestIssue(vaultAddress, IssueAmount * 100000000)
+      .signAndSend(
+        currentAccount!!.address,
+        { signer: injector.signer },
+        ({ status, dispatchError, events }) => {
+          if (status.isInBlock) {
+            notification["success"]({
+              key,
+              // message: `Completed at block hash ${status.asInBlock.toString()}`,
+              message: `Waiting For Confirmation`,
+              duration: 0,
+              icon: (
+                <LoadingOutlined style={{ fontSize: 24, color: "#F6C94A" }} />
+              ),
+            });
+          } else if (dispatchError) {
+            if (dispatchError.isModule) {
+              const decoded = api.registry.findMetaError(
+                dispatchError.asModule
+              );
+              const { documentation, name, section } = decoded;
+              notification["error"]({
+                key,
+                message: `${section}.${name}: ${documentation.join(" ")}`,
+                duration: 0,
+              });
+              setButtonLoading(false);
+            }
+          } else {
+            if (status.type === "Finalized") {
+              notification["success"]({
+                key,
+                message: `Current status: ${status.type}`,
+                duration: 3,
+              });
+              setShowIssueNext(true);
+            } else {
+              notification["success"]({
+                key,
+                message: `Waiting For Confirmation`,
+                duration: 0,
+                icon: (
+                  <LoadingOutlined style={{ fontSize: 24, color: "#F6C94A" }} />
+                ),
+              });
+            }
+          }
+        }
+      )
+      .catch((error) => {
+        notification["error"]({
+          key,
+          message: `:( transaction failed', ${error}`,
+          duration: 0,
+        });
+        setButtonLoading(false);
+      });
+    }
+  }
+    
   let polkaAccount = encodeAddress(
     decodeAddress(
       currentAccount
@@ -186,7 +277,7 @@ function Issue(): React.ReactElement {
       {showIssueNext ? (
         <IssueRequestSuccessCard
           currAddress={currAddress}
-          hypothecateNum={hypothecateNum}
+          hypothecateNum={ coinSymol.coinName === 'BTC' ? hypothecateNum : dogHypothecateNum }
           IssueAmount={IssueAmount}
           vaultBtcAddress={vaultBtcAddress}
           coinSymol={coinSymol}
@@ -242,7 +333,7 @@ function Issue(): React.ReactElement {
           </div>
           <div className="bottomContent">
             <ExplainTag title="目标账户" children={currAddress} />
-            <ExplainTag title="锁定抵押品" children={hypothecateNum} />
+            <ExplainTag title="锁定抵押品" children={ coinSymol.coinName === 'BTC' ? hypothecateNum : dogHypothecateNum } />
             <ExplainTag title="手续费" children={chargeNum} />
             <Button loading={buttonLoading} onClick={handleMatchVault}>
               {t("next")}

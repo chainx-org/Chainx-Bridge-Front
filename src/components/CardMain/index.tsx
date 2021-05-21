@@ -11,9 +11,10 @@ interface MainProps{
     opreturn :string;
     address: string;
     issueAmount: number;
+    coinSymol?: any;
 }
 
-const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmount}) =>{
+const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmount,coinSymol}) =>{
     const copyOpreturn = () => {
         copy(opreturn);
         message.success({
@@ -53,7 +54,7 @@ const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmou
                         <div className={"tip-wrapper"}>
                             <div className={"tip"}>
                                 <img src={WarmRedLogo} alt=""/>
-                                <div>必须在比特币交易中添加op_return,否则会造成资产损失</div>
+                                <div>必须在{coinSymol.coinName === 'BTC' ? '比特币' : '狗狗币'}交易中添加op_return,否则会造成资产损失</div>
                             </div>
                         </div>
                     </div>
@@ -62,7 +63,7 @@ const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmou
             <div>
                 <div className={"opreturn-title"}>
                     <div className={"step-one"}>2</div>
-                    <div className={"cp-op"}>发送 {issueAmount} BTC 到下面的地址</div>
+                    <div className={"cp-op"}>发送 {issueAmount} {coinSymol.coinName} 到下面的地址</div>
                     <div className={"info"}>(请在单笔交易中完成)</div>
                     <img src={Question} alt=""/>
                 </div>
