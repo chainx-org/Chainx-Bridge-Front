@@ -72,7 +72,7 @@ function Issue(): React.ReactElement {
     setIsShow(!isShow);
   };
   const currAddress = <>{currentAccount?.address}</>;
-  const hypothecateNum = <>{IssueAmount / pcxPrice / 10 || 0} PCX</>;
+  const hypothecateNum = <>{IssueAmount / pcxPrice * 0.1 || 0} PCX</>;
   const chargeNum = <>0.00 {coinSymol.coinName}</>;
   const key = "testIssue";
   const handleMatchVault = async () => {

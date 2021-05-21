@@ -35,7 +35,8 @@ import NoExtensions from "./components/NoExtensions";
 import Maskbg from "./components/Loading/background.webp";
 const Bridge = lazy(() => import("./page/Bridge/home"));
 const History = lazy(() => import("./page/History"));
-const Vault = lazy(() => import("./page/Vault"));
+const btcVault = lazy(() => import("./page/Vault/btcVault"));
+const dogeVault = lazy(()=> import("./page/Vault/dogeVault"))
 
 const LayoutWrapper = styled.div`
   display: flex;
@@ -77,6 +78,7 @@ export const App: React.FC = () => {
   const [exchangeRate, setExchangeRate] = useState<TradingPrice | null>(null);
   const [percent, setPercent] = useState<Percent | null>(null);
   const [pcxPrice, setPcxPrice] = useState<number | null>(null);
+  const [dogePCXPrice,setDogePcxPrice] = useState<number|null>(null)
   const [bridgeStatus, setBridgeStatus] = useState("");
 
   // Accounts Context
@@ -189,6 +191,12 @@ export const App: React.FC = () => {
       (async () => {
         const tradingPrice = await api!!.query.xGatewayBitcoinBridge.exchangeRate();
         const percent = await api!!.query.xGatewayBitcoinBridge.issueGriefingFee();
+        const dogetardingPrice = await api!!.query.xGatewayDogecoinBridge.exchangeRate();
+        const dogePercent = await api!!.query.xGatewayDogecoinBridge.issueGriefingFee();
+        const dogePrice = +JSON.stringify(dogetardingPrice.price)
+        const dogeDecimal = +JSON.stringify(dogetardingPrice.decimal)
+        const dogemult = Math.pow(10,dogeDecimal);
+        setDogePcxPrice(dogePrice/dogemult)
         const price = +JSON.stringify(tradingPrice.price);
         const decimal = +JSON.stringify(tradingPrice.decimal);
         const mult = Math.pow(10, decimal);
@@ -254,6 +262,7 @@ export const App: React.FC = () => {
                   exchangeRate: exchangeRate!!,
                   percent: percent!!,
                   pcxPrice: pcxPrice!!,
+                  dogePCXprice: dogePCXPrice!!
                 }}
               >
                 <bridgeStatusContext.Provider value={bridgeStatus}>
@@ -265,7 +274,8 @@ export const App: React.FC = () => {
                     <Switch>
                       <Route path="/bridge" component={Bridge} />
                       <Route path="/history" component={History} />
-                      <Route path="/vault" component={Vault} />
+                      <Route path="/vault/btc" exact={true} component={btcVault} />
+                      <Route path="/vault/doge" exact={true} component={dogeVault} />
                       <Redirect from="/" to="/bridge" />
                     </Switch>
                   </Suspense>

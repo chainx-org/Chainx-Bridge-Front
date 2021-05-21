@@ -4,7 +4,8 @@ import type {Percent} from "@polkadot/types/interfaces/runtime";
 interface FeeContextProps {
   exchangeRate: TradingPrice;
   percent: Percent;
-  pcxPrice: number
+  pcxPrice: number;
+  dogePCXprice:number
 }
 
 export const FeeContext = createContext(({} as unknown) as FeeContextProps);

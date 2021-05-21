@@ -33,12 +33,13 @@ function RegisterVaultCard(): React.ReactElement {
   const [BtcAddress, setBtcAddress] = useState("");
   const [pcxBalance, setPcxBalance] = useState(0);
   async function getPCXBalance() {
-    const res = await api.query.system.account(currentAccount?.address!!);
-    setPcxBalance(res.data.free.toNumber());
+    const res = await api?.query.system.account(currentAccount?.address!!);
+    setPcxBalance(res?.data.free.toNumber());
   }
   useEffect(() => {
+
     getPCXBalance();
-  }, [currentAccount, getPCXBalance]);
+  }, [currentAccount, getPCXBalance,isApiReady]);
   async function onFinish(values: any) {
     // let valid =  WAValidator.validate(BtcAddress,'BTC')
     // if(!valid){

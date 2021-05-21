@@ -23,11 +23,11 @@ function SideBar(): React.ReactElement {
             </NavLink>
         </Tooltip>
       </SideBarTab>
-       <Tooltip placement={"left"} title={t('vault')}>
-           <NavLink to={"/Vault"} className='vault'>
-               <img src={Vault} alt="vault" />
-           </NavLink>
-       </Tooltip>
+       {/*<Tooltip placement={"left"} title={t('vault')}>*/}
+       {/*    <NavLink to={"/Vault"} className='vault'>*/}
+       {/*        <img src={Vault} alt="vault" />*/}
+       {/*    </NavLink>*/}
+       {/*</Tooltip>*/}
     </SideBarStyle>
   );
 }
