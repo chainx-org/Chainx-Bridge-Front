@@ -102,7 +102,7 @@ function EarnCard(): React.ReactElement {
             {(
               ((+vault?.collateral!! / 100000000) * dogePCXprice) /secureThreshold
             ).toFixed(5)}{" "}
-            BTC
+            DOG
           </div>
         </div>
         <div className="earnItem">
@@ -118,20 +118,20 @@ function EarnCard(): React.ReactElement {
             <div>
               <BalanceSpan balance={vault?.collateral} /> PCX /
             </div>
-            {/* <div className={"collateral-rate-num"}>
+            <div className={"collateral-rate-num"}>
               {isFinite(
                 +vault?.collateral!! /
                   100000000 /
-                  +(vault?.issuedToken.toNumber()!! / 1000000000 / pcxPrice)
+                  +(vault?.issuedToken!! / 1000000000 / dogePCXprice)
               )
                 ? (
                     +vault?.collateral!! /
                     100000000 /
-                    +(vault?.issuedToken.toNumber()!! / 1000000000 / pcxPrice)
+                    +(vault?.issuedToken!! / 1000000000 / dogePCXprice)
                   ).toFixed(2)
                 : "-"}{" "}
               %
-            </div> */}
+            </div>
           </div>
         </div>
         <div className="earnItem">
