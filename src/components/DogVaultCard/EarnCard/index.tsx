@@ -16,11 +16,8 @@ import { AddCollateralModalStyle } from "../EarnModal/style";
 
 interface VaultModel {
   address: string;
-  // btcAddress: BtcAddress;
-  // issuedToken: Balance;
-  // toBeIssuedToken: Balance;
-  // toBeRedeemToken: Balance;
-  // collateral: Balance;
+  issuedToken: number;
+  collateral: Balance;
   toBeIssuedTokens: Balance,
   toBeRedeemedTokens: Balance,
   wallet: BtcAddress,
@@ -29,7 +26,7 @@ interface VaultModel {
 
 function EarnCard(): React.ReactElement {
   const value = useContext(FeeContext);
-  const pcxPrice = value.pcxPrice;
+  const dogePCXprice = value.dogePCXprice;
   const { t } = useTranslation();
   const [AddCollateralModal, SetAddCollateralModal] = useState(false);
   const [isShowEmail, setIsShowEmail] = useState(false);
@@ -51,7 +48,7 @@ function EarnCard(): React.ReactElement {
   useEffect(() => {
     if (isApiReady && currentAccount) {
       (async () => {
-        const vault = await api.query.xGatewayBitcoinBridge.vaults(
+        const vault = await api.query.xGatewayDogecoinBridge.vaults(
           currentAccount.address
         );
         if (vault.isSome) {
@@ -59,14 +56,12 @@ function EarnCard(): React.ReactElement {
           let collateral = await api.query.system.account(
             currentAccount.address
           );
+          const assetId =  api.consts.xGatewayDogecoinBridge.tokenAssetId;
+          const balance = await api.query.xAssets.assetBalance(currentAccount.address, assetId);
           setVault({
             address: currentAccount.address,
-            // btcAddress: vaultInfo.wallet,
-            // toBeRedeemToken: vaultInfo.toBeRedeemedTokens,
-            // toBeIssuedToken: vaultInfo.toBeIssuedTokens,
-            // // @ts-ignore
-            // issuedToken: vaultInfo.issuedTokens,
-            // collateral: collateral.data.reserved,
+            issuedToken: ((balance.toJSON()["Usable"] as number) || 0),
+            collateral: collateral.data.reserved,
             toBeIssuedTokens: vaultInfo.toBeIssuedTokens,
             toBeRedeemedTokens: vaultInfo.toBeRedeemedTokens,
             wallet: vaultInfo.wallet,
@@ -90,7 +85,7 @@ function EarnCard(): React.ReactElement {
 
   useEffect(() => {
     if (isApiReady) {
-      const secureThreshold = api.consts.xGatewayBitcoinBridge.secureThreshold;
+      const secureThreshold = api.consts.xGatewayDogecoinBridge.secureThreshold;
       SetsecureThreshold(secureThreshold.toNumber() / 100);
     }
   }, [isApiReady]);
@@ -103,27 +98,25 @@ function EarnCard(): React.ReactElement {
         </div>
         <div className="earnItem">
           <div className={"earn-card-title"}>可发行量</div>
-          {/* <div className={"issuable-num"}>
+          <div className={"issuable-num"}>
             {(
-              ((+vault?.collateral!! / 100000000) * pcxPrice) /
-              secureThreshold
+              ((+vault?.collateral!! / 100000000) * dogePCXprice) /secureThreshold
             ).toFixed(5)}{" "}
             BTC
-          </div> */}
+          </div>
         </div>
         <div className="earnItem">
           <div className={"earn-card-title"}>累计发行 / 赎回</div>
           <div className={"issue-redeem-num"}>
-            {/* <BalanceSpan balance={vault?.issuedToken} /> XBTC /{" "} */}
-            {/* <BalanceSpan balance={vault?.toBeRedeemToken} /> 缺值 BTC */}
+            <BalanceSpan balance={vault?.issuedToken} /> XDOG /{" "}
+            <BalanceSpan balance={vault?.toBeRedeemedTokens} /> 缺值 DOG
           </div>
         </div>
         <div className="earnItem">
           <div className={"earn-card-title"}>抵押品 / 抵押率</div>
           <div className={"collateral-rate"}>
             <div>
-              {/* <BalanceSpan balance={vault?.collateral} /> */}
-              PCX /
+              <BalanceSpan balance={vault?.collateral} /> PCX /
             </div>
             {/* <div className={"collateral-rate-num"}>
               {isFinite(

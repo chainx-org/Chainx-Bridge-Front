@@ -9,16 +9,14 @@ import { BtcInfoCardStyle, TradeInfoStyle } from "./style";
 function BtcInfoCard(): React.ReactElement {
   const { currentAccount } = useAccountModel();
   const { api, isApiReady } = useApi();
-  const [btcAddress, SetBtcAddress] = useState("");
+  const [btcAddress, setBtcAddress] = useState("");
   const [btcBalance, setBtcBalance] = useState(0);
   const [total_received, setTotal_received] = useState(0);
   const [finalTx, setfinalTx] = useState(0);
 
   async function getVaults() {
-    const valut = await api.query.xGatewayBitcoinBridge.vaults(
-      currentAccount?.address!! || ''
-    );
-    SetBtcAddress(valut.unwrap().wallet.toString());
+    const valut = await api.query.xGatewayBitcoinBridge.vaults(currentAccount?.address!! || '');
+    setBtcAddress(valut.unwrap().wallet.toString());
   }
 
   useEffect(() => {

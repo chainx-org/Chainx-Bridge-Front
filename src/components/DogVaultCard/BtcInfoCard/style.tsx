@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const BtcInfoCardStyle = styled.div`
+export const DogInfoCardStyle = styled.div`
   width: 35%;
   background: #F4F4F5;
   box-shadow: 8px 8px 13px 0 rgba(0,0,0,0.08), -8px -8px 13px 0 #FFFFFF;
