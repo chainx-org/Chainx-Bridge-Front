@@ -40,11 +40,11 @@ function DogInfoCard(): React.ReactElement {
     <DogInfoCardStyle>
       <div className="addressBalance">
         <div className={"card-item"}>
-          <div className={"card-title"}>BTC 地址</div>
+          <div className={"card-title"}>DOG 地址</div>
           <div className={"card-address"}>{dogAddress}</div>
         </div>
         <div className={"card-item"}>
-          <div className={"card-title"}>BTC 余额</div>
+          <div className={"card-title"}>DOG 余额</div>
           <div className={"card-balance"}>{dogBalance / 100000000} BTC</div>
         </div>
       </div>
@@ -52,7 +52,7 @@ function DogInfoCard(): React.ReactElement {
       <div className="allAmount">
         <div className={"card-item"}>
           <div className={"card-title"}>总接收</div>
-          <div className={"card-balance"}>{total_received / 100000000} BTC</div>
+          <div className={"card-balance"}>{total_received / 100000000} DOG</div>
         </div>
         <div className={"card-item tradeAmount"}>
           <div className={"card-title"}>交易数量</div>
