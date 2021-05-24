@@ -1,20 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  AgreementStyle,
-  Line,
-  RegisterAccountStyle,
-  RegisterVaultCardStyle,
-} from "./style";
+import { AgreementStyle, Line, RegisterAccountStyle, RegisterVaultCardStyle } from "./style";
 import { useTranslation } from "react-i18next";
-import {
-  Button,
-  Checkbox,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  notification,
-} from "antd";
+import { Button, Checkbox, Form, Input, InputNumber, message, notification } from "antd";
 import { useAccountInfo } from "../../hooks/useAccountInfo";
 import FormatBalance from "../../hooks/useFormatBalance";
 import useAccountModel from "../../hooks/useAccountModel";
@@ -24,6 +11,11 @@ import VaultCard from "../VaultCard";
 import RegisterInput from "./RegisterInput";
 import { useLocation } from 'react-router-dom'
 // var WAValidator = require('wallet-address-validator');
+interface formProps {
+  collateral: number;
+  address: string;
+  checked: boolean;
+}
 function RegisterVaultCard(): React.ReactElement {
   const { t } = useTranslation();
   const { currentAccount } = useAccountModel();
@@ -42,7 +34,7 @@ function RegisterVaultCard(): React.ReactElement {
   useEffect(() => {
     getPCXBalance();
   }, [currentAccount,isApiReady]);
-  async function onFinish(values: any) {
+  async function onFinish(values: formProps) {
     // let valid =  WAValidator.validate(BtcAddress,'BTC')
     // if(!valid){
     //     notification.warn({message: "请输入合法的BTC地址"});

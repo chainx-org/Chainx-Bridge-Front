@@ -6,15 +6,17 @@ import { useLeftBlock } from "../../hooks/useLeftBlock";
 import { stringToHex } from '@polkadot/util'
 import useAccountModel from "../../hooks/useAccountModel";
 import ExplainTag from "../ExplainTag";
+import { coinProps } from "../../page/Bridge";
 
 interface IssueSuccessProps {
     currAddress: React.ReactNode;
     hypothecateNum: React.ReactNode;
     IssueAmount: number;
     vaultBtcAddress: string;
-    coinSymol: any;
+    coinSymol: coinProps;
     openTime: any;
 }
+
 function IssueRequestSuccessCard({currAddress, hypothecateNum, IssueAmount, vaultBtcAddress, coinSymol, openTime }: IssueSuccessProps): React.ReactElement {
     const leftBlock = useLeftBlock(+openTime[0]);
     const {currentAccount} = useAccountModel();

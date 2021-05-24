@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import "./App.css";
 import { Redirect, Route, Switch } from "react-router-dom";
 import SideBar from "./components/SideBar";
@@ -13,19 +13,9 @@ import useAccountModel from "./hooks/useAccountModel";
 import ChangeChainXAddress from "./util";
 // import { Keyring } from "@polkadot/ui-keyring";
 // import { hexToU8a, isHex } from "@polkadot/util";
-import {
-  web3Accounts,
-  web3AccountsSubscribe,
-  web3Enable,
-} from "@polkadot/extension-dapp";
-import {
-  IssueRequestsContext,
-  IssueRequestRow,
-} from "./hooks/useIssueRequests";
-import {
-  RedeemRequestsContext,
-  RedeemRequestRow,
-} from "./hooks/useRedeemRequest";
+import { web3Accounts, web3AccountsSubscribe, web3Enable } from "@polkadot/extension-dapp";
+import { IssueRequestsContext, IssueRequestRow } from "./hooks/useIssueRequests";
+import { RedeemRequestsContext, RedeemRequestRow } from "./hooks/useRedeemRequest";
 import { TradingPrice } from "./interfaces";
 // import { IssueRequest, RequestId, TradingPrice } from "./interfaces";
 import { FeeContext } from "./hooks/useFeeContext";
@@ -33,7 +23,7 @@ import type { Percent } from "@polkadot/types/interfaces/runtime";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import NoExtensions from "./components/NoExtensions";
 import Maskbg from "./components/Loading/background.webp";
-const Bridge = lazy(() => import("./page/Bridge/home"));
+const Bridge = lazy(() => import("./page/Bridge"));
 const History = lazy(() => import("./page/History"));
 const btcVault = lazy(() => import("./page/Vault/btcVault"));
 const dogeVault = lazy(()=> import("./page/Vault/dogeVault"))
@@ -62,7 +52,7 @@ const Content = styled.main`
 `;
 
 export const App: React.FC = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   // Api Context
   const [api, setApi] = useState<ApiPromise | null>(null);

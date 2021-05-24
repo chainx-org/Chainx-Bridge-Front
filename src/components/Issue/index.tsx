@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { IssueBtcInputStyle, IssueStyle, AccountSwitch } from "./style";
 import { LoadingOutlined } from "@ant-design/icons";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
-import BCHs from "../CoinSelect/icons/BCH_s.svg";
 import BTCs from "../CoinSelect/icons/BTC_S.svg";
-import DOGEs from "../CoinSelect/icons/DOGE_s.svg";
 import Sherpaxs from "../CoinSelect/icons/sherpax_s.svg";
 import arrowYellow from "./icons/arrow_yellow.svg";
 import arrowGray from "./icons/arrow_gray.svg";
@@ -16,18 +14,10 @@ import useAccountModel from "../../hooks/useAccountModel";
 import { FeeContext } from "../../hooks/useFeeContext";
 import { web3FromAddress } from "@polkadot/extension-dapp";
 import { useApi } from "../../hooks/useApi";
-import ChangeChainXAddress from "../../util";
 import IssueRequestSuccessCard from "../IssueRequestSuccessCard";
 import { IssueRequestsContext } from "../../hooks/useIssueRequests";
 import {Vault} from "../../interfaces";
-import type {BTreeMap} from "@polkadot/types";
-import Item from "antd/lib/list/Item";
-
-interface coinProps {
-  img_url: any;
-  coinName: string;
-  symol: string;
-}
+import { coinProps, optionList } from "../../page/Bridge";
 
 function Issue(): React.ReactElement {
   const value = useContext(IssueRequestsContext);
@@ -43,30 +33,14 @@ function Issue(): React.ReactElement {
   const [vaultAddress, setVaultAddress] = useState("");
   const [vaultBtcAddress, setVaultBtcAddress] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
-  const optionList = [
-    {
-      img_url: BTCs,
-      coinName: "BTC",
-      symol: "Bitcoin",
-    },
-    {
-      img_url: BCHs,
-      coinName: "BCH",
-      symol: "Bitcoin Cash",
-    },
-    {
-      img_url: DOGEs,
-      coinName: "DOG",
-      symol: "Dogecoin",
-    },
-  ];
+  
   const [isShow, setIsShow] = useState(false);
   const [coinSymol, setCoinSymol] = useState<coinProps>({
     img_url: BTCs,
     coinName: "BTC",
     symol: "Bitcoin",
   });
-  const currCoin = (value: any) => {
+  const currCoin = (value: coinProps) => {
     setCoinSymol(value);
     setIsShow(!isShow);
   };

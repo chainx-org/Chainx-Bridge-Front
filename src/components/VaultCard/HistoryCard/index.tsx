@@ -59,7 +59,7 @@ function HistoryCard():React.ReactElement {
         {
             title: '状态',
             key: 'action',
-            render: (text: any, record: any) => (
+            render: (record: any) => (
                 <Space size="middle">
                     {record.status === "进行中" && <div className='historyProcessing'>12:08:23<img src={LastTime} alt='lastTime' /></div>}
                     {record.status === "失败" && <div className='historyFail'>{record.status}<img src={FailStatus} alt='close' /></div>}

@@ -1,10 +1,65 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { BridgeCardStyle, FunctionSwitchButton } from "./style";
-import { useTab } from "../../hooks/useTab";
 import Issue from "../../components/Issue";
 import { useTranslation } from "react-i18next";
 import Redeem from "../../components/Redeem";
-import { Link, NavLink, Route, Switch } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
+import BCHs from "../../components/CoinSelect/icons/BCH_s.svg";
+import BTCs from "../../components/CoinSelect/icons/BTC_S.svg";
+import DOGEs from "../../components/CoinSelect/icons/DOGE_s.svg";
+import sBCHs from "../../components/TabCoinSelect/icons/SBCH.svg";
+import sBTCs from "../../components/TabCoinSelect/icons/SBTC.svg";
+import sDOGs from "../../components/TabCoinSelect/icons/SDOG.svg";
+
+export interface coinProps {
+  img_url: string;
+  coinName: string;
+  symol: string;
+}
+export const optionList = [
+  {
+    img_url: BTCs,
+    coinName: "BTC",
+    symol: "Bitcoin",
+  },
+  {
+    img_url: BCHs,
+    coinName: "BCH",
+    symol: "Bitcoin Cash",
+  },
+  {
+    img_url: DOGEs,
+    coinName: "DOG",
+    symol: "Dogecoin",
+  },
+];
+
+export interface RedeemCoinProps {
+  img_url: string;
+  coinName: string;
+  symol: string;
+  balance: number;
+}
+export const RedeemOptionList = [
+  {
+    img_url: sBTCs,
+    coinName: "SBTC",
+    symol: "Bitcoin",
+    balance: 9999.0024,
+  },
+  {
+    img_url: sBCHs,
+    coinName: "SBCH",
+    symol: "Bitcoin Cash",
+    balance: 9999.0024,
+  },
+  {
+    img_url: sDOGs,
+    coinName: "SDOG",
+    symol: "Dogecoin",
+    balance: 9999.0024,
+  },
+];
 
 function BridgeHome(): React.ReactElement {
   const { t } = useTranslation();

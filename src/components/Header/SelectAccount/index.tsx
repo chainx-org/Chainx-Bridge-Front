@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { SelectAccountStyle, AccountLists, CurrentAccount } from "./style";
 import dropdown from "../SelectAccount/icons/Drop_down.svg"
 import selectAccount from "../SelectAccount/icons/selected_Account.svg"
-import useAccountModel from "../../../hooks/useAccountModel";
+import useAccountModel, { AccountInfo } from "../../../hooks/useAccountModel";
 
 function SelectAccount():React.ReactElement {
   const accountModel = useAccountModel();
@@ -13,7 +13,7 @@ function SelectAccount():React.ReactElement {
   const currentAddress = currentAccount?.address;
   // const currAddress = currentAddress?.substring(0, 5) + '...' + currentAddress?.substring(currentAddress.length - 5)
   const list = accountModel.accounts
-  function accountSelected(val: any) {
+  function accountSelected(val: AccountInfo) {
     setIsSelected(true)
     setValue(val)
     accountModel.setCurrentAccount(val)
@@ -31,7 +31,7 @@ function SelectAccount():React.ReactElement {
       {
         isShowAccountList && 
         <div className='accountList'>
-          {list.map(function (item: any) {
+          {list.map(function (item: AccountInfo) {
             return (
               <AccountLists className="accountItem" onClick={()=>accountSelected(item)} key={item.address}>
                 <div className='selectImg'>

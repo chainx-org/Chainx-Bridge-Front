@@ -3,6 +3,34 @@ import React from "react";
 import styled from "styled-components";
 import Question from '../../ExplainTag/icons/question.svg'
 import {useTranslation} from "react-i18next";
+import { RedeemCoinProps } from "../../../page/Bridge";
+
+interface AddressInputProps {
+  className?: string;
+  coinSymol: RedeemCoinProps;
+  address?:string;
+  changeAddress: (e: string)=>void;
+}
+
+export default function AddressInput({className = '' , coinSymol,address,changeAddress }:AddressInputProps): React.ReactElement<AddressInputProps>{
+    const { t } = useTranslation();
+    return (
+       <Wrapper className={` ${className}`}>
+           <div className='topTitle'>
+               <p>{coinSymol.coinName.slice(1,4)} {t('address')}</p>
+               <div className='righTooltip'>
+                  <Tooltip title={`发行成功后会解锁，若未按照要求完成btc转账，将失去锁定的抵押品`}>
+                    <img src={Question} alt=""/>
+                  </Tooltip>       
+                  <p className='tradeTip'>{t('Transaction Fees')} 0.00001 {coinSymol.coinName.slice(1,4)}</p>
+               </div>
+           </div>
+           <div className='addressIpt'>
+                <Input placeholder={`${t('Please enter your')} ${coinSymol.coinName.slice(1,4)} ${t('address')}`} value={address} onChange={(e) => changeAddress(e.target.value)}/>
+           </div>
+       </Wrapper>
+    )
+}
 
 const Wrapper = styled.div`
     display: flex;
@@ -50,30 +78,3 @@ const Wrapper = styled.div`
         }
     }
 `
-
-interface AddressInputProps {
-  className?: string;
-  coinSymol?: any;
-  address?:string;
-  changeAddress?:any;
-}
-
-export default function AddressInput({className = '' , coinSymol,address,changeAddress }:AddressInputProps): React.ReactElement<AddressInputProps>{
-    const { t } = useTranslation();
-    return (
-       <Wrapper className={` ${className}`}>
-           <div className='topTitle'>
-               <p>{coinSymol.coinName.slice(1,4)} {t('address')}</p>
-               <div className='righTooltip'>
-                  <Tooltip title={`发行成功后会解锁，若未按照要求完成btc转账，将失去锁定的抵押品`}>
-                    <img src={Question} alt=""/>
-                  </Tooltip>       
-                  <p className='tradeTip'>{t('Transaction Fees')} 0.00001 {coinSymol.coinName.slice(1,4)}</p>
-               </div>
-           </div>
-           <div className='addressIpt'>
-                <Input placeholder={`${t('Please enter your')} ${coinSymol.coinName.slice(1,4)} ${t('address')}`} value={address} onChange={(e) => changeAddress(e.target.value)}/>
-           </div>
-       </Wrapper>
-    )
-}

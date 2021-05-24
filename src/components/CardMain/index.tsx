@@ -6,12 +6,13 @@ import QrLogo from "../IssueRequestSuccessCard/icons/qr.svg";
 import Question from '../ExplainTag/icons/question.svg'
 import { CardMainStyle } from "./style";
 import { message } from "antd";
+import { coinProps } from "../../page/Bridge";
 
 interface MainProps{
     opreturn :string;
     address: string;
     issueAmount: number;
-    coinSymol?: any;
+    coinSymol?: coinProps | any;
 }
 
 const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmount,coinSymol}) =>{

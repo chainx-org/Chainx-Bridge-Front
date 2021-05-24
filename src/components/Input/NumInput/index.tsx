@@ -1,7 +1,50 @@
-import { Input, InputNumber, Tooltip } from "antd";
+import { InputNumber, Tooltip } from "antd";
 import React from "react";
 import styled from "styled-components";
+import { coinProps } from "../../../page/Bridge";
 import Question from '../../ExplainTag/icons/question.svg'
+
+interface NumInputProps {
+  children?: React.ReactNode;
+  className?: string;
+  coinSymol: coinProps;
+  setRedeemAmount: (e:number)=>void;
+  tooltip?: string;
+  icon?: boolean
+  title?: string;
+  description?: string;
+  placeholder?: string;
+  RedeemAmount?: number
+  symol?: string;
+}
+
+export default function NumInput({children, className = '' , coinSymol, symol, setRedeemAmount, title, tooltip, icon, description, placeholder, RedeemAmount }:NumInputProps): React.ReactElement<NumInputProps>{
+    
+    return (
+        <Wrapper className={` ${className}`}>
+            <div className='topTitle'>
+                <p>{title}</p>
+                <div className='righTooltip'>
+                   { icon &&
+                    <Tooltip title={tooltip}>
+                        <img src={Question} alt=""/>
+                    </Tooltip>
+                    }
+                  { description && <p className='tradeTip'>{coinSymol.coinName}{" "}{description}{children}</p> }
+                </div>
+            </div>
+            <div className='issueNum'>
+                <InputNumber
+                  value={RedeemAmount}
+                  placeholder={placeholder}
+                  onChange={(e) =>setRedeemAmount(+e) }
+                />
+                <div className='line' />
+                <div className={`btc-title`}>{symol}</div>
+            </div>
+        </Wrapper>
+    )
+}
 
 const Wrapper = styled.div`
     display: flex;
@@ -92,45 +135,3 @@ const Wrapper = styled.div`
         }
     }
 `
-
-interface AddressInputProps {
-  children?: React.ReactNode;
-  className?: string;
-  coinSymol?: any;
-  setRedeemAmount?:any;
-  tooltip?: string;
-  icon?: boolean
-  title?: string;
-  description?: string;
-  placeholder?: string;
-  RedeemAmount?: number
-  symol?: string;
-}
-
-export default function NumInput({children, className = '' , coinSymol, symol, setRedeemAmount, title, tooltip, icon, description, placeholder, RedeemAmount }:AddressInputProps): React.ReactElement<AddressInputProps>{
-    
-    return (
-        <Wrapper className={` ${className}`}>
-            <div className='topTitle'>
-                <p>{title}</p>
-                <div className='righTooltip'>
-                   { icon &&
-                    <Tooltip title={tooltip}>
-                        <img src={Question} alt=""/>
-                    </Tooltip>
-                    }
-                  { description && <p className='tradeTip'>{coinSymol.coinName}{" "}{description}{children}</p> }
-                </div>
-            </div>
-            <div className='issueNum'>
-                <InputNumber
-                   value={RedeemAmount}
-                   placeholder={placeholder}
-                   onChange={(e) =>setRedeemAmount(+e) }
-                />
-                <div className='line' />
-                <div className={`btc-title`}>{symol}</div>
-            </div>
-        </Wrapper>
-    )
-}

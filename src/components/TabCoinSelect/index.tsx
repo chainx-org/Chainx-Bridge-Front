@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { RedeemCoinProps } from "../../page/Bridge";
 // import BCHs from './icons/SBCH.svg'
 // import BTCs from './icons/SBTC.svg'
 // import DOGs from './icons/SDOG.svg'
@@ -8,11 +9,11 @@ import Fill from './icons/fill.svg'
 
 interface CoinSelectProps {
   className?: string;
-  optionList: any;
+  optionList: RedeemCoinProps[];
   isShow: boolean;
-  coinSymol: any;
+  coinSymol: RedeemCoinProps;
   ShowSelect: ()=> void;
-  currCoin: (value: any)=> void;
+  currCoin: (value: RedeemCoinProps)=> void;
 }
 
 export default function TabCoinSelect({className = '' , optionList, isShow, coinSymol, ShowSelect, currCoin }:CoinSelectProps): React.ReactElement<CoinSelectProps>{
@@ -30,7 +31,7 @@ export default function TabCoinSelect({className = '' , optionList, isShow, coin
                     <p>YOUR BALANCE</p>
                 </div>
                 {
-                    optionList.map((item: any)=>{
+                    optionList.map((item: RedeemCoinProps)=>{
                         return ( <div className='optionContent' key={item.coinName} onClick={()=>currCoin(item)}>
                             <div className='left'> 
                                 <img src={item.img_url} alt=""/>
