@@ -6,15 +6,21 @@ import Question from '../ExplainTag/icons/question.svg'
 import IssueStatusFooter from "./IssueStatusFooter";
 import successIcon from "../../icons/complete.svg"
 import failIcon from "../../icons/fail.svg"
+import {stringToHex} from "@polkadot/util";
+import useAccountModel from "../../hooks/useAccountModel";
 
 interface ProcessingModalProps{
     visible:boolean,
     cancle: ()=>void;
     type: string;
+    btcAddress: string;
+    IssueAmount:number;
+    griefingCollateral:number;
+    vaultAddress:string;
 }
 
-function ProcessingModal({visible, cancle, type}:ProcessingModalProps): React.ReactElement<ProcessingModalProps> {
-    
+function ProcessingModal({visible, cancle, type,btcAddress,IssueAmount,griefingCollateral,vaultAddress}:ProcessingModalProps): React.ReactElement<ProcessingModalProps> {
+    const {currentAccount} = useAccountModel();
     return (
         <Modal visible={visible} footer={null} getContainer={false} onCancel={cancle}>
             <ModalStyle>
@@ -30,7 +36,7 @@ function ProcessingModal({visible, cancle, type}:ProcessingModalProps): React.Re
                                     47:56:10
                                 </div>
                             </div>
-                            <CardMain opreturn={"81e71f40d31aa46f09da3f5d58a879c54708725f96730df2d8ac67050b6e2a07"} address={"ms3tsPc5nJZWunt3vXotJoDcoTHGohKiHC"} issueAmount={1}/>
+                            <CardMain coinSymol={{coinName:"BTC"}} opreturn={stringToHex(currentAccount?.address!!)} address={btcAddress} issueAmount={1}/>
                         </> : type === 'success' ?
                         <SuccessStatus className='issueSuccess'>
                             <img src={successIcon} alt=""/>
@@ -44,7 +50,7 @@ function ProcessingModal({visible, cancle, type}:ProcessingModalProps): React.Re
                         </SuccessStatus>
                     }
                 </IssueStatusContent>
-                <IssueStatusFooter />
+                <IssueStatusFooter btcReceiveAddress={btcAddress} IssueAmount={IssueAmount} griefingCollateral={griefingCollateral} vaultAddress={vaultAddress}/>
             </ModalStyle>
         </Modal>
     )

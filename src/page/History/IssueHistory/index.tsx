@@ -26,9 +26,17 @@ function IssueHistory(): React.ReactElement {
   const [IssueStatus, setIssueStatus] = useState("processing");
   const [IssueData, setIssueData] = useState([]);
   const [initLoading, setInitLoading] = useState(true);
-  function IssueModal(val: string) {
-    setIssueStatus(val);
+  const [btcAddress,setBtcAddress] = useState("")
+  const [vaultAddress,setVaultAddress] = useState("")
+  const [IssueAmount,setIssueAmount] = useState(0)
+  const [griefingCollateral,setGriefingCollateral] = useState(0)
+  function IssueModal(val:any) {
+    setIssueStatus(val.status);
     setIssueprocessingModalVisbible(true);
+    setBtcAddress(val.btcAddress)
+    setVaultAddress(val.vault)
+    setIssueAmount(val.btcAmount)
+    setGriefingCollateral(val.griefingCollateral)
   }
 
   const Issuecolumns = [
@@ -69,7 +77,7 @@ function IssueHistory(): React.ReactElement {
         <Space size="middle">
           <div
             className={"processing"}
-            onClick={() => IssueModal(record.status)}
+            onClick={() => IssueModal(record)}
           >
             {record.status}
           </div>
@@ -86,8 +94,7 @@ function IssueHistory(): React.ReactElement {
       )
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
-          setIssueData(res.data);
+          setIssueData(res.items);
           setInitLoading(false);
         });
     }
@@ -106,6 +113,10 @@ function IssueHistory(): React.ReactElement {
         visible={IssueprocessingModalVisbible}
         type={IssueStatus}
         cancle={() => setIssueprocessingModalVisbible(false)}
+        btcAddress={btcAddress}
+        IssueAmount={IssueAmount}
+        griefingCollateral={griefingCollateral}
+        vaultAddress={vaultAddress}
       />
     </>
   );
