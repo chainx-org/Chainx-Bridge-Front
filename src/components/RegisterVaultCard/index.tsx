@@ -24,7 +24,7 @@ function RegisterVaultCard(): React.ReactElement {
   const [regVault, setRegVault] = useState(false);
   const [BtcAddress, setBtcAddress] = useState("");
   const [pcxBalance, setPcxBalance] = useState(0);
-  const [path,setPath] = useState("")
+  const [path, setPath] = useState("")
   let location = useLocation()
   async function getPCXBalance() {
     const res = await api?.query.system.account(currentAccount?.address!! || "");
@@ -33,7 +33,7 @@ function RegisterVaultCard(): React.ReactElement {
   }
   useEffect(() => {
     getPCXBalance();
-  }, [currentAccount,isApiReady]);
+  }, [currentAccount, isApiReady]);
   async function onFinish(values: formProps) {
     // let valid =  WAValidator.validate(BtcAddress,'BTC')
     // if(!valid){
@@ -41,100 +41,100 @@ function RegisterVaultCard(): React.ReactElement {
     //     return
     // }
     const injector = await web3FromAddress(currentAccount!!.address);
-    if(path === "btc"){
+    if (path === "btc") {
       api.tx.xGatewayBitcoinBridge
-          .registerVault(values.collateral * 100000000, values.address)
-          .signAndSend(
-              currentAccount!!.address,
-              { signer: injector.signer },
-              ({ status, dispatchError, events }) => {
-                if (status.isInBlock) {
-                  notification["success"]({
-                    message: `Completed at block hash ${status.asInBlock.toString()}`,
-                    duration: 0,
-                  });
-                } else if (dispatchError) {
-                  if (dispatchError.isModule) {
-                    const decoded = api.registry.findMetaError(
-                        dispatchError.asModule
-                    );
-                    const { documentation, name, section } = decoded;
-                    notification["error"]({
-                      message: `注册失败！原因：${section}.${name}: ${documentation.join(
-                          " "
-                      )}`,
-                      duration: 0,
-                    });
-                  }
-                } else {
-                  notification["success"]({
-                    message: `Current status: ${status.type}`,
-                    duration: 0,
-                  });
-                  if (status.type === "Finalized") {
-                    message.success({
-                      content: "注册成功！",
-                      className: "MsgSuccess",
-                      duration: 3,
-                    });
-                    setRegVault(true);
-                  }
-                }
+        .registerVault(values.collateral * 100000000, values.address)
+        .signAndSend(
+          currentAccount!!.address,
+          { signer: injector.signer },
+          ({ status, dispatchError, events }) => {
+            if (status.isInBlock) {
+              notification["success"]({
+                message: `Completed at block hash ${status.asInBlock.toString()}`,
+                duration: 0,
+              });
+            } else if (dispatchError) {
+              if (dispatchError.isModule) {
+                const decoded = api.registry.findMetaError(
+                  dispatchError.asModule
+                );
+                const { documentation, name, section } = decoded;
+                notification["error"]({
+                  message: `注册失败！原因：${section}.${name}: ${documentation.join(
+                    " "
+                  )}`,
+                  duration: 0,
+                });
               }
-          )
-          .catch((error: any) => {
-            notification["error"]({
-              message: `:( transaction failed', ${error}`,
-              duration: 0,
-            });
+            } else {
+              notification["success"]({
+                message: `Current status: ${status.type}`,
+                duration: 0,
+              });
+              if (status.type === "Finalized") {
+                message.success({
+                  content: "注册成功！",
+                  className: "MsgSuccess",
+                  duration: 3,
+                });
+                setRegVault(true);
+              }
+            }
+          }
+        )
+        .catch((error: any) => {
+          notification["error"]({
+            message: `:( transaction failed', ${error}`,
+            duration: 0,
           });
-    }else{
+        });
+    } else {
       api.tx.xGatewayDogecoinBridge
-          .registerVault(values.collateral * 100000000, values.address)
-          .signAndSend(
-              currentAccount!!.address,
-              { signer: injector.signer },
-              ({ status, dispatchError, events }) => {
-                if (status.isInBlock) {
-                  notification["success"]({
-                    message: `Completed at block hash ${status.asInBlock.toString()}`,
-                    duration: 0,
-                  });
-                } else if (dispatchError) {
-                  if (dispatchError.isModule) {
-                    const decoded = api.registry.findMetaError(
-                        dispatchError.asModule
-                    );
-                    const { documentation, name, section } = decoded;
-                    notification["error"]({
-                      message: `注册失败！原因：${section}.${name}: ${documentation.join(
-                          " "
-                      )}`,
-                      duration: 0,
-                    });
-                  }
-                } else {
-                  notification["success"]({
-                    message: `Current status: ${status.type}`,
-                    duration: 0,
-                  });
-                  if (status.type === "Finalized") {
-                    message.success({
-                      content: "注册成功！",
-                      className: "MsgSuccess",
-                      duration: 3,
-                    });
-                    setRegVault(true);
-                  }
-                }
+        .registerVault(values.collateral * 100000000, values.address)
+        .signAndSend(
+          currentAccount!!.address,
+          { signer: injector.signer },
+          ({ status, dispatchError, events }) => {
+            if (status.isInBlock) {
+              notification["success"]({
+                message: `Completed at block hash ${status.asInBlock.toString()}`,
+                duration: 0,
+              });
+            } else if (dispatchError) {
+              if (dispatchError.isModule) {
+                const decoded = api.registry.findMetaError(
+                  dispatchError.asModule
+                );
+                const { documentation, name, section } = decoded;
+                notification["error"]({
+                  message: `注册失败！原因：${section}.${name}: ${documentation.join(
+                    " "
+                  )}`,
+                  duration: 0,
+                });
               }
-          )
-          .catch((error: any) => {
-            notification["error"]({
-              message: `:( transaction failed', ${error}`,
-              duration: 0,
-            });
+            } else {
+              notification["success"]({
+                message: `Current status: ${status.type}`,
+                duration: 0,
+              });
+              if (status.type === "Finalized") {
+                message.success({
+                  content: "注册成功！",
+                  className: "MsgSuccess",
+                  duration: 3,
+                });
+                setRegVault(true);
+              }
+            }
+          }
+        )
+        .catch((error: any) => {
+          notification["error"]({
+            message: `:( transaction failed', ${error}`,
+            duration: 0,
           });
+        });
     }
   }
   return (
@@ -205,8 +205,8 @@ function RegisterVaultCard(): React.ReactElement {
                         value
                           ? Promise.resolve()
                           : Promise.reject(
-                              new Error(t("Should accept agreement"))
-                            ),
+                            new Error(t("Should accept agreement"))
+                          ),
                     },
                   ]}
                 >

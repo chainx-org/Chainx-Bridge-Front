@@ -4,24 +4,24 @@ import styled from "styled-components";
 import Question from './icons/question.svg'
 
 interface ExplainTagProps {
-  className?: string;
-  title: string;
-  children: React.ReactNode;
-  tooltip?: string
+    className?: string;
+    title: string;
+    children: React.ReactNode;
+    tooltip?: string
 }
 
-export default function ExplainTag({className = '' , title, children, tooltip }:ExplainTagProps): React.ReactElement<ExplainTagProps>{
-    
+export default function ExplainTag({ className = '', title, children, tooltip }: ExplainTagProps): React.ReactElement<ExplainTagProps> {
+
     return (
-       <Wrapper className={``}>
-           <div className='leftTitle'>
-               <div className={`title ${className} `}>{title}</div>
-               <Tooltip title={tooltip}>
-                    <img src={Question} alt=""/>
-               </Tooltip>       
-           </div>
-           <div className={`rightContent  ${className}`}>{children}</div>
-       </Wrapper>
+        <Wrapper className={``}>
+            <div className='leftTitle'>
+                <div className={`title ${className} `}>{title}</div>
+                <Tooltip title={tooltip}>
+                    <img src={Question} alt="" />
+                </Tooltip>
+            </div>
+            <div className={`rightContent  ${className}`}>{children}</div>
+        </Wrapper>
     )
 }
 

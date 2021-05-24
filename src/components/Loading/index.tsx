@@ -13,12 +13,12 @@ const LoadingStyle = styled.div`
         height: 212px;
     }
 `
-const antIcon = <LoadingOutlined style={{ fontSize: 24,color:"#F6C94A" }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 24, color: "#F6C94A" }} spin />
 
-function Loading():React.ReactElement {
-    return(
+function Loading(): React.ReactElement {
+    return (
         <LoadingStyle >
-            <Spin indicator={antIcon} size={"large"}/>
+            <Spin indicator={antIcon} size={"large"} />
         </LoadingStyle>
     )
 }
