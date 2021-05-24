@@ -3,43 +3,24 @@ import { TableStyle } from "../style";
 import { useTranslation } from "react-i18next";
 import { Space, Table } from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
-import ProcessingModal from "../../../components/ProcessingModal/index";
-
-interface HistoryRow {
-  id: number;
-  amount: number;
-  chainxAddr: string;
-  vaultBtcAddr: string;
-  hash: string;
-  countedBlock: number;
-  status: "process" | "completed" | "cancelled";
-}
+import RedeemStatusModal from "../../../components/RedeemStatusModal/index";
 
 function RedeemHistory(): React.ReactElement {
   const { currentAccount } = useAccountModel();
   const requester = currentAccount?.address;
   const { t } = useTranslation();
-  const [
-    IssueprocessingModalVisbible,
-    setIssueprocessingModalVisbible,
-  ] = useState(false);
-  const [IssueStatus, setIssueStatus] = useState("processing");
-  const [IssueData, setIssueData] = useState([]);
+  const [RedeemSuccessModalVisible, setRedeemSuccessModalVisible] = useState(
+      false
+  );
+  const [RedeemStatus, setRedeemStatus] = useState("processing");
+  const [RedeemData, setRedeemData] = useState([]);
   const [initLoading, setInitLoading] = useState(true);
-  const [btcAddress,setBtcAddress] = useState("")
-  const [vaultAddress,setVaultAddress] = useState("")
-  const [IssueAmount,setIssueAmount] = useState(0)
-  const [griefingCollateral,setGriefingCollateral] = useState(0)
-  function IssueModal(val:any) {
-    setIssueStatus(val.status);
-    setIssueprocessingModalVisbible(true);
-    setBtcAddress(val.btcAddress)
-    setVaultAddress(val.vault)
-    setIssueAmount(val.btcAmount)
-    setGriefingCollateral(val.griefingCollateral)
-  }
 
-  const Issuecolumns = [
+  function RedeemModal(val: string) {
+    setRedeemStatus(val);
+    setRedeemSuccessModalVisible(true);
+  }
+  const Redeemcolumns = [
     {
       title: "更新时间",
       dataIndex: "time",
@@ -72,12 +53,12 @@ function RedeemHistory(): React.ReactElement {
     },
     {
       title: "状态",
-      key: "status",
-      render: (record: any) => (
+      key: "action",
+      render: (text: any, record: any) => (
           <Space size="middle">
             <div
                 className={"processing"}
-                onClick={() => IssueModal(record)}
+                onClick={() => RedeemModal(record.status)}
             >
               {record.status}
             </div>
@@ -94,7 +75,8 @@ function RedeemHistory(): React.ReactElement {
       )
           .then((res) => res.json())
           .then((res) => {
-            setIssueData(res.items);
+            console.log(res);
+            setRedeemData(res.data);
             setInitLoading(false);
           });
     }
@@ -103,20 +85,16 @@ function RedeemHistory(): React.ReactElement {
       <>
         <TableStyle>
           <Table
-              columns={Issuecolumns}
-              dataSource={IssueData}
+              columns={Redeemcolumns}
+              dataSource={RedeemData}
               loading={initLoading}
               pagination={{ pageSize: 5, defaultPageSize: 5 }}
           />
         </TableStyle>
-        <ProcessingModal
-            visible={IssueprocessingModalVisbible}
-            type={IssueStatus}
-            cancle={() => setIssueprocessingModalVisbible(false)}
-            btcAddress={btcAddress}
-            IssueAmount={IssueAmount}
-            griefingCollateral={griefingCollateral}
-            vaultAddress={vaultAddress}
+        <RedeemStatusModal
+            visible={RedeemSuccessModalVisible}
+            cancle={() => setRedeemSuccessModalVisible(false)}
+            type={RedeemStatus}
         />
       </>
   );

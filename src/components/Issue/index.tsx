@@ -16,12 +16,9 @@ import useAccountModel from "../../hooks/useAccountModel";
 import { FeeContext } from "../../hooks/useFeeContext";
 import { web3FromAddress } from "@polkadot/extension-dapp";
 import { useApi } from "../../hooks/useApi";
-import ChangeChainXAddress from "../../util";
 import IssueRequestSuccessCard from "../IssueRequestSuccessCard";
 import { IssueRequestsContext } from "../../hooks/useIssueRequests";
 import {Vault} from "../../interfaces";
-import type {BTreeMap} from "@polkadot/types";
-import Item from "antd/lib/list/Item";
 
 interface coinProps {
   img_url: any;
