@@ -16,7 +16,7 @@ import { web3FromAddress } from "@polkadot/extension-dapp";
 import { useApi } from "../../hooks/useApi";
 import IssueRequestSuccessCard from "../IssueRequestSuccessCard";
 import { IssueRequestsContext } from "../../hooks/useIssueRequests";
-import {Vault} from "../../interfaces";
+import { Vault } from "../../interfaces";
 import { coinProps, optionList } from "../../page/Bridge";
 function Issue(): React.ReactElement {
   const value = useContext(IssueRequestsContext);
@@ -32,7 +32,7 @@ function Issue(): React.ReactElement {
   const [vaultAddress, setVaultAddress] = useState("");
   const [vaultBtcAddress, setVaultBtcAddress] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
-  
+
   const [isShow, setIsShow] = useState(false);
   const [coinSymol, setCoinSymol] = useState<coinProps>({
     img_url: BTCs,
@@ -57,13 +57,13 @@ function Issue(): React.ReactElement {
       return;
     }
     setButtonLoading(true);
-    if(coinSymol.coinName === 'BTC') {
+    if (coinSymol.coinName === 'BTC') {
       const vaults = await api.query.xGatewayBitcoinBridge.vaults.entries();
       const results = await Promise.all(
         vaults.map(async ([key, value]) => {
           const vault: Vault = value.unwrap();
           const collateral = await (await api.query.system.account(key.args[0])).data.reserved;
-          const assetId =  api.consts.xGatewayBitcoinBridge.tokenAssetId;
+          const assetId = api.consts.xGatewayBitcoinBridge.tokenAssetId;
           const balance = await api.query.xAssets.assetBalance(key.args[0], assetId);
           const maxToken = collateral.muln(pcxPrice).divn(3);
           return [
@@ -83,72 +83,72 @@ function Issue(): React.ReactElement {
       );
       const injector = await web3FromAddress(currentAccount!!.address);
       api.tx.xGatewayBitcoinBridge
-      .requestIssue(vaultAddress, IssueAmount * 100000000)
-      .signAndSend(
-        currentAccount!!.address,
-        { signer: injector.signer },
-        ({ status, dispatchError, events }) => {
-          if (status.isInBlock) {
-            notification["success"]({
-              key,
-              // message: `Completed at block hash ${status.asInBlock.toString()}`,
-              message: `Waiting For Confirmation`,
-              duration: 0,
-              icon: (
-                <LoadingOutlined style={{ fontSize: 24, color: "#F6C94A" }} />
-              ),
-            });
-          } else if (dispatchError) {
-            if (dispatchError.isModule) {
-              const decoded = api.registry.findMetaError(
-                dispatchError.asModule
-              );
-              const { documentation, name, section } = decoded;
-              notification["error"]({
-                key,
-                message: `${section}.${name}: ${documentation.join(" ")}`,
-                duration: 3,
-              });
-              setButtonLoading(false);
-            }
-          } else {
-            if (status.type === "Finalized") {
+        .requestIssue(vaultAddress, IssueAmount * 100000000)
+        .signAndSend(
+          currentAccount!!.address,
+          { signer: injector.signer },
+          ({ status, dispatchError, events }) => {
+            if (status.isInBlock) {
               notification["success"]({
                 key,
-                message: `Current status: ${status.type}`,
-                duration: 3,
-              });
-              setShowIssueNext(true);
-            } else {
-              notification["success"]({
-                key,
+                // message: `Completed at block hash ${status.asInBlock.toString()}`,
                 message: `Waiting For Confirmation`,
                 duration: 0,
                 icon: (
                   <LoadingOutlined style={{ fontSize: 24, color: "#F6C94A" }} />
                 ),
               });
+            } else if (dispatchError) {
+              if (dispatchError.isModule) {
+                const decoded = api.registry.findMetaError(
+                  dispatchError.asModule
+                );
+                const { documentation, name, section } = decoded;
+                notification["error"]({
+                  key,
+                  message: `${section}.${name}: ${documentation.join(" ")}`,
+                  duration: 3,
+                });
+                setButtonLoading(false);
+              }
+            } else {
+              if (status.type === "Finalized") {
+                notification["success"]({
+                  key,
+                  message: `Current status: ${status.type}`,
+                  duration: 3,
+                });
+                setShowIssueNext(true);
+              } else {
+                notification["success"]({
+                  key,
+                  message: `Waiting For Confirmation`,
+                  duration: 0,
+                  icon: (
+                    <LoadingOutlined style={{ fontSize: 24, color: "#F6C94A" }} />
+                  ),
+                });
+              }
             }
           }
-        }
-      )
-      .catch((error) => {
-        notification["error"]({
-          key,
-          message: `:( transaction failed', ${error}`,
-          duration: 3,
+        )
+        .catch((error) => {
+          notification["error"]({
+            key,
+            message: `:( transaction failed', ${error}`,
+            duration: 3,
+          });
+          setButtonLoading(false);
         });
-        setButtonLoading(false);
-      });
     };
-    if(coinSymol.coinName === 'DOG') {
+    if (coinSymol.coinName === 'DOG') {
       const vaults = await api.query.xGatewayDogecoinBridge.vaults.entries();
       console.log(vaults.toString())
       const results = await Promise.all(
         vaults.map(async ([key, value]) => {
           const vault: Vault = value.unwrap();
           const collateral = await (await api.query.system.account(key.args[0])).data.reserved;
-          const assetId =  api.consts.xGatewayDogecoinBridge.tokenAssetId;
+          const assetId = api.consts.xGatewayDogecoinBridge.tokenAssetId;
           const balance = await api.query.xAssets.assetBalance(key.args[0], assetId);
           const maxToken = collateral.muln(pcxPrice).divn(3);
           return [
@@ -168,66 +168,66 @@ function Issue(): React.ReactElement {
       );
       const injector = await web3FromAddress(currentAccount!!.address);
       api.tx.xGatewayDogecoinBridge
-      .requestIssue(vaultAddress, IssueAmount * 100000000)
-      .signAndSend(
-        currentAccount!!.address,
-        { signer: injector.signer },
-        ({ status, dispatchError, events }) => {
-          if (status.isInBlock) {
-            notification["success"]({
-              key,
-              // message: `Completed at block hash ${status.asInBlock.toString()}`,
-              message: `Waiting For Confirmation`,
-              duration: 0,
-              icon: (
-                <LoadingOutlined style={{ fontSize: 24, color: "#F6C94A" }} />
-              ),
-            });
-          } else if (dispatchError) {
-            if (dispatchError.isModule) {
-              const decoded = api.registry.findMetaError(
-                dispatchError.asModule
-              );
-              const { documentation, name, section } = decoded;
-              notification["error"]({
-                key,
-                message: `${section}.${name}: ${documentation.join(" ")}`,
-                duration: 0,
-              });
-              setButtonLoading(false);
-            }
-          } else {
-            if (status.type === "Finalized") {
+        .requestIssue(vaultAddress, IssueAmount * 100000000)
+        .signAndSend(
+          currentAccount!!.address,
+          { signer: injector.signer },
+          ({ status, dispatchError, events }) => {
+            if (status.isInBlock) {
               notification["success"]({
                 key,
-                message: `Current status: ${status.type}`,
-                duration: 3,
-              });
-              setShowIssueNext(true);
-            } else {
-              notification["success"]({
-                key,
+                // message: `Completed at block hash ${status.asInBlock.toString()}`,
                 message: `Waiting For Confirmation`,
                 duration: 0,
                 icon: (
                   <LoadingOutlined style={{ fontSize: 24, color: "#F6C94A" }} />
                 ),
               });
+            } else if (dispatchError) {
+              if (dispatchError.isModule) {
+                const decoded = api.registry.findMetaError(
+                  dispatchError.asModule
+                );
+                const { documentation, name, section } = decoded;
+                notification["error"]({
+                  key,
+                  message: `${section}.${name}: ${documentation.join(" ")}`,
+                  duration: 0,
+                });
+                setButtonLoading(false);
+              }
+            } else {
+              if (status.type === "Finalized") {
+                notification["success"]({
+                  key,
+                  message: `Current status: ${status.type}`,
+                  duration: 3,
+                });
+                setShowIssueNext(true);
+              } else {
+                notification["success"]({
+                  key,
+                  message: `Waiting For Confirmation`,
+                  duration: 0,
+                  icon: (
+                    <LoadingOutlined style={{ fontSize: 24, color: "#F6C94A" }} />
+                  ),
+                });
+              }
             }
           }
-        }
-      )
-      .catch((error) => {
-        notification["error"]({
-          key,
-          message: `:( transaction failed', ${error}`,
-          duration: 0,
+        )
+        .catch((error) => {
+          notification["error"]({
+            key,
+            message: `:( transaction failed', ${error}`,
+            duration: 0,
+          });
+          setButtonLoading(false);
         });
-        setButtonLoading(false);
-      });
     }
   }
-    
+
   let polkaAccount = encodeAddress(
     decodeAddress(
       currentAccount
@@ -249,7 +249,7 @@ function Issue(): React.ReactElement {
       {showIssueNext ? (
         <IssueRequestSuccessCard
           currAddress={currAddress}
-          hypothecateNum={ coinSymol.coinName === 'BTC' ? hypothecateNum : dogHypothecateNum }
+          hypothecateNum={coinSymol.coinName === 'BTC' ? hypothecateNum : dogHypothecateNum}
           IssueAmount={IssueAmount}
           vaultBtcAddress={vaultBtcAddress}
           coinSymol={coinSymol}
@@ -305,7 +305,7 @@ function Issue(): React.ReactElement {
           </div>
           <div className="bottomContent">
             <ExplainTag title="目标账户" children={currAddress} />
-            <ExplainTag title="锁定抵押品" children={ coinSymol.coinName === 'BTC' ? hypothecateNum : dogHypothecateNum } />
+            <ExplainTag title="锁定抵押品" children={coinSymol.coinName === 'BTC' ? hypothecateNum : dogHypothecateNum} />
             <ExplainTag title="手续费" children={chargeNum} />
             <Button loading={buttonLoading} onClick={handleMatchVault}>
               {t("next")}

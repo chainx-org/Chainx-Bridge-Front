@@ -5,9 +5,10 @@ import History from './icons/history.svg'
 import Vault from './icons/Vault.svg'
 import { Tooltip } from "antd";
 import { NavLink } from "react-router-dom";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
+
 function SideBar(): React.ReactElement {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   return (
     <SideBarStyle>
       <SideBarTab>
@@ -18,16 +19,16 @@ function SideBar(): React.ReactElement {
         </Tooltip>
         <Line />
         <Tooltip placement={"left"} title={t('history')} arrowPointAtCenter>
-            <NavLink to={"/history"} >
-                <img src={History} alt="history" />
-            </NavLink>
+          <NavLink to={"/history"} >
+            <img src={History} alt="history" />
+          </NavLink>
         </Tooltip>
       </SideBarTab>
-       {/*<Tooltip placement={"left"} title={t('vault')}>*/}
-       {/*    <NavLink to={"/Vault"} className='vault'>*/}
-       {/*        <img src={Vault} alt="vault" />*/}
-       {/*    </NavLink>*/}
-       {/*</Tooltip>*/}
+      {/*<Tooltip placement={"left"} title={t('vault')}>*/}
+      {/*    <NavLink to={"/Vault"} className='vault'>*/}
+      {/*        <img src={Vault} alt="vault" />*/}
+      {/*    </NavLink>*/}
+      {/*</Tooltip>*/}
     </SideBarStyle>
   );
 }

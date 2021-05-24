@@ -70,22 +70,22 @@ function BridgeHome(): React.ReactElement {
   const tabList = ([
     {
       title: 'issue',
-      nodeName: t<string>('issue'), 
-      link: '/bridge/', 
+      nodeName: t<string>('issue'),
+      link: '/bridge/',
     },
-    {  
+    {
       title: 'redeem',
-      nodeName: t<string>('Redeem'), 
-      link: '/bridge/redeem', 
+      nodeName: t<string>('Redeem'),
+      link: '/bridge/redeem',
     }
   ]);
   return (
     <BridgeCardStyle>
       <FunctionSwitchButton>
         {
-          tabList.map((item)=>{
+          tabList.map((item) => {
             return <div className='tabList' key={item.title}>
-              <Link to={item.link} onClick={()=>changeTab(item.title)} className={item.title === isActive ? 'active': ''}>{item.nodeName}</Link>
+              <Link to={item.link} onClick={() => changeTab(item.title)} className={item.title === isActive ? 'active' : ''}>{item.nodeName}</Link>
             </div>
           })
         }
