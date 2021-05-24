@@ -49,7 +49,7 @@ function IssueHistory(): React.ReactElement {
       title: "数量（XBTC）",
       dataIndex: "btcAmount",
       key: "btcAmount",
-      render: (text: any, record: any) => (
+      render: (record: any) => (
         <Space size="middle">
           <div>{record.btcAmount / 100000000}</div>
         </Space>

@@ -1,14 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import { coinProps } from "../../page/Bridge";
 import Fill from './icons/fill.svg'
 
 interface CoinSelectProps {
   className?: string;
-  optionList?: any;
+  optionList: coinProps[];
   isShow?: boolean;
-  currCoin: (value: any)=>void;
+  currCoin: (value: coinProps)=>void;
   ShowSelect?: ()=>void;
-  coinSymol?: any;
+  coinSymol: coinProps;
 }
 
 export default function CoinSelect({className = '' , optionList, isShow, currCoin, ShowSelect, coinSymol }:CoinSelectProps): React.ReactElement<CoinSelectProps>{
@@ -25,7 +26,7 @@ export default function CoinSelect({className = '' , optionList, isShow, currCoi
                 { isShow && <div className='option'>
                     <p className='optinTitle'>ASSET</p>
                     {
-                        optionList.map((item: any)=>{
+                        optionList.map((item: coinProps)=>{
                             return ( <div className='optionContent' key={item.coinName} onClick={()=>currCoin(item)}>
                                 <img src={item.img_url} alt=""/>
                                 <div className='coinSymol'>

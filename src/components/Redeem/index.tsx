@@ -6,22 +6,14 @@ import arrowGray from "../Issue/icons/arrow_gray.svg";
 import { useTranslation } from "react-i18next";
 import AddressInput from "../Input/AddressInput";
 import TabCoinSelect from "../TabCoinSelect";
-import BCHs from "../TabCoinSelect/icons/SBCH.svg";
-import BTCs from "../TabCoinSelect/icons/SBTC.svg";
-import DOGs from "../TabCoinSelect/icons/SDOG.svg";
+import sBTC from "../TabCoinSelect/icons/SBTC.svg";
 import useAccountModel from "../../hooks/useAccountModel";
 import { useApi } from "../../hooks/useApi";
 // import useXbtcAssets from "../../hooks/useXbtcAssets";
 import { web3FromAddress } from "@polkadot/extension-dapp";
 import NumInput from "../Input/NumInput";
 import RedeemRequestSuccessCard from "../RedeemRequestSuccessCard";
-
-interface coinProps {
-  img_url: any;
-  coinName: string;
-  symol: string;
-  balance: number;
-}
+import { RedeemCoinProps, RedeemOptionList } from "../../page/Bridge";
 
 function Redeem(): React.ReactElement {
   const { t } = useTranslation();
@@ -33,34 +25,15 @@ function Redeem(): React.ReactElement {
   const { api } = useApi();
   const [buttonLoading, setButtonLoading] = useState(false);
   // const {XbtcBalance} = useXbtcAssets(currentAccount?.address!!,n)
-  const optionList = [
-    {
-      img_url: BTCs,
-      coinName: "SBTC",
-      symol: "Bitcoin",
-      balance: 9999.0024,
-    },
-    {
-      img_url: BCHs,
-      coinName: "SBCH",
-      symol: "Bitcoin Cash",
-      balance: 9999.0024,
-    },
-    {
-      img_url: DOGs,
-      coinName: "SDOG",
-      symol: "Dogecoin",
-      balance: 9999.0024,
-    },
-  ];
+  
   const [isShow, setIsShow] = useState(false);
-  const [coinSymol, setCoinSymol] = useState<coinProps>({
-    img_url: BTCs,
+  const [coinSymol, setCoinSymol] = useState<RedeemCoinProps>({
+    img_url: sBTC,
     coinName: "SBTC",
     symol: "Bitcoin",
     balance: 9999.0024,
   });
-  const currCoin = (value: any) => {
+  const currCoin = (value: RedeemCoinProps) => {
     setCoinSymol(value);
     setIsShow(!isShow);
   };
@@ -177,14 +150,16 @@ function Redeem(): React.ReactElement {
   };
   return (
     <>
-      {showRedeemNext ? (
-        <RedeemRequestSuccessCard />
+      {!showRedeemNext ? (
+        <RedeemRequestSuccessCard 
+          coinSymol={coinSymol}
+        />
       ) : (
         <RedeemStyle>
           <div className="topContent">
             <AccountSwitch>
               <TabCoinSelect
-                optionList={optionList}
+                optionList={RedeemOptionList}
                 isShow={isShow}
                 coinSymol={coinSymol}
                 currCoin={currCoin}
