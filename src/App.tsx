@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense} from "react";
 import "./App.css";
 import { Redirect, Route, Switch } from "react-router-dom";
 import SideBar from "./components/SideBar";
@@ -20,7 +20,7 @@ import useInitialAccounts from "./hooks/useInitialAccounts";
 import useInitialFee from "./hooks/useInitialFee";
 import useInitialBridgeStatus from "./hooks/useInitialBridgeStatus";
 import useInitialRequests from "./hooks/useInitialRequests";
-const Bridge = lazy(() => import("./page/Bridge/home"));
+const Bridge = lazy(() => import("./page/Bridge/index"));
 const History = lazy(() => import("./page/History"));
 const btcVault = lazy(() => import("./page/Vault/btcVault"));
 const dogeVault = lazy(()=> import("./page/Vault/dogeVault"))

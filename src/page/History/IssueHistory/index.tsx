@@ -121,5 +121,4 @@ function IssueHistory(): React.ReactElement {
     </>
   );
 }
-
 export default IssueHistory;
