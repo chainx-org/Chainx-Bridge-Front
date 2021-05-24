@@ -8,7 +8,7 @@ import { BtcInfoCardStyle, TradeInfoStyle } from "./style";
 
 function BtcInfoCard(): React.ReactElement {
   const { currentAccount } = useAccountModel();
-  const { api, isApiReady } = useApi();
+  const { api } = useApi();
   const [btcAddress, setBtcAddress] = useState("");
   const [btcBalance, setBtcBalance] = useState(0);
   const [total_received, setTotal_received] = useState(0);

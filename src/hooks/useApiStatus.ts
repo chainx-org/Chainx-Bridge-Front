@@ -1,11 +1,11 @@
-import {useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import * as definitions from "../interfaces/definitions";
-import {ApiPromise, WsProvider} from "@polkadot/api";
+import { ApiPromise, WsProvider } from "@polkadot/api";
 
-function useApiStatus(){
-    const [isApiReady,setIsReady] = useState(false)
+function useApiStatus() {
+    const [isApiReady, setIsReady] = useState(false)
     const [api, setApi] = useState<ApiPromise | null>(null)
-    useEffect(()=>{
+    useEffect(() => {
         const types = Object.values(definitions).reduce(
             (res, { types }) => ({ ...res, ...types }),
             {}
@@ -18,7 +18,7 @@ function useApiStatus(){
             setIsReady(true);
             // notification.info({ message: "Endpoint connected." });
         });
-    },[])
-    return {api,isApiReady}
+    }, [])
+    return { api, isApiReady }
 }
 export default useApiStatus;

@@ -1,4 +1,3 @@
-import { AccountId } from "@polkadot/types/interfaces";
 import { createModel } from "hox";
 import { useState } from "react";
 

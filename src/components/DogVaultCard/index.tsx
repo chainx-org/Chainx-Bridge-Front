@@ -1,22 +1,22 @@
 import React from "react";
-import {VaultCardStyle, VaultTopStyle} from "./style";
+import { VaultCardStyle, VaultTopStyle } from "./style";
 import EarnCard from "./EarnCard";
 import BtcInfoCard from "./BtcInfoCard";
 import HistoryCard from "./HistoryCard";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
-function VaultCard():React.ReactElement {
-    const {t} = useTranslation()
+function VaultCard(): React.ReactElement {
+    const { t } = useTranslation()
     return (
         <VaultCardStyle>
             <div className={"vault-card-title"}>
                 {t('Vault')}
             </div>
             <VaultTopStyle>
-                <EarnCard/>
-                <BtcInfoCard/>
+                <EarnCard />
+                <BtcInfoCard />
             </VaultTopStyle>
-            <HistoryCard/>
+            <HistoryCard />
         </VaultCardStyle>
     )
 }

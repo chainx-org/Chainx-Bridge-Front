@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TableStyle } from "../style";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { Space, Table } from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
 import ProcessingModal from "../../../components/ProcessingModal/index";
@@ -18,19 +18,16 @@ interface HistoryRow {
 function IssueHistory(): React.ReactElement {
   const { currentAccount } = useAccountModel();
   const requester = currentAccount?.address;
-  const { t } = useTranslation();
-  const [
-    IssueprocessingModalVisbible,
-    setIssueprocessingModalVisbible,
-  ] = useState(false);
+  // const { t } = useTranslation();
+  const [IssueprocessingModalVisbible, setIssueprocessingModalVisbible] = useState(false);
   const [IssueStatus, setIssueStatus] = useState("processing");
   const [IssueData, setIssueData] = useState([]);
   const [initLoading, setInitLoading] = useState(true);
-  const [btcAddress,setBtcAddress] = useState("")
-  const [vaultAddress,setVaultAddress] = useState("")
-  const [IssueAmount,setIssueAmount] = useState(0)
-  const [griefingCollateral,setGriefingCollateral] = useState(0)
-  function IssueModal(val:any) {
+  const [btcAddress, setBtcAddress] = useState("")
+  const [vaultAddress, setVaultAddress] = useState("")
+  const [IssueAmount, setIssueAmount] = useState(0)
+  const [griefingCollateral, setGriefingCollateral] = useState(0)
+  function IssueModal(val: any) {
     setIssueStatus(val.status);
     setIssueprocessingModalVisbible(true);
     setBtcAddress(val.btcAddress)

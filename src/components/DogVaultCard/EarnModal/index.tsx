@@ -1,16 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  AddCollateralModalStyle,
-  CollateralDisplayStyle,
-  CollateralRate,
-} from "./style";
-import { Button, InputNumber, Modal, notification } from "antd";
+import { AddCollateralModalStyle, CollateralDisplayStyle, CollateralRate } from "./style";
+import { Button, InputNumber, notification } from "antd";
 import { useTranslation } from "react-i18next";
 import useAccountModel from "../../../hooks/useAccountModel";
-import { AccountId, Balance, BlockNumber } from "@polkadot/types/interfaces";
+import { Balance, BlockNumber } from "@polkadot/types/interfaces";
 import { BtcAddress } from "../../../interfaces";
 import { useApi } from "../../../hooks/useApi";
-import { BalanceSpan } from "../../BalanceSpan";
+// import { BalanceSpan } from "../../BalanceSpan";
 import { useFeeContext, FeeContext } from "../../../hooks/useFeeContext";
 import { useAccountInfo } from "../../../hooks/useAccountInfo";
 import FormatBalance from "../../../hooks/useFormatBalance";
@@ -20,12 +16,6 @@ import arrowYellow from "../../Issue/icons/arrow_yellow.svg";
 
 interface VaultModel {
   address: string;
-  // btcAddress: BtcAddress;
-  // issuedToken: Balance;
-  // toBeIssuedToken: Balance;
-  // toBeRedeemToken: Balance;
-  // collateral: Balance;
-  
   toBeRedeemedTokens: Balance,
   wallet: BtcAddress,
   bannedUntil: BlockNumber,
@@ -35,12 +25,8 @@ interface EarnModalProps {
   AddCollateralModal: boolean;
   SetAddCollateralModal: (bool: boolean) => void;
 }
-function EarnModal({
-  SetAddCollateralModal,
-  AddCollateralModal,
-}: EarnModalProps): React.ReactElement {
+function EarnModal({ SetAddCollateralModal, AddCollateralModal }: EarnModalProps): React.ReactElement {
   const value = useContext(FeeContext);
-  const pcxPrice = value.pcxPrice;
   const { t } = useTranslation();
   const [vault, setVault] = useState<VaultModel | null>(null);
   const [upperBound, setUpperBound] = useState("-");

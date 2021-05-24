@@ -56,7 +56,7 @@ function EarnCard(): React.ReactElement {
           let collateral = await api.query.system.account(
             currentAccount.address
           );
-          const assetId =  api.consts.xGatewayDogecoinBridge.tokenAssetId;
+          const assetId = api.consts.xGatewayDogecoinBridge.tokenAssetId;
           const balance = await api.query.xAssets.assetBalance(currentAccount.address, assetId);
           setVault({
             address: currentAccount.address,
@@ -89,6 +89,7 @@ function EarnCard(): React.ReactElement {
       SetsecureThreshold(secureThreshold.toNumber() / 100);
     }
   }, [isApiReady]);
+
   return (
     <EarnCardStyle>
       <EarnCardTopStyle>
@@ -100,7 +101,7 @@ function EarnCard(): React.ReactElement {
           <div className={"earn-card-title"}>可发行量</div>
           <div className={"issuable-num"}>
             {(
-              ((+vault?.collateral!! / 100000000) * dogePCXprice) /secureThreshold
+              ((+vault?.collateral!! / 100000000) * dogePCXprice) / secureThreshold
             ).toFixed(5)}{" "}
             DOG
           </div>
@@ -121,14 +122,14 @@ function EarnCard(): React.ReactElement {
             <div className={"collateral-rate-num"}>
               {isFinite(
                 +vault?.collateral!! /
-                  100000000 /
-                  +(vault?.issuedToken!! / 1000000000 / dogePCXprice)
+                100000000 /
+                +(vault?.issuedToken!! / 1000000000 / dogePCXprice)
               )
                 ? (
-                    +vault?.collateral!! /
-                    100000000 /
-                    +(vault?.issuedToken!! / 1000000000 / dogePCXprice)
-                  ).toFixed(2)
+                  +vault?.collateral!! /
+                  100000000 /
+                  +(vault?.issuedToken!! / 1000000000 / dogePCXprice)
+                ).toFixed(2)
                 : "-"}{" "}
               %
             </div>

@@ -15,4 +15,3 @@ function useVaults(account: string) {
   return { wallet, setWallat };
 }
 export default useVaults;
-

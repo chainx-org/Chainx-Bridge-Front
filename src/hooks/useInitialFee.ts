@@ -1,13 +1,12 @@
-import {useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import useApiStatus from "./useApiStatus";
-import {Percent} from "@polkadot/types/interfaces/runtime";
-import {TradingPrice} from "../interfaces";
+import { Percent } from "@polkadot/types/interfaces/runtime";
+import { TradingPrice } from "../interfaces";
 
-
-function useInitialFee(){
-    const {isApiReady,api} = useApiStatus()
-    const [dogePcxPrice,setDogePcxPrice] = useState(0)
-    const [percent,setPercent] = useState<Percent | null>(null);
+function useInitialFee() {
+    const { isApiReady, api } = useApiStatus()
+    const [dogePcxPrice, setDogePcxPrice] = useState(0)
+    const [percent, setPercent] = useState<Percent | null>(null);
     const [exchangeRate, setExchangeRate] = useState<TradingPrice | null>(null);
     const [pcxPrice, setPcxPrice] = useState<number | null>(null);
     useEffect(() => {
@@ -19,8 +18,8 @@ function useInitialFee(){
                 const dogePercent = await api!!.query.xGatewayDogecoinBridge.issueGriefingFee();
                 const dogePrice = +JSON.stringify(dogetardingPrice.price)
                 const dogeDecimal = +JSON.stringify(dogetardingPrice.decimal)
-                const dogemult = Math.pow(10,dogeDecimal);
-                setDogePcxPrice(dogePrice/dogemult)
+                const dogemult = Math.pow(10, dogeDecimal);
+                setDogePcxPrice(dogePrice / dogemult)
                 const price = +JSON.stringify(tradingPrice.price);
                 const decimal = +JSON.stringify(tradingPrice.decimal);
                 const mult = Math.pow(10, decimal);
@@ -46,6 +45,6 @@ function useInitialFee(){
             })();
         }
     }, [isApiReady]);
-    return {exchangeRate,percent,pcxPrice,dogePcxPrice}
+    return { exchangeRate, percent, pcxPrice, dogePcxPrice }
 }
 export default useInitialFee;

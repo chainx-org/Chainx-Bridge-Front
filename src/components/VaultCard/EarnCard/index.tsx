@@ -32,14 +32,14 @@ function EarnCard(): React.ReactElement {
   const [isShowEmail, setIsShowEmail] = useState(false);
   const [editEmail, setEditEmail] = useState("");
   const [vault, setVault] = useState<VaultModel | null>(null);
-  const [upperBound, setUpperBound] = useState("-");
+  // const [upperBound, setUpperBound] = useState("-");
   const [secureThreshold, SetsecureThreshold] = useState(0);
-  const { exchangeRate } = useFeeContext();
-  const [addPCX, setaddPCX] = useState(0);
+  // const { exchangeRate } = useFeeContext();
+  // const [addPCX, setaddPCX] = useState(0);
   const { currentAccount } = useAccountModel();
   const { api, isApiReady } = useApi();
 
-  const accountInfo = useAccountInfo(currentAccount?.address!!);
+  // const accountInfo = useAccountInfo(currentAccount?.address!!);
 
   const EditEmailAddress = () => {
     setIsShowEmail(false);
@@ -56,7 +56,7 @@ function EarnCard(): React.ReactElement {
           let collateral = await api.query.system.account(
             currentAccount.address
           );
-          const assetId =  api.consts.xGatewayBitcoinBridge.tokenAssetId;
+          const assetId = api.consts.xGatewayBitcoinBridge.tokenAssetId;
           const balance = await api.query.xAssets.assetBalance(currentAccount.address, assetId);
           setVault({
             address: currentAccount.address,
@@ -100,7 +100,7 @@ function EarnCard(): React.ReactElement {
           <div className={"earn-card-title"}>可发行量</div>
           <div className={"issuable-num"}>
             {(
-              ((+vault?.collateral!! / 100000000) * pcxPrice) /secureThreshold
+              ((+vault?.collateral!! / 100000000) * pcxPrice) / secureThreshold
             ).toFixed(5)}{" "}
             BTC
           </div>
@@ -121,14 +121,14 @@ function EarnCard(): React.ReactElement {
             <div className={"collateral-rate-num"}>
               {isFinite(
                 +vault?.collateral!! /
-                  100000000 /
-                  +(vault?.issuedToken!! / 1000000000 / pcxPrice)
+                100000000 /
+                +(vault?.issuedToken!! / 1000000000 / pcxPrice)
               )
                 ? (
-                    +vault?.collateral!! /
-                    100000000 /
-                    +(vault?.issuedToken!! / 1000000000 / pcxPrice)
-                  ).toFixed(2)
+                  +vault?.collateral!! /
+                  100000000 /
+                  +(vault?.issuedToken!! / 1000000000 / pcxPrice)
+                ).toFixed(2)
                 : "-"}{" "}
               %
             </div>

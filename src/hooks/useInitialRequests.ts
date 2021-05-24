@@ -1,9 +1,9 @@
-import {useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import useApiStatus from "./useApiStatus";
-import {IssueRequestRow} from "./useIssueRequests";
-import {RedeemRequestRow} from "./useRedeemRequest";
-function useInitialRequests(){
-    const {isApiReady,api} = useApiStatus()
+import { IssueRequestRow } from "./useIssueRequests";
+import { RedeemRequestRow } from "./useRedeemRequest";
+function useInitialRequests() {
+    const { isApiReady, api } = useApiStatus()
     const [issueRequests, setIssueRequests] = useState<IssueRequestRow[]>([]);
     const [redeemRequest, setReedemRequest] = useState<RedeemRequestRow[]>([]);
     useEffect(() => {
@@ -50,6 +50,6 @@ function useInitialRequests(){
             });
         }
     }, [isApiReady]);
-    return {issueRequests,redeemRequest}
+    return { issueRequests, redeemRequest }
 }
 export default useInitialRequests;

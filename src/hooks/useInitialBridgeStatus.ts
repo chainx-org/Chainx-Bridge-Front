@@ -1,8 +1,8 @@
-import {useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import useApiStatus from "./useApiStatus";
 
-function useInitialBridgeStatus(){
-    const {isApiReady,api} = useApiStatus()
+function useInitialBridgeStatus() {
+    const { isApiReady, api } = useApiStatus()
     const [bridgeStatus, setBridgeStatus] = useState("");
     useEffect(() => {
         if (isApiReady) {
@@ -12,6 +12,6 @@ function useInitialBridgeStatus(){
             })();
         }
     }, [isApiReady]);
-    return {bridgeStatus}
+    return { bridgeStatus }
 }
 export default useInitialBridgeStatus;

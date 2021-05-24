@@ -8,7 +8,7 @@ import { DogInfoCardStyle, TradeInfoStyle } from "./style";
 
 function DogInfoCard(): React.ReactElement {
   const { currentAccount } = useAccountModel();
-  const { api, isApiReady } = useApi();
+  const { api } = useApi();
   const [dogAddress, setDogAddress] = useState("");
   const [dogBalance, setDogBalance] = useState(0);
   const [total_received, setTotal_received] = useState(0);

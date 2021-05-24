@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TableStyle } from "../style";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { Space, Table } from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
 import RedeemStatusModal from "../../../components/RedeemStatusModal/index";
@@ -8,10 +8,8 @@ import RedeemStatusModal from "../../../components/RedeemStatusModal/index";
 function RedeemHistory(): React.ReactElement {
   const { currentAccount } = useAccountModel();
   const requester = currentAccount?.address;
-  const { t } = useTranslation();
-  const [RedeemSuccessModalVisible, setRedeemSuccessModalVisible] = useState(
-      false
-  );
+  // const { t } = useTranslation();
+  const [RedeemSuccessModalVisible, setRedeemSuccessModalVisible] = useState(false);
   const [RedeemStatus, setRedeemStatus] = useState("processing");
   const [RedeemData, setRedeemData] = useState([]);
   const [initLoading, setInitLoading] = useState(true);
@@ -31,9 +29,9 @@ function RedeemHistory(): React.ReactElement {
       dataIndex: "btcAmount",
       key: "btcAmount",
       render: (record: any) => (
-          <Space size="middle">
-            <div>{record.btcAmount / 100000000}</div>
-          </Space>
+        <Space size="middle">
+          <div>{record.btcAmount / 100000000}</div>
+        </Space>
       ),
     },
     {
@@ -55,14 +53,14 @@ function RedeemHistory(): React.ReactElement {
       title: "状态",
       key: "action",
       render: (text: any, record: any) => (
-          <Space size="middle">
-            <div
-                className={"processing"}
-                onClick={() => RedeemModal(record.status)}
-            >
-              {record.status}
-            </div>
-          </Space>
+        <Space size="middle">
+          <div
+            className={"processing"}
+            onClick={() => RedeemModal(record.status)}
+          >
+            {record.status}
+          </div>
+        </Space>
       ),
     },
   ];
@@ -71,32 +69,32 @@ function RedeemHistory(): React.ReactElement {
     if (requester) {
       setInitLoading(true);
       fetch(
-          `https://api-btc.chainx.org/xbridge/redeem_requests?page=0&pageSize=10&requester=${requester}`
+        `https://api-btc.chainx.org/xbridge/redeem_requests?page=0&pageSize=10&requester=${requester}`
       )
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(res);
-            setRedeemData(res.data);
-            setInitLoading(false);
-          });
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          setRedeemData(res.data);
+          setInitLoading(false);
+        });
     }
   }, [requester]);
   return (
-      <>
-        <TableStyle>
-          <Table
-              columns={Redeemcolumns}
-              dataSource={RedeemData}
-              loading={initLoading}
-              pagination={{ pageSize: 5, defaultPageSize: 5 }}
-          />
-        </TableStyle>
-        <RedeemStatusModal
-            visible={RedeemSuccessModalVisible}
-            cancle={() => setRedeemSuccessModalVisible(false)}
-            type={RedeemStatus}
+    <>
+      <TableStyle>
+        <Table
+          columns={Redeemcolumns}
+          dataSource={RedeemData}
+          loading={initLoading}
+          pagination={{ pageSize: 5, defaultPageSize: 5 }}
         />
-      </>
+      </TableStyle>
+      <RedeemStatusModal
+        visible={RedeemSuccessModalVisible}
+        cancle={() => setRedeemSuccessModalVisible(false)}
+        type={RedeemStatus}
+      />
+    </>
   );
 }
 
