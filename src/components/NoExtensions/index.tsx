@@ -18,7 +18,7 @@ function NoExtensions(): React.ReactElement {
             </HeaderStyle>
             <DescribeText>
                 <div className='bgShape1'>
-                    <h1>去信任、去中心化的实现比特币跨链到 ChainX</h1>
+                    <h1>去信任、去中心化的实现资产跨链</h1>
                     <img src={Shape1} alt='bgShape' className='shape1' />
                     <img src={Shape2} alt='bgShape' className='shape2' />
                 </div>
