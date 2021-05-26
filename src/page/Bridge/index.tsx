@@ -22,11 +22,11 @@ export const optionList = [
     coinName: "BTC",
     symol: "Bitcoin",
   },
-  {
-    img_url: BCHs,
-    coinName: "BCH",
-    symol: "Bitcoin Cash",
-  },
+  // {
+  //   img_url: BCHs,
+  //   coinName: "BCH",
+  //   symol: "Bitcoin Cash",
+  // },
   {
     img_url: DOGEs,
     coinName: "DOG",
@@ -43,19 +43,19 @@ export interface RedeemCoinProps {
 export const RedeemOptionList = [
   {
     img_url: sBTCs,
-    coinName: "SBTC",
+    coinName: "XBTC",
     symol: "Bitcoin",
     balance: 9999.0024,
   },
-  {
-    img_url: sBCHs,
-    coinName: "SBCH",
-    symol: "Bitcoin Cash",
-    balance: 9999.0024,
-  },
+  // {
+  //   img_url: sBCHs,
+  //   coinName: "XBCH",
+  //   symol: "Bitcoin Cash",
+  //   balance: 9999.0024,
+  // },
   {
     img_url: sDOGs,
-    coinName: "SDOG",
+    coinName: "XDOG",
     symol: "Dogecoin",
     balance: 9999.0024,
   },

@@ -31,26 +31,26 @@ function Redeem(): React.ReactElement {
   const [xBtcBalance, setXbtcBalance] = useState(0);
   const [coinSymol, setCoinSymol] = useState<RedeemCoinProps>({
     img_url: sBTC,
-    coinName: "SBTC",
+    coinName: "XBTC",
     symol: "Bitcoin",
     balance: 9999.0024,
   });
   const RedeemOptionList = [
     {
       img_url: sBTCs,
-      coinName: "SBTC",
+      coinName: "XBTC",
       symol: "Bitcoin",
       balance: xBtcBalance ? xBtcBalance : 0,
     },
-    {
-      img_url: sBCHs,
-      coinName: "SBCH",
-      symol: "Bitcoin Cash",
-      balance: 0,
-    },
+    // {
+    //   img_url: sBCHs,
+    //   coinName: "XBCH",
+    //   symol: "Bitcoin Cash",
+    //   balance: 0,
+    // },
     {
       img_url: sDOGs,
-      coinName: "SDOG",
+      coinName: "XDOG",
       symol: "Dogecoin",
       balance: sDoge ? sDoge : 0,
     },
@@ -81,7 +81,7 @@ function Redeem(): React.ReactElement {
     }
     setButtonLoading(true);
     const injector = await web3FromAddress(currentAccount!!.address);
-    if (coinSymol.coinName === 'SBTC') {
+    if (coinSymol.coinName === 'XBTC') {
       api.tx.xGatewayBitcoinBridge
         .requestRedeem(
           currentAccount!!.address,

@@ -40,17 +40,17 @@ function Wallet(): React.ReactElement {
         },
         {
             icon: SBTCLogo,
-            title: 'SBTC',
+            title: 'XBTC',
             balance: `${xBtcBalance ? xBtcBalance : FormatBalance(0)}`
         },
-        {
-            icon: SBCHLogo,
-            title: 'SBCH',
-            balance: FormatBalance(0)
-        },
+        // {
+        //     icon: SBCHLogo,
+        //     title: 'XBCH',
+        //     balance: FormatBalance(0)
+        // },
         {
             icon: SDOGLogo,
-            title: 'SDOG',
+            title: 'XDOG',
             balance: `${sDoge ? sDoge : FormatBalance(0)}`
         }
     ]
