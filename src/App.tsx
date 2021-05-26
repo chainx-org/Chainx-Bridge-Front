@@ -6,15 +6,10 @@ import Header from "./components/Header";
 import Loading from "./components/Loading";
 import styled from "styled-components";
 import { ApiContext } from "./hooks/useApi";
-import {
-  IssueRequestsContext,
-} from "./hooks/useIssueRequests";
-import {
-  RedeemRequestsContext,
-} from "./hooks/useRedeemRequest";
+import { IssueRequestsContext } from "./hooks/useIssueRequests";
+import { RedeemRequestsContext } from "./hooks/useRedeemRequest";
 import { FeeContext } from "./hooks/useFeeContext";
 import NoExtensions from "./components/NoExtensions";
-import Maskbg from "./components/Loading/background.webp";
 import useApiStatus from "./hooks/useApiStatus";
 import useInitialAccounts from "./hooks/useInitialAccounts";
 import useInitialFee from "./hooks/useInitialFee";
@@ -28,16 +23,6 @@ const dogeVault = lazy(()=> import("./page/Vault/dogeVault"))
 const LayoutWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const MaskStyle = styled.div`
-  // background: rgba(0, 0, 0, 0.4);
-  background-image: url(${Maskbg});
-  background-size: cover;
-  position: fixed;
-  z-index: 99;
-  width: 100vw;
-  height: 100vh;
 `;
 
 const Content = styled.main`
@@ -56,11 +41,7 @@ export const App: React.FC = () => {
   const {issueRequests,redeemRequest} =useInitialRequests()
   return (
     <>
-      {!isApiReady ? (
-        <MaskStyle>
-          <Loading />
-        </MaskStyle>
-      ) : null}
+      {!isApiReady && <Loading />}
       {downExtensions && <NoExtensions />}
       <LayoutWrapper id={"LayoutWrapper"}>
         <ApiContext.Provider
