@@ -1624,6 +1624,8 @@
   "Issue logo": "发行标识",
   "Lastest transaction": "最新交易哈希",
   "Time": "出块时间",
+  "Update time": "更新时间",
+  "Amount (XBTC)": "数量（XBTC）",
   "Vault": "资产保险库",
   "Documentation": "文档",
   "De-trusted, decentralized implementation of Bitcoin across chains to ChainX": "去信任、去中心化的实现比特币跨链到 ChainX",

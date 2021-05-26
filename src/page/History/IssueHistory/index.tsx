@@ -4,6 +4,7 @@ import { TableStyle } from "../style";
 import { Space, Table } from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
 import ProcessingModal from "../../../components/ProcessingModal/index";
+import {useTranslation} from "react-i18next";
 
 interface HistoryRow {
   id: number;
@@ -18,7 +19,6 @@ interface HistoryRow {
 function IssueHistory(): React.ReactElement {
   const { currentAccount } = useAccountModel();
   const requester = currentAccount?.address;
-  // const { t } = useTranslation();
   const [IssueprocessingModalVisbible, setIssueprocessingModalVisbible] = useState(false);
   const [IssueStatus, setIssueStatus] = useState("processing");
   const [IssueData, setIssueData] = useState([]);
@@ -35,15 +35,16 @@ function IssueHistory(): React.ReactElement {
     setIssueAmount(val.btcAmount)
     setGriefingCollateral(val.griefingCollateral)
   }
+  const { t } = useTranslation()
 
   const Issuecolumns = [
     {
-      title: "更新时间",
+      title: t('Update time'),
       dataIndex: "time",
       key: "time",
     },
     {
-      title: "数量（XBTC）",
+      title: t('Amount (XBTC)'),
       dataIndex: "btcAmount",
       key: "btcAmount",
       render: (record: any) => (
@@ -58,17 +59,17 @@ function IssueHistory(): React.ReactElement {
       key: "address",
     },
     {
-      title: "交易确认数",
+      title: t('Confirmation'),
       dataIndex: "number",
       key: "number",
     },
     {
-      title: "Chainx块高",
+      title: "Chainx" + t('BlockHeight'),
       dataIndex: "openTime",
       key: "openTime",
     },
     {
-      title: "状态",
+      title: t('Status'),
       key: "status",
       render: (record: any) => (
         <Space size="middle">

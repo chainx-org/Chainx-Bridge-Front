@@ -4,6 +4,7 @@ import { TableStyle } from "../style";
 import { Space, Table } from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
 import RedeemStatusModal from "../../../components/RedeemStatusModal/index";
+import {useTranslation} from "react-i18next";
 
 function RedeemHistory(): React.ReactElement {
   const { currentAccount } = useAccountModel();
@@ -13,19 +14,19 @@ function RedeemHistory(): React.ReactElement {
   const [RedeemStatus, setRedeemStatus] = useState("processing");
   const [RedeemData, setRedeemData] = useState([]);
   const [initLoading, setInitLoading] = useState(true);
-
+  const { t } = useTranslation()
   function RedeemModal(val: string) {
     setRedeemStatus(val);
     setRedeemSuccessModalVisible(true);
   }
   const Redeemcolumns = [
     {
-      title: "更新时间",
+      title: t('Update time'),
       dataIndex: "time",
       key: "time",
     },
     {
-      title: "数量（XBTC）",
+      title: t('Amount (XBTC)'),
       dataIndex: "btcAmount",
       key: "btcAmount",
       render: (record: any) => (
@@ -40,17 +41,17 @@ function RedeemHistory(): React.ReactElement {
       key: "address",
     },
     {
-      title: "交易确认数",
+      title: t('Confirmation'),
       dataIndex: "number",
       key: "number",
     },
     {
-      title: "Chainx块高",
+      title: "Chainx" + t('BlockHeight'),
       dataIndex: "openTime",
       key: "openTime",
     },
     {
-      title: "状态",
+      title: t('Status'),
       key: "action",
       render: (text: any, record: any) => (
         <Space size="middle">
