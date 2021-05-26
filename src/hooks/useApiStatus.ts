@@ -10,7 +10,7 @@ function useApiStatus() {
             (res, { types }) => ({ ...res, ...types }),
             {}
         );
-        const provider = new WsProvider("ws://localhost:9977");
+        const provider = new WsProvider("wss://xbridge.spiderx.pro/ws");
         const api = new ApiPromise({ provider, types });
         api.on("disconnected", () => setIsReady(false));
         api.on("ready", () => {
