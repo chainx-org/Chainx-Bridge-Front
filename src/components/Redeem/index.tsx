@@ -80,7 +80,6 @@ function Redeem(): React.ReactElement {
       return;
     }
     setButtonLoading(true);
-    console.log(coinSymol.coinName)
     const injector = await web3FromAddress(currentAccount!!.address);
     if (coinSymol.coinName === 'SBTC') {
       api.tx.xGatewayBitcoinBridge
@@ -201,7 +200,7 @@ function Redeem(): React.ReactElement {
                 title={t("Redemption amount")}
                 setRedeemAmount={setRedeemAmount}
                 coinSymol={coinSymol}
-                description={t("balance")}
+                // description={t("balance")}
                 // children={<span>{XbtcBalance ? XbtcBalance : "0"}</span>}
                 symol={coinSymol.coinName}
               />
