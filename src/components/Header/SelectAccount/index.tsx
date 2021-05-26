@@ -12,6 +12,7 @@ function SelectAccount(): React.ReactElement {
   const [value, setValue] = useState(currentAccount);
   const currentAddress = currentAccount?.address;
   const list = accountModel.accounts
+  console.log(list,'accountlist')
   function accountSelected(val: AccountInfo) {
     setIsSelected(true)
     setValue(val)
@@ -38,7 +39,7 @@ function SelectAccount(): React.ReactElement {
                 </div>
                 <div className='accountMsg'>
                   <div className='nameMsg'>{item.name}</div>
-                  <div className='adressMsg'>{item.address.substring(0, 5) + '...' + currentAddress?.substring(currentAddress.length - 5)}</div>
+                  <div className='adressMsg'>{item.address.substring(0, 5) + '...' + item.address?.substring(item.address.length - 5)}</div>
                 </div>
               </AccountLists>
             );

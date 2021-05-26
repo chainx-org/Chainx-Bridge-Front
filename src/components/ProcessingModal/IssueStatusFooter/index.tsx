@@ -17,7 +17,7 @@ const IssueStatusFooter: React.FunctionComponent<IssueStatusProps> = ({ btcRecei
             <div className={"dotted-line"} />
             <ExplainTag title='BTC接收地址' children={<div>{btcReceiveAddress}</div>} />
             <ExplainTag title='发行总额' children={<div>{IssueAmount} BTC</div>} />
-            <ExplainTag title='锁定抵押品' children={griefingCollateral} />
+            <ExplainTag title='锁定抵押品' children={<div>{griefingCollateral} PCX</div>} />
             <ExplainTag title='资产保险库PCX地址' children={vaultAddress} />
             <ExplainTag title='资产保险库BTC地址' children={btcReceiveAddress} />
         </IssueStatus>

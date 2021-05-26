@@ -185,7 +185,7 @@ export const TabsWrapper = styled(SwitchTabs)`
         border: 0;
         &:hover .ant-tabs-tab-btn{
           background: #F4F4F5;
-          color: #F6C94A;
+          color: #8E8E8E;
         }
       }
       .ant-tabs-tab-active {   
@@ -199,7 +199,7 @@ export const TabsWrapper = styled(SwitchTabs)`
           font-weight: 600;
         }
         &:hover .ant-tabs-tab-btn{
-          color: #F6C94A;
+          color: #282828;
         }
       }
     }
