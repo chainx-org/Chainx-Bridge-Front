@@ -13,8 +13,10 @@ import { useApi } from "../../hooks/useApi";
 import { web3FromAddress } from "@polkadot/extension-dapp";
 import NumInput from "../Input/NumInput";
 import RedeemRequestSuccessCard from "../RedeemRequestSuccessCard";
-import { RedeemCoinProps, RedeemOptionList } from "../../page/Bridge";
-
+import { RedeemCoinProps } from "../../page/Bridge";
+import sBTCs from "../TabCoinSelect/icons/SBTC.svg";
+import sBCHs from "../TabCoinSelect/icons/SBCH.svg";
+import sDOGs from "../TabCoinSelect/icons/SDOG.svg";
 function Redeem(): React.ReactElement {
   const { t } = useTranslation();
   const [showRedeemNext, setShowRedeemNext] = useState(false);
@@ -24,21 +26,48 @@ function Redeem(): React.ReactElement {
   const [n, setN] = useState(0);
   const { api } = useApi();
   const [buttonLoading, setButtonLoading] = useState(false);
-  // const {XbtcBalance} = useXbtcAssets(currentAccount?.address!!,n)
-
   const [isShow, setIsShow] = useState(false);
+  const [sDoge, setSDoge] = useState(0);
+  const [xBtcBalance, setXbtcBalance] = useState(0);
   const [coinSymol, setCoinSymol] = useState<RedeemCoinProps>({
     img_url: sBTC,
     coinName: "SBTC",
     symol: "Bitcoin",
     balance: 9999.0024,
   });
+  const RedeemOptionList = [
+    {
+      img_url: sBTCs,
+      coinName: "SBTC",
+      symol: "Bitcoin",
+      balance: xBtcBalance ? xBtcBalance : 0,
+    },
+    {
+      img_url: sBCHs,
+      coinName: "SBCH",
+      symol: "Bitcoin Cash",
+      balance: 0,
+    },
+    {
+      img_url: sDOGs,
+      coinName: "SDOG",
+      symol: "Dogecoin",
+      balance: sDoge ? sDoge : 0,
+    },
+  ];
   const currCoin = (value: RedeemCoinProps) => {
     setCoinSymol(value);
     setIsShow(!isShow);
   };
+  async function getAssets(account: string) {
+    const res = await api.query.xAssets.assetBalance(account, 3221225473);
+    const dogeRes = await api.query.xAssets.assetBalance(account, 3221225475);
+    setXbtcBalance(JSON.parse(JSON.stringify(res)).Usable / 100000000)
+    setSDoge(JSON.parse(JSON.stringify(dogeRes)).Usable / 100000000)
+  }
   const ShowSelect = () => {
     setIsShow(!isShow);
+    getAssets(currentAccount?.address!!);
   };
   const handleReedem = async () => {
     // let valid =  WAValidator.validate(BtcAddress,'BTC')
@@ -159,7 +188,7 @@ function Redeem(): React.ReactElement {
           <div className="topContent">
             <AccountSwitch>
               <TabCoinSelect
-                optionList={RedeemOptionList}
+                  optionList={RedeemOptionList}
                 isShow={isShow}
                 coinSymol={coinSymol}
                 currCoin={currCoin}

@@ -51,7 +51,7 @@ function Wallet(): React.ReactElement {
         {
             icon: SDOGLogo,
             title: 'SDOG',
-            balance: FormatBalance(0)
+            balance: `${sDoge ? sDoge : FormatBalance(0)}`
         }
     ]
 
