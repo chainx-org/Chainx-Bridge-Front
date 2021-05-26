@@ -280,6 +280,7 @@ function Issue(): React.ReactElement {
                   type={"number"}
                   value={IssueAmount}
                   placeholder={"0"}
+                  min={0}
                   onChange={(e) => {
                     setIssueAmount(+e);
                   }}
@@ -296,6 +297,7 @@ function Issue(): React.ReactElement {
                 <InputNumber
                   value={IssueAmount}
                   placeholder={"-"}
+                  min={0}
                   onChange={(e) => setIssueAmount(+e)}
                 />
                 <div className="line" />
