@@ -1,20 +1,20 @@
 kind: Deployment
 apiVersion: appsv1
 metadata:
-  name: sherpax-front
+  name: bridge-front
   namespace: chainx-prod
   labels:
-    app: sherpax-front
+    app: bridge-front
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: sherpax-front
+      app: bridge-front
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: sherpax-front
+        app: bridge-front
     spec:
       imagePullSecrets:
         - name: regcred

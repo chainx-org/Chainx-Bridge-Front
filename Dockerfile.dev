@@ -54,7 +54,7 @@ WORKDIR /opt/web
 COPY . ./
 RUN yarn install
 ENV REACT_APP_API_ENV=pre
-RUN yarn run build:www;exit 0
+RUN yarn build;exit 0
 
 # docker in docker 安装nginx镜像暴露80端口
 
@@ -74,4 +74,4 @@ ENV REACT_APP_API_ENV=pre
 CMD ["/bin/sh", "-c", "envsubst < /etc/nginx/nginx.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
 
 # 将build后的产物移动到nginx
-COPY --from=builder /opt/web/packages/apps/build /usr/share/nginx/html
+COPY --from=builder /opt/web/build /usr/share/nginx/html

@@ -9,10 +9,10 @@ pipeline {
     KUBECONFIG_CREDENTIAL_ID = 'admin'
     REGISTRY = 'docker.io'
     DOCKERHUB_NAMESPACE = 'chainxorg'
-    APP_NAME = 'sherpax-front'
+    APP_NAME = 'bridge-front'
   }
   parameters {
-    string(name: 'BRANCH_NAME', defaultValue: 'pre', description: '')
+    string(name: 'pre', defaultValue: 'pre', description: '')
   }
 
 
@@ -20,7 +20,7 @@ pipeline {
 
     stage('拉取代码') {
       steps {
-        git(branch: 'pre', url: 'https://github.com/chainx-org/SherpaX-front.git', credentialsId: 'github-id', changelog: true, poll: false)
+        git(branch: 'pre', url: 'https://github.com/chainx-org/Chainx-Bridge-Front.git', credentialsId: 'github-id', changelog: true, poll: false)
       }
     }
 
