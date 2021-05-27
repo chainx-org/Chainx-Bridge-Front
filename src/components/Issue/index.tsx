@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState } from "react";
 import { IssueBtcInputStyle, IssueStyle, AccountSwitch } from "./style";
 import { LoadingOutlined } from "@ant-design/icons";
-import { decodeAddress, encodeAddress } from "@polkadot/keyring";
+// import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import BTCs from "../CoinSelect/icons/BTC_S.svg";
 import Sherpaxs from "../CoinSelect/icons/sherpax_s.svg";
 import arrowYellow from "./icons/arrow_yellow.svg";
@@ -228,14 +228,7 @@ function Issue(): React.ReactElement {
     }
   }
 
-  let polkaAccount = encodeAddress(
-    decodeAddress(
-      currentAccount
-        ? currentAccount.address
-        : "16aVMBpJEdRe3PW2E3AsWENYhoKUaeTfDT6P6fdUCQtiiHVL"
-    ),
-    0
-  );
+  let polkaAccount = currentAccount ? currentAccount.address: "16aVMBpJEdRe3PW2E3AsWENYhoKUaeTfDT6P6fdUCQtiiHVL";
   useMemo(() => {
     let AllIssueRequestList: Array<any> = JSON.parse(JSON.stringify(value))
       .requests;

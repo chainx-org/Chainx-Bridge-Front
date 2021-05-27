@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { web3Accounts, web3AccountsSubscribe, web3Enable } from "@polkadot/extension-dapp";
 // import ChangeChainXAddress from "../util";
-import { decodeAddress, encodeAddress } from "@polkadot/keyring";
+// import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import useAccountModel from "./useAccountModel";
 
 function useInitialAccounts() {
@@ -22,14 +22,14 @@ function useInitialAccounts() {
                     accountModel.setAccounts(
                         accounts.map(({ address, meta: { name } }) => ({
                             name,
-                            address: encodeAddress(decodeAddress(address), 44),
+                            address: address,
                         }))
                     );
                     web3AccountsSubscribe((accounts) => {
                         accountModel.setAccounts(
                             accounts.map(({ address, meta: { name } }) => ({
                                 name,
-                                address: encodeAddress(decodeAddress(address), 44),
+                                address: address,
                             }))
                         );
                     });
