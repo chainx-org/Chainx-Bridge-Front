@@ -49,7 +49,7 @@ pipeline {
                 variable: 'KUBECONFIG')
               ])
               {
-                sh 'envsubst <  deploy/pre/deploy-sherpax.yaml | kubectl apply -f -'
+                sh 'envsubst <  deploy/pre/deploy-bridge.yaml | kubectl apply -f -'
 
               }
             }
