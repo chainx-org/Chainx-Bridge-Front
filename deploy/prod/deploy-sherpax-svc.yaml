@@ -1,0 +1,25 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: sherpax-front-svc
+  namespace: chainx-prod
+  labels:
+    app: sherpax-front-svc
+  annotations:
+    kubesphere.io/creator: project-admin
+    service.beta.kubernetes.io/qingcloud-load-balancer-eip-ids: ''
+    service.beta.kubernetes.io/qingcloud-load-balancer-type: '0'
+  finalizers:
+    - service.kubernetes.io/load-balancer-cleanup
+spec:
+  ports:
+    - name: tcp-80
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: sherpax-front
+  clusterIP: 100.68.158.189
+  type: LoadBalancer
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
