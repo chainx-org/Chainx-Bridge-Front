@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: sherpax-front-svc
+  name: bridge-front-svc
   namespace: chainx-prod
   labels:
-    app: sherpax-front-svc
+    app: bridge-front-svc
   annotations:
     kubesphere.io/creator: project-admin
     service.beta.kubernetes.io/qingcloud-load-balancer-eip-ids: ''
@@ -18,7 +18,7 @@ spec:
       port: 80
       targetPort: 80
   selector:
-    app: sherpax-front
+    app: bridge-front
   clusterIP: 100.68.158.189
   type: LoadBalancer
   sessionAffinity: None
