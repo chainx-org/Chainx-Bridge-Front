@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { web3Accounts, web3AccountsSubscribe, web3Enable } from "@polkadot/extension-dapp";
-import ChangeChainXAddress from "../util";
+// import ChangeChainXAddress from "../util";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import useAccountModel from "./useAccountModel";
 
@@ -16,7 +16,7 @@ function useInitialAccounts() {
                     if (accounts.length > 0) {
                         accountModel.setCurrentAccount({
                             name: accounts[0].meta.name,
-                            address: ChangeChainXAddress(accounts[0].address),
+                            address: accounts[0].address,
                         });
                     }
                     accountModel.setAccounts(
