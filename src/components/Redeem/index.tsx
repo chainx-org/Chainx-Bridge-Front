@@ -17,6 +17,7 @@ import { RedeemCoinProps } from "../../page/Bridge";
 import sBTCs from "../TabCoinSelect/icons/SBTC.svg";
 import sBCHs from "../TabCoinSelect/icons/SBCH.svg";
 import sDOGs from "../TabCoinSelect/icons/SDOG.svg";
+import {Vault} from "../../interfaces";
 function Redeem(): React.ReactElement {
   const { t } = useTranslation();
   const [showRedeemNext, setShowRedeemNext] = useState(false);
@@ -82,9 +83,25 @@ function Redeem(): React.ReactElement {
     setButtonLoading(true);
     const injector = await web3FromAddress(currentAccount!!.address);
     if (coinSymol.coinName === 'XBTC') {
+      const vaults = await api.query.xGatewayBitcoinBridge.vaults.entries();
+      const results = await Promise.all(
+          vaults.map(async ([key, value]) => {
+            const vault: Vault = value.unwrap();
+            const assetId = api.consts.xGatewayBitcoinBridge.tokenAssetId;
+            const issuedBalance = await api.query.xAssets.assetBalance(key.args[0], assetId)
+            return [
+              key.args[0],
+              ((issuedBalance.toJSON()["Usable"] as number) || 0) > RedeemAmount,
+              vault.wallet,
+            ];
+          })
+      )
+      console.log(results.toString())
       api.tx.xGatewayBitcoinBridge
         .requestRedeem(
-          currentAccount!!.address,
+            results.length > 0
+                ? JSON.parse(JSON.stringify(results))[0][0]
+                : "",
           RedeemAmount * 100000000,
           BtcAddress
         )
@@ -129,9 +146,24 @@ function Redeem(): React.ReactElement {
           setButtonLoading(false);
         });
     } else if (coinSymol.coinName === "XDOG") {
+      const vaults = await api.query.xGatewayDogecoinBridge.vaults.entries();
+      const results = await Promise.all(
+          vaults.map(async ([key, value]) => {
+            const vault: Vault = value.unwrap();
+            const assetId = api.consts.xGatewayDogecoinBridge.tokenAssetId;
+            const issuedBalance = await api.query.xAssets.assetBalance(key.args[0], assetId)
+            return [
+              key.args[0],
+              ((issuedBalance.toJSON()["Usable"] as number) || 0) > RedeemAmount,
+              vault.wallet,
+            ];
+          })
+      )
       api.tx.xGatewayDogecoinBridge
         .requestRedeem(
-          currentAccount!!.address,
+            results.length > 0
+                ? JSON.parse(JSON.stringify(results))[0][0]
+                : "",
           RedeemAmount * 100000000,
           BtcAddress
         )
