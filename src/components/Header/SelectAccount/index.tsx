@@ -10,8 +10,8 @@ function SelectAccount(): React.ReactElement {
   const [isSelected, setIsSelected] = useState(true)
   const { currentAccount } = useAccountModel();
   const [value, setValue] = useState(currentAccount);
-  const currentAddress = currentAccount?.address;
   const list = accountModel.accounts
+  
   function accountSelected(val: AccountInfo) {
     setIsSelected(true)
     setValue(val)
