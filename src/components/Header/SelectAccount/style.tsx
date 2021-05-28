@@ -41,7 +41,7 @@ export const CurrentAccount = styled.div`
   background: #F4F4F5;
   box-shadow: 3px 3px 8px 0 rgba(0,0,0,0.11), -3px -3px 8px 0 #FFFFFF;
   border-radius: 16px;
-  justify-content: center;
+  justify-content: space-around;
   width: 100%;
   height: 100%;
   .avatar {
@@ -84,8 +84,8 @@ export const AccountLists = styled.div`
   .accountMsg {
     margin-left: 16px;
     font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
     .nameMsg {
       font-family: NotoSansSC-Medium;
       color: #282828;

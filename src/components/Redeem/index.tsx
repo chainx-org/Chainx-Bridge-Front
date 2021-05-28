@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AccountSwitch, RedeemBtcInputStyle, RedeemStyle } from "./style";
 import { Button, notification } from "antd";
+import {LoadingOutlined} from "@ant-design/icons";
 import arrowYellow from "../Issue/icons/arrow_yellow.svg";
 import arrowGray from "../Issue/icons/arrow_gray.svg";
 import { useTranslation } from "react-i18next";
@@ -70,6 +71,7 @@ function Redeem(): React.ReactElement {
     setIsShow(!isShow);
     getAssets(currentAccount?.address!!);
   };
+  const key = "testRedeem";
   const handleReedem = async () => {
     // let valid =  WAValidator.validate(BtcAddress,'BTC')
     // if(!valid){
@@ -111,8 +113,13 @@ function Redeem(): React.ReactElement {
           ({ status, dispatchError, events }) => {
             if (status.isInBlock) {
               notification["success"]({
-                message: `Completed at block hash ${status.asInBlock.toString()}`,
+                key,
+                message: `Waiting For Confirmation`,
+                // message: `Completed at block hash ${status.asInBlock.toString()}`,
                 duration: 0,
+                icon: (
+                  <LoadingOutlined style={{fontSize: 24, color: "#F6C94A"}}/>
+                ),
               });
             } else if (dispatchError) {
               if (dispatchError.isModule) {
@@ -121,25 +128,37 @@ function Redeem(): React.ReactElement {
                 );
                 const { documentation, name, section } = decoded;
                 notification["error"]({
+                  key,
                   message: `${section}.${name}: ${documentation.join(" ")}`,
                   duration: 0,
                 });
                 setButtonLoading(false);
               }
             } else {
-              notification["success"]({
-                message: `Current status: ${status.type}`,
-                duration: 0,
-              });
               if (status.type === "Finalized") {
+                notification["success"]({
+                  key,
+                  message: `Current status: ${status.type}`,
+                  duration: 3,
+                });
                 setN(n + 1);
                 setShowRedeemNext(true);
+              } else {
+                notification["success"]({
+                  key,
+                  message: `Waiting For Confirmation`,
+                  duration: 0,
+                  icon: (
+                      <LoadingOutlined style={{fontSize: 24, color: "#F6C94A"}}/>
+                  ),
+                });
               }
             }
           }
         )
         .catch((error) => {
           notification["error"]({
+            key,
             message: `:( transaction failed', ${error}`,
             duration: 0,
           });
@@ -173,8 +192,13 @@ function Redeem(): React.ReactElement {
           ({ status, dispatchError, events }) => {
             if (status.isInBlock) {
               notification["success"]({
-                message: `Completed at block hash ${status.asInBlock.toString()}`,
+                key,
+                message: `Waiting For Confirmation`,
+                // message: `Completed at block hash ${status.asInBlock.toString()}`,
                 duration: 0,
+                icon: (
+                  <LoadingOutlined style={{fontSize: 24, color: "#F6C94A"}}/>
+                ),
               });
             } else if (dispatchError) {
               if (dispatchError.isModule) {
@@ -183,25 +207,37 @@ function Redeem(): React.ReactElement {
                 );
                 const { documentation, name, section } = decoded;
                 notification["error"]({
+                  key,
                   message: `${section}.${name}: ${documentation.join(" ")}`,
                   duration: 0,
                 });
                 setButtonLoading(false);
               }
             } else {
-              notification["success"]({
-                message: `Current status: ${status.type}`,
-                duration: 0,
-              });
               if (status.type === "Finalized") {
                 setN(n + 1);
                 setShowRedeemNext(true);
+                notification["success"]({
+                  key,
+                  message: `Current status: ${status.type}`,
+                  duration: 3,
+                });
+              } else {
+                notification["success"]({
+                  key,
+                  message: `Waiting For Confirmation`,
+                  duration: 0,
+                  icon: (
+                      <LoadingOutlined style={{fontSize: 24, color: "#F6C94A"}}/>
+                  ),
+                });
               }
             }
           }
         )
         .catch((error) => {
           notification["error"]({
+            key,
             message: `:( transaction failed', ${error}`,
             duration: 0,
           });
