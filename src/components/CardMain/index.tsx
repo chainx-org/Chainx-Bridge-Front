@@ -17,7 +17,8 @@ interface MainProps{
 
 const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmount,coinSymol}) =>{
     const copyOpreturn = () => {
-        copy(opreturn);
+        copy(opreturn.substring(2,99));
+        console.log(opreturn)
         message.success({
             content: '已复制！',
             duration: 3,

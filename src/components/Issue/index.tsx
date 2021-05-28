@@ -270,6 +270,7 @@ function Issue(): React.ReactElement {
                                 ShowSelect={ShowSelect}
                                 coinSymol={coinSymol}
                             />
+                            {"dasdas"}
                             <div className="to">To</div>
                             <div className="currContent">
                                 <img src={Sherpaxs} alt=""/>
@@ -303,7 +304,7 @@ function Issue(): React.ReactElement {
                                     onChange={(e) => setIssueAmount(+e)}
                                 />
                                 <div className="line"/>
-                                <div className={`btc-title`}>S{coinSymol.coinName}</div>
+                                <div className={`btc-title`}>X{coinSymol.coinName}</div>
                             </div>
                         </IssueBtcInputStyle>
                     </div>

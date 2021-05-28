@@ -128,7 +128,7 @@ function Redeem(): React.ReactElement {
           });
           setButtonLoading(false);
         });
-    } else if (coinSymol.coinName === "SDOG") {
+    } else if (coinSymol.coinName === "XDOG") {
       api.tx.xGatewayDogecoinBridge
         .requestRedeem(
           currentAccount!!.address,
