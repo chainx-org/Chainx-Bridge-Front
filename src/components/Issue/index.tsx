@@ -270,7 +270,6 @@ function Issue(): React.ReactElement {
                                 ShowSelect={ShowSelect}
                                 coinSymol={coinSymol}
                             />
-                            {"dasdas"}
                             <div className="to">To</div>
                             <div className="currContent">
                                 <img src={Sherpaxs} alt=""/>
