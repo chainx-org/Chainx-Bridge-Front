@@ -5,46 +5,57 @@ import { Space, Table } from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
 import RedeemStatusModal from "../../../components/RedeemStatusModal/index";
 import {useTranslation} from "react-i18next";
+import {useApi} from "../../../hooks/useApi";
 
 function RedeemHistory(): React.ReactElement {
   const { currentAccount } = useAccountModel();
   const requester = currentAccount?.address;
-  // const { t } = useTranslation();
   const [RedeemSuccessModalVisible, setRedeemSuccessModalVisible] = useState(false);
   const [RedeemStatus, setRedeemStatus] = useState("processing");
   const [RedeemData, setRedeemData] = useState([]);
   const [initLoading, setInitLoading] = useState(true);
   const { t } = useTranslation()
+  const { api, isApiReady } = useApi();
+  useEffect(()=> {
+    async function GetRedeemRequestList (){
+      const AllRedeemRequest = await api.query.xGatewayBitcoinBridge.redeemRequests.entries()
+      let AllRedeemRequestData = JSON.parse(JSON.stringify(AllRedeemRequest))
+      let data =  AllRedeemRequestData.map((item: any[]) => item[1])
+      let currRedeemData = data.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
+      setRedeemData(currRedeemData)
+      setInitLoading(false)
+    }
+    if (isApiReady) {
+      GetRedeemRequestList();
+    }
+  },[currentAccount, isApiReady])
   function RedeemModal(val: string) {
     setRedeemStatus(val);
     setRedeemSuccessModalVisible(true);
   }
   const Redeemcolumns = [
-    {
-      title: t('Update time'),
-      dataIndex: "time",
-      key: "time",
-    },
+    // {
+    //   title: t('Update time'),
+    //   dataIndex: "time",
+    //   key: "time",
+    // },
     {
       title: t('Amount (XBTC)'),
-      dataIndex: "btcAmount",
       key: "btcAmount",
       render: (record: any) => (
-        <Space size="middle">
-          <div>{record.btcAmount / 100000000}</div>
-        </Space>
+          <div>{record.amount ? record.amount / 100000000 : 0}</div>
       ),
     },
-    {
-      title: "BTC交易",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      title: t('Confirmation'),
-      dataIndex: "number",
-      key: "number",
-    },
+    // {
+    //   title: "BTC交易",
+    //   dataIndex: "address",
+    //   key: "address",
+    // },
+    // {
+    //   title: t('Confirmation'),
+    //   dataIndex: "number",
+    //   key: "number",
+    // },
     {
       title: "Chainx" + t('BlockHeight'),
       dataIndex: "openTime",
@@ -57,29 +68,14 @@ function RedeemHistory(): React.ReactElement {
         <Space size="middle">
           <div
             className={"processing"}
-            onClick={() => RedeemModal(record.status)}
+            onClick={() => RedeemModal("processing")}
           >
-            {record.status}
+            {"processing"}
           </div>
         </Space>
       ),
     },
   ];
-
-  useEffect(() => {
-    if (requester) {
-      setInitLoading(true);
-      fetch(
-        `https://api-btc.chainx.org/xbridge/redeem_requests?page=0&pageSize=10&requester=${requester}`
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-          setRedeemData(res.data);
-          setInitLoading(false);
-        });
-    }
-  }, [requester]);
   return (
     <>
       <TableStyle>
