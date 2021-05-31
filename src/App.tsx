@@ -15,14 +15,10 @@ import useInitialAccounts from "./hooks/useInitialAccounts";
 import useInitialFee from "./hooks/useInitialFee";
 import useInitialBridgeStatus from "./hooks/useInitialBridgeStatus";
 import useInitialRequests from "./hooks/useInitialRequests";
-import Bridge from "./page/Bridge/index";
-import History from './page/History/index'
-import btcVault from "./page/Vault/btcVault";
-import dogeVault from "./page/Vault/dogeVault";
-// const Bridge = lazy(() => import("./page/Bridge/index"));
-// const History = lazy(() => import("./page/History"));
-// const btcVault = lazy(() => import("./page/Vault/btcVault"));
-// const dogeVault = lazy(()=> import("./page/Vault/dogeVault"))
+const Bridge = lazy(() => import("./page/Bridge/index"));
+const History = lazy(() => import("./page/History"));
+const btcVault = lazy(() => import("./page/Vault/btcVault"));
+const dogeVault = lazy(()=> import("./page/Vault/dogeVault"))
 
 const LayoutWrapper = styled.div`
   display: flex;
@@ -45,8 +41,9 @@ export const App: React.FC = () => {
   const {issueRequests,redeemRequest} =useInitialRequests()
   return (
     <>
-      { !isApiReady ? <Loading /> : 
-      downExtensions ? <NoExtensions /> :
+      {  
+      downExtensions ? <NoExtensions /> : !isApiReady ? <Loading /> :
+      <Suspense fallback={<Loading />}>
       <LayoutWrapper id={"LayoutWrapper"}>
         <ApiContext.Provider
           value={{
@@ -91,6 +88,7 @@ export const App: React.FC = () => {
           </IssueRequestsContext.Provider>
         </ApiContext.Provider>
       </LayoutWrapper>
+      </Suspense>
       }
     </>
   );
