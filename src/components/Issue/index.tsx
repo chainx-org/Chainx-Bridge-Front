@@ -172,7 +172,7 @@ function Issue(): React.ReactElement {
             );
             const injector = await web3FromAddress(currentAccount!!.address);
             api.tx.xGatewayDogecoinBridge
-                .requestIssue(results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : "", IssueAmount * 100000000)
+                .requestIssue(results.length > 0 ? JSON.parse(JSON.stringify(results))[0][0] : "", IssueAmount * 100000000)
                 .signAndSend(
                     currentAccount!!.address,
                     {signer: injector.signer},

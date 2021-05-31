@@ -143,7 +143,7 @@ function Redeem(): React.ReactElement {
                 notification["error"]({
                   key,
                   message: `${section}.${name}: ${documentation.join(" ")}`,
-                  duration: 0,
+                  duration: 3,
                 });
                 setButtonLoading(false);
               }
@@ -173,7 +173,7 @@ function Redeem(): React.ReactElement {
           notification["error"]({
             key,
             message: `:( transaction failed', ${error}`,
-            duration: 0,
+            duration: 3,
           });
           setButtonLoading(false);
         });
@@ -230,7 +230,7 @@ function Redeem(): React.ReactElement {
                 notification["error"]({
                   key,
                   message: `${section}.${name}: ${documentation.join(" ")}`,
-                  duration: 0,
+                  duration: 3,
                 });
                 setButtonLoading(false);
               }
@@ -260,7 +260,7 @@ function Redeem(): React.ReactElement {
           notification["error"]({
             key,
             message: `:( transaction failed', ${error}`,
-            duration: 0,
+            duration: 3,
           });
         });
     }
