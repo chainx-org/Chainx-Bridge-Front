@@ -33,7 +33,8 @@ export const DropListStyle = styled.div`
   position: absolute;
   margin-top: 10.5px;
   width: 257px;
-  height: 200px;
+  // height: 200px;
+  height: fit-content;
   background: #FFFFFF;
   box-shadow: 6px 6px 8px 0 rgba(0,0,0,0.06);
   border-radius: 8px;
