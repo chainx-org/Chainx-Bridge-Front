@@ -3,6 +3,7 @@ import {IssueBtcInputStyle, IssueStyle, AccountSwitch} from "./style";
 import {LoadingOutlined} from "@ant-design/icons";
 import {decodeAddress, encodeAddress} from "@polkadot/keyring";
 import BTCs from "../CoinSelect/icons/BTC_S.svg";
+import sBTCs from "../TabCoinSelect/icons/SBTC.svg";
 import Sherpaxs from "../CoinSelect/icons/sherpax_s.svg";
 import arrowYellow from "./icons/arrow_yellow.svg";
 import arrowGray from "./icons/arrow_gray.svg";
@@ -38,6 +39,7 @@ function Issue(): React.ReactElement {
         img_url: BTCs,
         coinName: "BTC",
         symol: "Bitcoin",
+        img_urls: sBTCs,
     });
     const currCoin = (value: coinProps) => {
         setCoinSymol(value);

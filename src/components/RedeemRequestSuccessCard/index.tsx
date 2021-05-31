@@ -1,6 +1,5 @@
 import React from "react";
 import { RedeemRequestCardStyle } from "./style";
-import BTCLogo from "../../icons/BTC.svg"
 import warningYellowLogo from "../../icons/warm_yellow.svg";
 import { RedeemCoinProps } from "../../page/Bridge";
 import ExplainTag from "../ExplainTag";
@@ -18,7 +17,7 @@ function RedeemRequestSuccessCard({ RedeemAmount, coinSymol, BtcAddress, vaultAd
     return (
         <RedeemRequestCardStyle>
             <div className={"card-header"}>
-                <img src={BTCLogo} alt="" />
+                <img src={coinSymol.img_urls} alt="" />
                 <div className={"assets-text"}>
                     <div className={"assets-number"}>{RedeemAmount}</div>
                     <div>{coinSymol.coinName.slice(1, 4)}</div>

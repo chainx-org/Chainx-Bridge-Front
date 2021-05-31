@@ -1,13 +1,13 @@
 import { InputNumber, Tooltip } from "antd";
 import React from "react";
-import { coinProps } from "../../../page/Bridge";
+import { RedeemCoinProps } from "../../../page/Bridge";
 import Question from '../../ExplainTag/icons/question.svg'
 import { Wrapper } from "./style";
 
 interface NumInputProps {
   children?: React.ReactNode;
   className?: string;
-  coinSymol: coinProps;
+  coinSymol: RedeemCoinProps;
   setRedeemAmount: (e:number)=>void;
   tooltip?: string;
   icon?: boolean
@@ -30,7 +30,7 @@ export default function NumInput({children, className = '' , coinSymol, symol, s
                         <img src={Question} alt=""/>
                     </Tooltip>
                     }
-                  { description && <p className='tradeTip'>{coinSymol.coinName}{" "}{description}{children}</p> }
+                  { description && <p className='tradeTip'>{coinSymol.coinName}{description}{" "}{children}</p> }
                 </div>
             </div>
             <div className='issueNum'>

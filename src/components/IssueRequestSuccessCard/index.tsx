@@ -23,10 +23,10 @@ function IssueRequestSuccessCard({ currAddress, hypothecateNum, IssueAmount, vau
     return (
         <IssueRequestCardStyle>
             <div className={"card-header"}>
-                <img src={coinSymol.img_url} alt="" />
+                <img src={coinSymol.img_urls} alt="" />
                 <div className={"assets-text"}>
                     <div className={"assets-number"}>{IssueAmount}</div>
-                    <div>{coinSymol.coinName}</div>
+                    <div>X{coinSymol.coinName}</div>
                 </div>
                 <div className={"time"}>
                     <div className={"time-title"}>剩余时间</div>
