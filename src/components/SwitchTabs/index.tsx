@@ -12,12 +12,11 @@ interface SwitchTabsProps {
   tabList: TabInfo[];
   className?: string;
   size: 'lg' | 'medium' | 'sm';
-  onTabClick?: (e: string) => void;
 }
 
-function SwitchTabs({ children, onTabClick, tabList, size, className = '' }: SwitchTabsProps): React.ReactElement<SwitchTabsProps> {
+function SwitchTabs({ children, tabList, size, className = '' }: SwitchTabsProps): React.ReactElement<SwitchTabsProps> {
   return (
-    <Tabs onTabClick={onTabClick} type='card' className={`${className} ui--switchTabs-${size ? size : ''}`} >
+    <Tabs type='card' className={`${className} ${size ? size : ''}`} >
       {tabList.map((tab) => (
         <TabPane tab={tab.title} key={tab.title} >
           {tab.content}

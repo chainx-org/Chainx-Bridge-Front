@@ -23,6 +23,9 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+html {
+    --antd-wave-shadow-color: #8E8E8E !important;
+}
 body {
     line-height: 1;
     background: #f9f9f9;
@@ -239,4 +242,11 @@ table {
 }
 .ant-pagination-item-active:focus-visible a, .ant-pagination-item-active:hover a {
     color: #F6C94A;
+}
+.ant-tabs-tab-btn:focus, .ant-tabs-tab-remove:focus, .ant-tabs-tab-btn:active, .ant-tabs-tab-remove:active {
+    color: #8E8E8E !important;
+}
+::selection {
+    color: #fff;
+    background: #8E8E8E;
 }

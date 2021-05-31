@@ -183,18 +183,19 @@ export const TabsWrapper = styled(SwitchTabs)`
         border-radius: 16px;
         background: transparent;
         border: 0;
-        &:hover .ant-tabs-tab-btn{
-          background: #F4F4F5;
-          color: #8E8E8E;
-        }
+        color: #8E8E8E;
+        // &:hover .ant-tabs-tab-btn{
+        //   color: #8E8E8E;
+        // }
       }
       .ant-tabs-tab-active {   
         background: #F4F4F5;
         box-shadow: 3px 3px 8px 0 rgba(0,0,0,0.11), -3px -3px 8px 0 #FFFFFF;
         border-radius: 16px;
         text-align: center;
+        color: #282828;
         .ant-tabs-tab-btn {
-          color: #282828;
+          color: #282828 !important;
           font-size: 16px;
           font-weight: 600;
         }

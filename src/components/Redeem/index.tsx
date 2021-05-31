@@ -25,6 +25,8 @@ function Redeem(): React.ReactElement {
   const { currentAccount } = useAccountModel();
   const [RedeemAmount, setRedeemAmount] = useState(0);
   const [BtcAddress, setBtcAddress] = useState("");
+  const [vaultAddress, setVaultAddress] = useState("");
+  const [vaultBtcAddress, setVaultBtcAddress] = useState("");
   const [n, setN] = useState(0);
   const { api } = useApi();
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -98,7 +100,14 @@ function Redeem(): React.ReactElement {
             ];
           })
       )
-      console.log(results.toString())
+      setVaultAddress(
+        results.length > 0
+          ? JSON.parse(JSON.stringify(results))[0][0]
+          : ""
+      );
+      setVaultBtcAddress(
+        results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : ""
+      );
       api.tx.xGatewayBitcoinBridge
         .requestRedeem(
             results.length > 0
@@ -178,6 +187,14 @@ function Redeem(): React.ReactElement {
             ];
           })
       )
+      setVaultAddress(
+        results.length > 0
+          ? JSON.parse(JSON.stringify(results))[0][0]
+          : ""
+      );
+      setVaultBtcAddress(
+        results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : ""
+      );
       api.tx.xGatewayDogecoinBridge
         .requestRedeem(
             results.length > 0
@@ -249,6 +266,10 @@ function Redeem(): React.ReactElement {
       {showRedeemNext ? (
         <RedeemRequestSuccessCard
           coinSymol={coinSymol}
+          RedeemAmount={RedeemAmount}
+          BtcAddress={BtcAddress}
+          vaultAddress={vaultAddress}
+          vaultBtcAddress={vaultBtcAddress}
         />
       ) : (
         <RedeemStyle>

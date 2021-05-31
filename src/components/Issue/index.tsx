@@ -30,7 +30,7 @@ function Issue(): React.ReactElement {
     const {currentAccount} = useAccountModel();
     const [showIssueNext, setShowIssueNext] = useState(false);
     const [IssueAmount, setIssueAmount] = useState(0);
-    const [vaultAddress, setVaultAddress] = useState("");
+    // const [vaultAddress, setVaultAddress] = useState("");
     const [vaultBtcAddress, setVaultBtcAddress] = useState("");
     const [buttonLoading, setButtonLoading] = useState(false);
     const [isShow, setIsShow] = useState(false);
@@ -73,11 +73,11 @@ function Issue(): React.ReactElement {
                     ];
                 })
             );
-            setVaultAddress(
-                results.length > 0
-                    ? JSON.parse(JSON.stringify(results))[0][0]
-                    : ""
-            );
+            // setVaultAddress(
+            //     results.length > 0
+            //         ? JSON.parse(JSON.stringify(results))[0][0]
+            //         : ""
+            // );
             setVaultBtcAddress(
                 results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : ""
             );
@@ -160,11 +160,11 @@ function Issue(): React.ReactElement {
                     ];
                 })
             );
-            setVaultAddress(
-                results.length > 0
-                    ? JSON.parse(JSON.stringify(results))[0][0]
-                    : ""
-            );
+            // setVaultAddress(
+            //     results.length > 0
+            //         ? JSON.parse(JSON.stringify(results))[0][0]
+            //         : ""
+            // );
             setVaultBtcAddress(
                 results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : ""
             );

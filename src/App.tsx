@@ -15,10 +15,14 @@ import useInitialAccounts from "./hooks/useInitialAccounts";
 import useInitialFee from "./hooks/useInitialFee";
 import useInitialBridgeStatus from "./hooks/useInitialBridgeStatus";
 import useInitialRequests from "./hooks/useInitialRequests";
-const Bridge = lazy(() => import("./page/Bridge/index"));
-const History = lazy(() => import("./page/History"));
-const btcVault = lazy(() => import("./page/Vault/btcVault"));
-const dogeVault = lazy(()=> import("./page/Vault/dogeVault"))
+import Bridge from "./page/Bridge/index";
+import History from './page/History/index'
+import btcVault from "./page/Vault/btcVault";
+import dogeVault from "./page/Vault/dogeVault";
+// const Bridge = lazy(() => import("./page/Bridge/index"));
+// const History = lazy(() => import("./page/History"));
+// const btcVault = lazy(() => import("./page/Vault/btcVault"));
+// const dogeVault = lazy(()=> import("./page/Vault/dogeVault"))
 
 const LayoutWrapper = styled.div`
   display: flex;
@@ -41,25 +45,25 @@ export const App: React.FC = () => {
   const {issueRequests,redeemRequest} =useInitialRequests()
   return (
     <>
-      {!isApiReady && <Loading />}
-      {downExtensions && <NoExtensions />}
+      { !isApiReady ? <Loading /> : 
+      downExtensions ? <NoExtensions /> :
       <LayoutWrapper id={"LayoutWrapper"}>
         <ApiContext.Provider
           value={{
             api: api!!,
             isApiReady,
           }}
-        >
+          >
           <IssueRequestsContext.Provider
             value={{
               requests: issueRequests,
             }}
-          >
+            >
             <RedeemRequestsContext.Provider
               value={{
                 requests: redeemRequest,
               }}
-            >
+              >
               <FeeContext.Provider
                 value={{
                   exchangeRate: exchangeRate!!,
@@ -67,13 +71,12 @@ export const App: React.FC = () => {
                   pcxPrice: pcxPrice!!,
                   dogePCXprice: dogePcxPrice!!
                 }}
-              >
+                >
                 <bridgeStatusContext.Provider value={bridgeStatus}>
                   <Header />
                 </bridgeStatusContext.Provider>
                 <Content>
                   <SideBar />
-                  <Suspense fallback={<Loading />}>
                     <Switch>
                       <Route path="/bridge" component={Bridge} />
                       <Route path="/history" component={History} />
@@ -81,7 +84,6 @@ export const App: React.FC = () => {
                       <Route path="/vault/doge" exact={true} component={dogeVault} />
                       <Redirect from="/" to="/bridge" />
                     </Switch>
-                  </Suspense>
                   <div className="empty" />
                 </Content>
               </FeeContext.Provider>
@@ -89,6 +91,7 @@ export const App: React.FC = () => {
           </IssueRequestsContext.Provider>
         </ApiContext.Provider>
       </LayoutWrapper>
+      }
     </>
   );
 };
