@@ -86,6 +86,10 @@ function Redeem(): React.ReactElement {
     //     notification.warn({message: "请输入合法的BTC地址"});
     //     return
     // }
+    if(BtcAddress === ""){
+      notification.warn({ message: "BTC地址不能为空" });
+      return;
+    }
     if (RedeemAmount <= 0) {
       notification.warn({ message: "赎回的值必须大于0" });
       return;

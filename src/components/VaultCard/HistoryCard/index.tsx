@@ -194,7 +194,6 @@ function HistoryCard(): React.ReactElement {
             let sortIssueData = currIssueData.sort((a,b)=>a.id - b.id)
             let currRedeemData = Redeemdata.filter((item: { vault: string; }) => item.vault === currentAccount?.address!!)
             let sortRedeemData = currRedeemData.sort((a,b)=>a.id - b.id)
-            console.log(sortRedeemData,'dsdsssss')
             setIssueData(sortIssueData)
             setRedeemData(sortRedeemData)
         }
