@@ -7,8 +7,8 @@ import { Balance, BlockNumber } from "@polkadot/types/interfaces";
 import { BtcAddress } from "../../../interfaces";
 import { useApi } from "../../../hooks/useApi";
 import { BalanceSpan } from "../../BalanceSpan";
-import { useFeeContext, FeeContext } from "../../../hooks/useFeeContext";
-import { useAccountInfo } from "../../../hooks/useAccountInfo";
+import { FeeContext } from "../../../hooks/useFeeContext";
+// import { useAccountInfo } from "../../../hooks/useAccountInfo";
 // import FormatBalance from "../../../hooks/useFormatBalance";
 // import { web3FromAddress } from "@polkadot/extension-dapp";
 import EarnModal from "../EarnModal";
@@ -32,14 +32,10 @@ function EarnCard(): React.ReactElement {
   const [isShowEmail, setIsShowEmail] = useState(false);
   const [editEmail, setEditEmail] = useState("");
   const [vault, setVault] = useState<VaultModel | null>(null);
-  const [upperBound, setUpperBound] = useState("-");
   const [secureThreshold, SetsecureThreshold] = useState(0);
-  const { exchangeRate } = useFeeContext();
-  const [addPCX, setaddPCX] = useState(0);
   const { currentAccount } = useAccountModel();
   const { api, isApiReady } = useApi();
-
-  const accountInfo = useAccountInfo(currentAccount?.address!!);
+  // const accountInfo = useAccountInfo(currentAccount?.address!!);
 
   const EditEmailAddress = () => {
     setIsShowEmail(false);
@@ -71,17 +67,6 @@ function EarnCard(): React.ReactElement {
       })();
     }
   }, [currentAccount, isApiReady]);
-
-  // useEffect(() => {
-  //   if (vault) {
-  //     const pcxInBtc = exchangeRate.price
-  //       .mul(vault.collateral)
-  //       .divn(Math.pow(10, exchangeRate.decimal.toNumber()));
-  //     setUpperBound(pcxInBtc.toNumber().toFixed(2));
-  //   } else {
-  //     setUpperBound("-");
-  //   }
-  // }, [vault, exchangeRate]);
 
   useEffect(() => {
     if (isApiReady) {

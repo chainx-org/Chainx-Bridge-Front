@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-// import {Option} from "@polkadot/types";
-// import {Vault} from "../../../interfaces"
 import useAccountModel from "../../../hooks/useAccountModel";
 import { useApi } from "../../../hooks/useApi";
-import { BtcInfoCardStyle, TradeInfoStyle } from "./style";
-// import useVaults from "../../../hooks/useVaults"
+import { BtcInfoCardStyle } from "./style";
 
 function BtcInfoCard(): React.ReactElement {
   const { currentAccount } = useAccountModel();
@@ -29,10 +26,10 @@ function BtcInfoCard(): React.ReactElement {
       )
         .then((res) => res.json())
         .then((res: any) => {
-          console.log(res)
-          // setBtcBalance(res.data.balance);
-          // setTotal_received(res.data.total_received);
-          // setfinalTx(res.data.final_n_tx);
+          // console.log(res)
+          setBtcBalance(res.balance);
+          setTotal_received(res.total_received);
+          setfinalTx(res.final_n_tx);
         });
     })();
   }, [btcAddress]);

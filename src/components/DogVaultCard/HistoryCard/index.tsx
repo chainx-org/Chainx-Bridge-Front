@@ -14,7 +14,6 @@ import {IssueRequest, RedeemRequest} from "../../../interfaces";
 import useExpireTime from "../../../hooks/useExpireTime";
 
 function HistoryCard(): React.ReactElement {
-
     const { t } = useTranslation()
     const { api,isApiReady } = useApi()
     const { currentAccount } = useAccountModel();
@@ -215,10 +214,10 @@ function HistoryCard(): React.ReactElement {
             key: 'action',
             render: (record: any) => (
                 <Space size="middle">
-                    {record.openTime + IssueExpireTime - lastBlockNumber > 0 && <div className='historyProcessing'>{countdowm(record.openTime,IssueExpireTime)}<img src={LastTime} alt='lastTime' /></div>}
+                    {record.openTime + RedeemExpireTime - lastBlockNumber > 0 && <div className='historyProcessing'>{countdowm(record.openTime,RedeemExpireTime)}<img src={LastTime} alt='lastTime' /></div>}
                     {/*{record.status === "失败" && <div className='historyFail'>{record.status}<img src={FailStatus} alt='close' /></div>}*/}
                     {/*{record.status === "成功" && <div className='historySuccess'>{record.status}<img src={SuccessStatus} alt='close' /></div>}*/}
-                    {record.openTime + IssueExpireTime - lastBlockNumber < 0 && <div className='historyCancel'>
+                    {record.openTime + RedeemExpireTime - lastBlockNumber < 0 && <div className='historyCancel'>
                         <span className={isCancel && record.id === requestID ? 'canceled' : 'cancel'} onClick={() => onCancleRedeem(record.id,record.reimburse)}>{isCancel && record.id === requestID ? '已取消' : '取消'}</span>
                         {isCancel && record.id === requestID && <img src={Canceled} alt='cancel' />} </div>}
                 </Space>

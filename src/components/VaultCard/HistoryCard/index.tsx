@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import {notification, Space, Table} from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
 import { useApi } from "../../../hooks/useApi";
-// import { useRedeemRequests } from "../../../hooks/useRedeemRequestList";
 import LastTime from './icons/time.svg'
 import Canceled from './icons/cancel.svg'
 import useExpireTime from "../../../hooks/useExpireTime";
@@ -18,7 +17,6 @@ function HistoryCard(): React.ReactElement {
     const { currentAccount } = useAccountModel();
     const { api,isApiReady } = useApi()
     const { t } = useTranslation()
-    // const redeemRequestsList = useRedeemRequests();
     const [page, setPage] = useState(0);
     const [currentTable, setCurrentTable] = useState("issue")
     const [isCancel, setIsCancel] = useState(false)
@@ -260,10 +258,10 @@ function HistoryCard(): React.ReactElement {
             key: 'action',
             render: (record: any) => (
                 <Space size="middle">
-                    {record.openTime + IssueExpireTime - lastBlockNumber > 0 && <div className='historyProcessing'>{countdowm(record.openTime,IssueExpireTime)}<img src={LastTime} alt='lastTime' /></div>}
+                    {record.openTime + RedeemExpireTime - lastBlockNumber > 0 && <div className='historyProcessing'>{countdowm(record.openTime,RedeemExpireTime)}<img src={LastTime} alt='lastTime' /></div>}
                     {/*{record.status === "失败" && <div className='historyFail'>{record.status}<img src={FailStatus} alt='close' /></div>}*/}
                     {/*{record.status === "成功" && <div className='historySuccess'>{record.status}<img src={SuccessStatus} alt='close' /></div>}*/}
-                    {record.openTime + IssueExpireTime - lastBlockNumber < 0 && <div className='historyCancel'>
+                    {record.openTime + RedeemExpireTime - lastBlockNumber < 0 && <div className='historyCancel'>
                         <span className={isCancel && record.id === requestID ? 'canceled' : 'cancel'} onClick={() => onCancleIssue(record.id)}>{isCancel && record.id === requestID ? '已取消' : '取消'}</span>
                         {isCancel && record.id === requestID && <img src={Canceled} alt='cancel' />} </div>}
                 </Space>
