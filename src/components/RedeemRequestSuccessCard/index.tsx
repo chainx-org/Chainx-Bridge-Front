@@ -11,8 +11,9 @@ interface RedeemRequestProps {
     BtcAddress: string;
     vaultAddress: string;
     vaultBtcAddress: string;
+    requestId: string;
 }
-function RedeemRequestSuccessCard({ RedeemAmount, coinSymol, BtcAddress, vaultAddress, vaultBtcAddress }: RedeemRequestProps): React.ReactElement<RedeemRequestProps> {
+function RedeemRequestSuccessCard({ RedeemAmount, coinSymol, BtcAddress, vaultAddress, vaultBtcAddress, requestId }: RedeemRequestProps): React.ReactElement<RedeemRequestProps> {
 
     return (
         <RedeemRequestCardStyle>
@@ -34,7 +35,7 @@ function RedeemRequestSuccessCard({ RedeemAmount, coinSymol, BtcAddress, vaultAd
             </div>
             <RedeemStatus>
                 <div className={"line"} />
-                <ExplainTag title='请求ID' children={'3123213123'} className='bold' />
+                <ExplainTag title='请求ID' children={requestId} className='bold' />
                 <div className={"dotted-line"} />
                 <ExplainTag title={`${coinSymol.coinName.slice(1, 4)}接收地址`} children={<div>{BtcAddress}</div>} />
                 <ExplainTag title='资产保险库PCX地址' children={<div>{vaultAddress}</div>} />

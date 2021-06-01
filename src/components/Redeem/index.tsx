@@ -20,6 +20,7 @@ import DOGEs from "../CoinSelect/icons/DOGE_s.svg";
 // import sBCHs from "../TabCoinSelect/icons/SBCH.svg";
 import sDOGs from "../TabCoinSelect/icons/SDOG.svg";
 import {Vault} from "../../interfaces";
+
 function Redeem(): React.ReactElement {
   const { t } = useTranslation();
   const [showRedeemNext, setShowRedeemNext] = useState(false);
@@ -29,6 +30,7 @@ function Redeem(): React.ReactElement {
   const [vaultAddress, setVaultAddress] = useState("");
   const [vaultBtcAddress, setVaultBtcAddress] = useState("");
   const [n, setN] = useState(0);
+  const [requestId, setRequestId] = useState('');
   const { api } = useApi();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [isShow, setIsShow] = useState(false);
@@ -149,6 +151,8 @@ function Redeem(): React.ReactElement {
               }
             } else {
               if (status.type === "Finalized") {
+                const dataList = events.map(({ event: { data } }) => { return data});
+                setRequestId(dataList[1].toString())
                 notification["success"]({
                   key,
                   message: `Current status: ${status.type}`,
@@ -236,6 +240,8 @@ function Redeem(): React.ReactElement {
               }
             } else {
               if (status.type === "Finalized") {
+                const dataList = events.map(({ event: { data } }) => { return data});
+                setRequestId(dataList[1].toString())
                 setN(n + 1);
                 setShowRedeemNext(true);
                 notification["success"]({
@@ -274,6 +280,7 @@ function Redeem(): React.ReactElement {
           BtcAddress={BtcAddress}
           vaultAddress={vaultAddress}
           vaultBtcAddress={vaultBtcAddress}
+          requestId={requestId}
         />
       ) : (
         <RedeemStyle>
@@ -330,3 +337,7 @@ function Redeem(): React.ReactElement {
 }
 
 export default Redeem;
+
+function BN(arg0: number): any {
+  throw new Error("Function not implemented.");
+}
