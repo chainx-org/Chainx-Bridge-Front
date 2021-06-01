@@ -146,6 +146,7 @@ function Issue(): React.ReactElement {
         ;
         if (coinSymol.coinName === 'DOG') {
             const vaults = await api.query.xGatewayDogecoinBridge.vaults.entries();
+            console.log(vaults.toString())
             const results = await Promise.all(
                 vaults.map(async ([key, value]) => {
                     const vault: Vault = value.unwrap();
@@ -166,7 +167,7 @@ function Issue(): React.ReactElement {
             //         : ""
             // );
             setVaultBtcAddress(
-                results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : ""
+                results.length > 0 ? JSON.parse(JSON.stringify(results))[0][0] : ""
             );
             const injector = await web3FromAddress(currentAccount!!.address);
             api.tx.xGatewayDogecoinBridge
