@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { PointStyle, ChainStatusStyle } from "./style";
-import logo from "../ChainStatus/icons/chainx_logo.svg";
+import logo from "../ChainStatus/icons/chainX_bridge.svg";
 import { bridgeStatusContext } from "../../../App";
 import { useTranslation } from "react-i18next";
 

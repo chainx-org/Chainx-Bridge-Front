@@ -3,6 +3,7 @@ import {IssueBtcInputStyle, IssueStyle, AccountSwitch} from "./style";
 import {LoadingOutlined} from "@ant-design/icons";
 import {decodeAddress, encodeAddress} from "@polkadot/keyring";
 import BTCs from "../CoinSelect/icons/BTC_S.svg";
+import sBTCs from "../TabCoinSelect/icons/SBTC.svg";
 import Sherpaxs from "../CoinSelect/icons/sherpax_s.svg";
 import arrowYellow from "./icons/arrow_yellow.svg";
 import arrowGray from "./icons/arrow_gray.svg";
@@ -38,6 +39,7 @@ function Issue(): React.ReactElement {
         img_url: BTCs,
         coinName: "BTC",
         symol: "Bitcoin",
+        img_urls: sBTCs,
     });
     const currCoin = (value: coinProps) => {
         setCoinSymol(value);
@@ -171,7 +173,7 @@ function Issue(): React.ReactElement {
             );
             const injector = await web3FromAddress(currentAccount!!.address);
             api.tx.xGatewayDogecoinBridge
-                .requestIssue(results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : "", IssueAmount * 100000000)
+                .requestIssue(results.length > 0 ? JSON.parse(JSON.stringify(results))[0][0] : "", IssueAmount * 100000000)
                 .signAndSend(
                     currentAccount!!.address,
                     {signer: injector.signer},
@@ -309,10 +311,10 @@ function Issue(): React.ReactElement {
                         </IssueBtcInputStyle>
                     </div>
                     <div className="bottomContent">
-                        <ExplainTag title="目标账户" children={currAddress}/>
-                        <ExplainTag title="锁定抵押品"
+                        <ExplainTag title="目标账户" children={currAddress} tooltip={t('After the token is issued, it will be deposited in the target account')} />
+                        <ExplainTag title="锁定抵押品" tooltip={t('After the issue is successful, it will be unlocked. If you do not complete the transfer in the corresponding currency as required, you will lose the locked collateral')}
                                     children={coinSymol.coinName === 'BTC' ? hypothecateNum : dogHypothecateNum}/>
-                        <ExplainTag title="手续费" children={chargeNum}/>
+                        <ExplainTag title="手续费" children={chargeNum} tooltip={t('The fee will be used to reward the asset vault')} />
                         <Button loading={buttonLoading} onClick={handleMatchVault}>
                             {t("next")}
                         </Button>

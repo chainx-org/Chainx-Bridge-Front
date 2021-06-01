@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const ChainStatusStyle = styled.div`
-  width: 200px;
+  width: 218px;
   height: 58px;
   background: #F4F4F5;
   box-shadow: 3px 3px 8px 0 rgba(0,0,0,0.11), -3px -3px 8px 0 #FFFFFF;
@@ -15,7 +15,7 @@ export const ChainStatusStyle = styled.div`
     font-weight: 400;
   }
   .chainStatus-content{
-    padding:7.5px 29.5px;
+    padding: 7.5px 18px;
   }
   .status-content{
     margin-top: 2px;

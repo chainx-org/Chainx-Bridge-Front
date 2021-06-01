@@ -7,7 +7,6 @@ import arrowGray from "../Issue/icons/arrow_gray.svg";
 import { useTranslation } from "react-i18next";
 import AddressInput from "../Input/AddressInput";
 import TabCoinSelect from "../TabCoinSelect";
-import sBTC from "../TabCoinSelect/icons/SBTC.svg";
 import useAccountModel from "../../hooks/useAccountModel";
 import { useApi } from "../../hooks/useApi";
 // import useXbtcAssets from "../../hooks/useXbtcAssets";
@@ -16,9 +15,12 @@ import NumInput from "../Input/NumInput";
 import RedeemRequestSuccessCard from "../RedeemRequestSuccessCard";
 import { RedeemCoinProps } from "../../page/Bridge";
 import sBTCs from "../TabCoinSelect/icons/SBTC.svg";
-import sBCHs from "../TabCoinSelect/icons/SBCH.svg";
+import BTCs from "../CoinSelect/icons/BTC_S.svg";
+import DOGEs from "../CoinSelect/icons/DOGE_s.svg";
+// import sBCHs from "../TabCoinSelect/icons/SBCH.svg";
 import sDOGs from "../TabCoinSelect/icons/SDOG.svg";
 import {Vault} from "../../interfaces";
+
 function Redeem(): React.ReactElement {
   const { t } = useTranslation();
   const [showRedeemNext, setShowRedeemNext] = useState(false);
@@ -28,16 +30,18 @@ function Redeem(): React.ReactElement {
   const [vaultAddress, setVaultAddress] = useState("");
   const [vaultBtcAddress, setVaultBtcAddress] = useState("");
   const [n, setN] = useState(0);
+  const [requestId, setRequestId] = useState('');
   const { api } = useApi();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [sDoge, setSDoge] = useState(0);
   const [xBtcBalance, setXbtcBalance] = useState(0);
   const [coinSymol, setCoinSymol] = useState<RedeemCoinProps>({
-    img_url: sBTC,
+    img_url: sBTCs,
     coinName: "XBTC",
     symol: "Bitcoin",
     balance: 9999.0024,
+    img_urls: BTCs,
   });
   const RedeemOptionList = [
     {
@@ -45,6 +49,7 @@ function Redeem(): React.ReactElement {
       coinName: "XBTC",
       symol: "Bitcoin",
       balance: xBtcBalance ? xBtcBalance : 0,
+      img_urls: BTCs,
     },
     // {
     //   img_url: sBCHs,
@@ -57,6 +62,7 @@ function Redeem(): React.ReactElement {
       coinName: "XDOG",
       symol: "Dogecoin",
       balance: sDoge ? sDoge : 0,
+      img_urls: DOGEs,
     },
   ];
   const currCoin = (value: RedeemCoinProps) => {
@@ -139,12 +145,14 @@ function Redeem(): React.ReactElement {
                 notification["error"]({
                   key,
                   message: `${section}.${name}: ${documentation.join(" ")}`,
-                  duration: 0,
+                  duration: 3,
                 });
                 setButtonLoading(false);
               }
             } else {
               if (status.type === "Finalized") {
+                const dataList = events.map(({ event: { data } }) => { return data});
+                setRequestId(dataList[1].toString())
                 notification["success"]({
                   key,
                   message: `Current status: ${status.type}`,
@@ -169,7 +177,7 @@ function Redeem(): React.ReactElement {
           notification["error"]({
             key,
             message: `:( transaction failed', ${error}`,
-            duration: 0,
+            duration: 3,
           });
           setButtonLoading(false);
         });
@@ -226,12 +234,14 @@ function Redeem(): React.ReactElement {
                 notification["error"]({
                   key,
                   message: `${section}.${name}: ${documentation.join(" ")}`,
-                  duration: 0,
+                  duration: 3,
                 });
                 setButtonLoading(false);
               }
             } else {
               if (status.type === "Finalized") {
+                const dataList = events.map(({ event: { data } }) => { return data});
+                setRequestId(dataList[1].toString())
                 setN(n + 1);
                 setShowRedeemNext(true);
                 notification["success"]({
@@ -256,7 +266,7 @@ function Redeem(): React.ReactElement {
           notification["error"]({
             key,
             message: `:( transaction failed', ${error}`,
-            duration: 0,
+            duration: 3,
           });
         });
     }
@@ -270,6 +280,7 @@ function Redeem(): React.ReactElement {
           BtcAddress={BtcAddress}
           vaultAddress={vaultAddress}
           vaultBtcAddress={vaultBtcAddress}
+          requestId={requestId}
         />
       ) : (
         <RedeemStyle>
@@ -289,8 +300,8 @@ function Redeem(): React.ReactElement {
                 title={t("Redemption amount")}
                 setRedeemAmount={setRedeemAmount}
                 coinSymol={coinSymol}
-                // description={t("balance")}
-                // children={<span>{XbtcBalance ? XbtcBalance : "0"}</span>}
+                description={t("balance")}
+                children={<span>{xBtcBalance ? xBtcBalance : "0"}</span>}
                 symol={coinSymol.coinName}
               />
               <AddressInput
@@ -326,3 +337,7 @@ function Redeem(): React.ReactElement {
 }
 
 export default Redeem;
+
+function BN(arg0: number): any {
+  throw new Error("Function not implemented.");
+}
