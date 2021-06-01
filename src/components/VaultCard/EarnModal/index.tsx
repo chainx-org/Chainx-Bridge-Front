@@ -6,8 +6,7 @@ import useAccountModel from "../../../hooks/useAccountModel";
 import { Balance, BlockNumber } from "@polkadot/types/interfaces";
 import { BtcAddress } from "../../../interfaces";
 import { useApi } from "../../../hooks/useApi";
-// import { BalanceSpan } from "../../BalanceSpan";
-import { useFeeContext, FeeContext } from "../../../hooks/useFeeContext";
+import { FeeContext } from "../../../hooks/useFeeContext";
 import { useAccountInfo } from "../../../hooks/useAccountInfo";
 import FormatBalance from "../../../hooks/useFormatBalance";
 import { web3FromAddress } from "@polkadot/extension-dapp";
@@ -19,7 +18,9 @@ interface VaultModel {
   toBeRedeemedTokens: Balance,
   wallet: BtcAddress,
   bannedUntil: BlockNumber,
-  toBeIssuedTokens: Balance
+  issuedToken: number,
+  toBeIssuedTokens: Balance,
+  collateral: Balance,
 }
 interface EarnModalProps {
   AddCollateralModal: boolean;
@@ -30,9 +31,6 @@ function EarnModal({ SetAddCollateralModal, AddCollateralModal }: EarnModalProps
   const pcxPrice = value.pcxPrice;
   const { t } = useTranslation();
   const [vault, setVault] = useState<VaultModel | null>(null);
-  const [upperBound, setUpperBound] = useState("-");
-  const [secureThreshold, SetsecureThreshold] = useState(0);
-  const { exchangeRate } = useFeeContext();
   const [addPCX, setaddPCX] = useState(0);
   const { currentAccount } = useAccountModel();
   const { api, isApiReady } = useApi();
@@ -101,15 +99,13 @@ function EarnModal({ SetAddCollateralModal, AddCollateralModal }: EarnModalProps
           let vaultInfo = vault.unwrap();
           let collateral = await api.query.system.account(
             currentAccount.address
-          );
+          ); 
+          const assetId = api.consts.xGatewayBitcoinBridge.tokenAssetId;
+          const balance = await api.query.xAssets.assetBalance(currentAccount.address, assetId);
           setVault({
             address: currentAccount.address,
-            // btcAddress: vaultInfo.wallet,
-            // toBeRedeemToken: vaultInfo.toBeRedeemedTokens,
-            // toBeIssuedToken: vaultInfo.toBeIssuedTokens,
-            // // @ts-ignore
-            // issuedToken: vaultInfo.issuedTokens,
-            // collateral: collateral.data.reserved,
+            collateral: collateral.data.reserved,
+            issuedToken: ((balance.toJSON()["Usable"] as number) || 0),
             toBeIssuedTokens: vaultInfo.toBeIssuedTokens,
             toBeRedeemedTokens: vaultInfo.toBeRedeemedTokens,
             wallet: vaultInfo.wallet,
@@ -120,23 +116,6 @@ function EarnModal({ SetAddCollateralModal, AddCollateralModal }: EarnModalProps
     }
   }, [currentAccount, isApiReady]);
 
-  // useEffect(() => {
-  //   if (vault) {
-  //     const pcxInBtc = exchangeRate.price
-  //       .mul(vault.collateral)
-  //       .divn(Math.pow(10, exchangeRate.decimal.toNumber()));
-  //     setUpperBound(pcxInBtc.toNumber().toFixed(2));
-  //   } else {
-  //     setUpperBound("-");
-  //   }
-  // }, [vault, exchangeRate]);
-
-  useEffect(() => {
-    if (isApiReady) {
-      const secureThreshold = api.consts.xGatewayBitcoinBridge.secureThreshold;
-      SetsecureThreshold(secureThreshold.toNumber() / 100);
-    }
-  }, [isApiReady]);
   return (
     <AddCollateralModalStyle
       title={t("adding collateral")}
@@ -169,38 +148,38 @@ function EarnModal({ SetAddCollateralModal, AddCollateralModal }: EarnModalProps
       <CollateralDisplayStyle>
         <CollateralRate>
           <div className="title">当前抵押率</div>
-          {/* <div className={"collateralNum"}>
+          <div className={"collateralNum"}>
             {isFinite(
               +vault?.collateral!! /
                 100000000 /
-                +(vault?.issuedToken.toNumber()!! / 1000000000 / pcxPrice)
+                +(vault?.issuedToken!! / 1000000000 / pcxPrice)
             )
               ? (
                   +vault?.collateral!! /
                   100000000 /
-                  +(vault?.issuedToken.toNumber()!! / 1000000000 / pcxPrice)
-                ).toFixed(5)
+                  +(vault?.issuedToken!! / 1000000000 / pcxPrice)
+                ).toFixed(2)
               : "-"}
             %
-          </div> */}
+          </div>
         </CollateralRate>
         <img src={arrowYellow} alt="arrowYellow" className="arrowYellow" />
         <CollateralRate>
           <div className="title">增加后抵押率</div>
-          {/* <div className={"collateralNum"}>
+          <div className={"collateralNum"}>
             {isFinite(
               (+vault?.collateral!! + addPCX) /
                 100000000 /
-                +(vault?.issuedToken.toNumber()!! / 1000000000 / pcxPrice)
+                +(vault?.issuedToken!! / 1000000000 / pcxPrice)
             )
               ? (
                   (+vault?.collateral!! + addPCX) /
                   100000000 /
-                  +(vault?.issuedToken.toNumber()!! / 1000000000 / pcxPrice)
-                ).toFixed(5)
+                  +(vault?.issuedToken!! / 1000000000 / pcxPrice)
+                ).toFixed(2)
               : "-"}
             %
-          </div> */}
+          </div>
         </CollateralRate>
       </CollateralDisplayStyle>
     </AddCollateralModalStyle>
