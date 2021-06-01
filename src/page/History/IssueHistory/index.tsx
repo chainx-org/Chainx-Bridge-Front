@@ -24,7 +24,7 @@ function IssueHistory(): React.ReactElement {
   useEffect(()=> {
     async function GetIssueRequestList (){
       const AllIssueRequest = await api.query.xGatewayBitcoinBridge.issueRequests.entries<Option<IssueRequest>, [U128]>();
-      const AllDogeCoinIssueRequest = await api.query.xGatewayBitcoinBridge.issueRequests.entries<Option<IssueRequest>, [U128]>();
+      const AllDogeCoinIssueRequest = await api.query.xGatewayDogecoinBridge.issueRequests.entries<Option<IssueRequest>, [U128]>();
       let data =  AllIssueRequest.map(function(item){
         return {
           id:item[0].args[0].toNumber(),
