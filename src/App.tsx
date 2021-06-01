@@ -43,7 +43,7 @@ export const App: React.FC = () => {
     <>
       {  
       downExtensions ? <NoExtensions /> : !isApiReady ? <Loading /> :
-      <Suspense fallback={<Loading />}>
+      // <Suspense fallback={<Loading />}>
       <LayoutWrapper id={"LayoutWrapper"}>
         <ApiContext.Provider
           value={{
@@ -88,7 +88,7 @@ export const App: React.FC = () => {
           </IssueRequestsContext.Provider>
         </ApiContext.Provider>
       </LayoutWrapper>
-      </Suspense>
+      // </Suspense>
       }
     </>
   );
