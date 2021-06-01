@@ -36,6 +36,13 @@ function HistoryCard(): React.ReactElement {
     const [RedeemData, setRedeemData] = useState<any>([]);
     const [buttonLoading, setButtonLoading] = useState(false);
     const {lastBlockNumber,IssueExpireTime,RedeemExpireTime} = useExpireTime()
+    function countdowm (openTime:number, type:number){
+        let hours = ((((openTime + type) - lastBlockNumber) * 30)/60 / 60 %24).toFixed(0)
+        let minute = ((((openTime + type) - lastBlockNumber) * 30)/60 % 60).toFixed(0)
+        let second = ((((openTime + type) - lastBlockNumber) * 30) % 60).toFixed(0)
+        let time = hours.toString()+ ":" + minute.toString() + ":" + second.toString()
+        return time
+    }
     const key = "testIssue";
     const onCancleIssue = async (id:number) =>{
         const injector = await web3FromAddress(currentAccount!!.address);
@@ -159,11 +166,6 @@ function HistoryCard(): React.ReactElement {
             });
     }
     useEffect(()=> {
-        setInterval(()=> {
-            setRefresh(refresh + 1)
-        },30000)
-    },[refresh])
-    useEffect(()=> {
         async function GetIssueRequestList (){
             const AllIssueRequest = await api.query.xGatewayBitcoinBridge.issueRequests.entries<Option<IssueRequest>, [U128]>();
             const AllRedeemRequest = await api.query.xGatewayBitcoinBridge.redeemRequests.entries<Option<RedeemRequest>, [U128]>()
@@ -200,14 +202,7 @@ function HistoryCard(): React.ReactElement {
         if (isApiReady) {
             GetIssueRequestList();
         }
-    },[currentAccount, isApiReady,lastBlockNumber,refresh])
-    function countdowm (openTime:number, type:number){
-        let hours = ((((openTime + type) - lastBlockNumber) * 30)/60 / 60 %24).toFixed(0)
-        let minute = ((((openTime + type) - lastBlockNumber) * 30)/60 % 60).toFixed(0)
-        let second = ((((openTime + type) - lastBlockNumber) * 30) % 60).toFixed(0)
-        let time = hours.toString()+ ":" + minute.toString() + ":" + second.toString()
-        return time
-    }
+    },[currentAccount, isApiReady])
     const columns = [
         {
             title: '请求标示',

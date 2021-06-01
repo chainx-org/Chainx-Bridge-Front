@@ -8,6 +8,7 @@ import successIcon from "../../icons/complete.svg"
 import failIcon from "../../icons/fail.svg"
 import { stringToHex } from "@polkadot/util";
 import useAccountModel from "../../hooks/useAccountModel";
+import useExpireTime from "../../hooks/useExpireTime";
 
 interface ProcessingModalProps {
     visible: boolean,
@@ -19,10 +20,19 @@ interface ProcessingModalProps {
     IssueAmount: number;
     griefingCollateral: number;
     vaultAddress: string;
+    openTime:number;
 }
 
-function ProcessingModal({ visible, cancle, type, requestID, requester, btcAddress, IssueAmount, griefingCollateral, vaultAddress }: ProcessingModalProps): React.ReactElement<ProcessingModalProps> {
-    const { currentAccount } = useAccountModel();
+function ProcessingModal({ visible, cancle, type, requestID, requester, btcAddress, IssueAmount, griefingCollateral, vaultAddress,openTime }: ProcessingModalProps): React.ReactElement<ProcessingModalProps> {
+    const {currentAccount } = useAccountModel();
+    const {lastBlockNumber,IssueExpireTime,RedeemExpireTime} = useExpireTime()
+    function countdowm (openTime:number, type:number){
+        let hours = ((((openTime + type) - lastBlockNumber) * 30)/60 / 60 %24).toFixed(0)
+        let minute = ((((openTime + type) - lastBlockNumber) * 30)/60 % 60).toFixed(0)
+        let second = ((((openTime + type) - lastBlockNumber) * 30) % 60).toFixed(0)
+        let time = hours.toString()+ ":" + minute.toString() + ":" + second.toString()
+        return time
+    }
     return (
         <Modal visible={visible} footer={null} getContainer={false} onCancel={cancle}>
             <ModalStyle>
@@ -35,7 +45,7 @@ function ProcessingModal({ visible, cancle, type, requestID, requester, btcAddre
                                     <img src={Question} alt="Question" />
                                 </div>
                                 <div className={"time"}>
-                                    47:56:10
+                                    {countdowm(openTime,IssueExpireTime)}
                                 </div>
                             </div>
                             <CardMain coinSymol={{ coinName: "BTC" }} opreturn={stringToHex(currentAccount?.address!!)} address={btcAddress} issueAmount={IssueAmount/100000000} />

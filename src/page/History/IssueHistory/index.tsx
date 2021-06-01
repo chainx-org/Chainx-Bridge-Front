@@ -20,6 +20,7 @@ function IssueHistory(): React.ReactElement {
   const [vaultAddress, setVaultAddress] = useState("")
   const [IssueAmount, setIssueAmount] = useState(0)
   const [griefingCollateral, setGriefingCollateral] = useState(0)
+  const [openTime,setOpenTime] = useState(0)
   const { api, isApiReady } = useApi();
   useEffect(()=> {
     async function GetIssueRequestList (){
@@ -69,6 +70,7 @@ function IssueHistory(): React.ReactElement {
     setVaultAddress(val.vault)
     setIssueAmount(val.btcAmount)
     setGriefingCollateral(val.griefingCollateral)
+    setOpenTime(val.openTime)
   }
   const { t } = useTranslation()
   const Issuecolumns = [
@@ -140,6 +142,7 @@ function IssueHistory(): React.ReactElement {
         IssueAmount={IssueAmount}
         griefingCollateral={griefingCollateral}
         vaultAddress={vaultAddress}
+        openTime={openTime}
       />
     </>
   );
