@@ -4,8 +4,6 @@ import { FunctionSwitchButton, TableStyle } from "../../../page/History/style";
 import { useTranslation } from "react-i18next";
 import {notification, Space, Table} from "antd";
 import LastTime from './icons/time.svg'
-import SuccessStatus from './icons/success.svg'
-import FailStatus from './icons/fail.svg'
 import Canceled from './icons/cancel.svg'
 import {web3FromAddress} from "@polkadot/extension-dapp";
 import {LoadingOutlined} from "@ant-design/icons";
@@ -15,15 +13,6 @@ import {Option, U128} from "@polkadot/types";
 import {IssueRequest, RedeemRequest} from "../../../interfaces";
 import useExpireTime from "../../../hooks/useExpireTime";
 
-interface HistoryRow {
-    id: string;
-    amount: string;
-    chainxAddress: string;
-    btcAddress: string;
-    hash: string;
-    countedBlock: string;
-    status: string;
-}
 function HistoryCard(): React.ReactElement {
 
     const { t } = useTranslation()
@@ -33,6 +22,7 @@ function HistoryCard(): React.ReactElement {
     const [page, setPage] = useState(0);
     const [currentTable, setCurrentTable] = useState("issue")
     const [isCancel, setIsCancel] = useState(false)
+    const [requestID, setRequest] = useState(0)
     const [buttonLoading, setButtonLoading] = useState(false);
     const key = "testIssue";
     const [IssueData, setIssueData] = useState<any>([]);
@@ -70,6 +60,8 @@ function HistoryCard(): React.ReactElement {
                         }
                     } else {
                         if (status.type === "Finalized") {
+                            setIsCancel(true)
+                            setRequest(id)
                             notification["success"]({
                                 key,
                                 message: `Current status: ${status.type}`,
@@ -131,6 +123,8 @@ function HistoryCard(): React.ReactElement {
                         }
                     } else {
                         if (status.type === "Finalized") {
+                            setIsCancel(true)
+                            setRequest(id)
                             notification["success"]({
                                 key,
                                 message: `Current status: ${status.type}`,
@@ -192,8 +186,8 @@ function HistoryCard(): React.ReactElement {
                     {/*{record.status === "失败" && <div className='historyFail'>{record.status}<img src={FailStatus} alt='close' /></div>}*/}
                     {/*{record.status === "成功" && <div className='historySuccess'>{record.status}<img src={SuccessStatus} alt='close' /></div>}*/}
                     {record.openTime + IssueExpireTime - lastBlockNumber < 0 && <div className='historyCancel'>
-                        <span className={isCancel ? 'canceled' : 'cancel'} onClick={() => setIsCancel(!isCancel)}>{isCancel ? '已取消' : '取消'}</span>
-                        {isCancel && <img src={Canceled} alt='cancel' />} </div>}
+                        <span className={isCancel && record.id === requestID ? 'canceled' : 'cancel'} onClick={() => onCancleIssue(record.id)}>{isCancel && record.id === requestID ? '已取消' : '取消'}</span>
+                        {isCancel && record.id === requestID && <img src={Canceled} alt='cancel' />} </div>}
                 </Space>
             ),
         },
@@ -221,12 +215,12 @@ function HistoryCard(): React.ReactElement {
             key: 'action',
             render: (record: any) => (
                 <Space size="middle">
-                    <div className='historyProcessing'>12:08:23<img src={LastTime} alt='lastTime' /></div>
+                    {record.openTime + IssueExpireTime - lastBlockNumber > 0 && <div className='historyProcessing'>{countdowm(record.openTime,IssueExpireTime)}<img src={LastTime} alt='lastTime' /></div>}
                     {/*{record.status === "失败" && <div className='historyFail'>{record.status}<img src={FailStatus} alt='close' /></div>}*/}
                     {/*{record.status === "成功" && <div className='historySuccess'>{record.status}<img src={SuccessStatus} alt='close' /></div>}*/}
-                    {/*{record.status === "取消" && <div className='historyCancel'>*/}
-                    {/*    <span className={isCancel ? 'canceled' : 'cancel'} onClick={() => setIsCancel(!isCancel)}>{isCancel ? '已取消' : '取消'}</span>*/}
-                    {/*    {isCancel && <img src={Canceled} alt='cancel' />} </div>}*/}
+                    {record.openTime + IssueExpireTime - lastBlockNumber < 0 && <div className='historyCancel'>
+                        <span className={isCancel && record.id === requestID ? 'canceled' : 'cancel'} onClick={() => onCancleRedeem(record.id,record.reimburse)}>{isCancel && record.id === requestID ? '已取消' : '取消'}</span>
+                        {isCancel && record.id === requestID && <img src={Canceled} alt='cancel' />} </div>}
                 </Space>
             ),
         },

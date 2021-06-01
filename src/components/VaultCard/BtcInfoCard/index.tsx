@@ -21,7 +21,7 @@ function BtcInfoCard(): React.ReactElement {
 
   useEffect(() => {
     getVaults();
-  }, [getVaults]);
+  }, [getVaults,currentAccount]);
   useEffect(() => {
     (async () => {
       fetch(

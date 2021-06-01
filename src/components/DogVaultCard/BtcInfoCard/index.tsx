@@ -16,7 +16,7 @@ function DogInfoCard(): React.ReactElement {
 
   async function getVaults() {
     const valut = await api.query.xGatewayDogecoinBridge.vaults(currentAccount?.address!! || "");
-    setDogAddress(valut.unwrap().wallet.toString());
+    setDogAddress(valut?.unwrap().wallet.toString());
   }
 
   useEffect(() => {

@@ -173,7 +173,6 @@ function EarnCard(): React.ReactElement {
             value={editEmail}
             placeholder="输入邮箱地址"
             onChange={(e) => {
-              console.log(e);
               setEditEmail(e.target.value);
             }}
           />

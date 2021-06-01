@@ -51,7 +51,6 @@ function EarnModal({ SetAddCollateralModal, AddCollateralModal }: EarnModalProps
           currentAccount!!.address,
           { signer: injector.signer },
           ({ status, dispatchError, events }) => {
-            console.log(status);
             if (status.isInBlock) {
               notification["success"]({
                 message: `Completed at block hash ${status.asInBlock.toString()}`,
@@ -158,10 +157,8 @@ function EarnModal({ SetAddCollateralModal, AddCollateralModal }: EarnModalProps
             value={addPCX}
             onChange={(e) => {
               if (e) {
-                console.log(e);
                 setaddPCX(e);
               } else {
-                console.log(e);
                 setaddPCX(0);
               }
             }}
