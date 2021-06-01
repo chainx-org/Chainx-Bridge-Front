@@ -205,7 +205,7 @@ function HistoryCard(): React.ReactElement {
             key: 'id'
         },
         {
-            title: t('Amount (XBTC)'),
+            title: t('数量 (XDOGE)'),
             key: "btcAmount",
             render: (record: any) => (
                 <div>{record.amount ? record.amount / 100000000 : 0}</div>
