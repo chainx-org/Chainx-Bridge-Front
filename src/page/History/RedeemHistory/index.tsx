@@ -24,6 +24,7 @@ function RedeemHistory(): React.ReactElement {
   useEffect(()=> {
     async function GetRedeemRequestList (){
       const AllRedeemRequest = await api.query.xGatewayBitcoinBridge.redeemRequests.entries()
+      const AllRedeemDogeCoinRequest = await api.query.xGatewayDogecoinBridge.redeemRequests.entries()
       let Redeemdata =  AllRedeemRequest.map(function(item){
         return {
           id:item[0].args[0].toNumber(),
@@ -33,12 +34,28 @@ function RedeemHistory(): React.ReactElement {
           vault:item[1].unwrap().vault.toString(),
           amount:item[1].unwrap().amount.toNumber(),
           redeemFee:item[1].unwrap().redeemFee.toNumber(),
-          reimburse:item[1].unwrap().reimburse.isFalse
+          reimburse:item[1].unwrap().reimburse.isFalse,
+          kind:"XBTC"
+        }
+      })
+      let AllRedeemDogeCoinData = AllRedeemDogeCoinRequest.map(function(item){
+        return {
+          id:item[0].args[0].toNumber(),
+          btcAddress:item[1].unwrap().btcAddress.toString(),
+          openTime:item[1].unwrap().openTime.toNumber(),
+          requester:item[1].unwrap().requester.toString(),
+          vault:item[1].unwrap().vault.toString(),
+          amount:item[1].unwrap().amount.toNumber(),
+          redeemFee:item[1].unwrap().redeemFee.toNumber(),
+          reimburse:item[1].unwrap().reimburse.isFalse,
+          kind:"XDOGE"
         }
       })
       let currRedeemData = Redeemdata.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
+      let currDogeRedeemData = AllRedeemDogeCoinData.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
       let sortRedeemData = currRedeemData.sort((a,b)=>a.id - b.id)
-      setRedeemData(sortRedeemData)
+      let sortDogeRedeemData = currDogeRedeemData.sort((a,b)=>a.id - b.id)
+      setRedeemData(sortRedeemData.concat(sortDogeRedeemData))
       setInitLoading(false)
     }
     if (isApiReady) {
@@ -61,7 +78,12 @@ function RedeemHistory(): React.ReactElement {
       key: 'id'
     },
     {
-      title: t('Amount (XBTC)'),
+      title: '赎回类型',
+      dataIndex: 'kind',
+      key: 'kind'
+    },
+    {
+      title: t('Amount'),
       key: "btcAmount",
       render: (record: any) => (
           <div>{record.amount ? record.amount / 100000000 : 0}</div>

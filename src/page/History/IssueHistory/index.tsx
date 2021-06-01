@@ -24,6 +24,7 @@ function IssueHistory(): React.ReactElement {
   useEffect(()=> {
     async function GetIssueRequestList (){
       const AllIssueRequest = await api.query.xGatewayBitcoinBridge.issueRequests.entries<Option<IssueRequest>, [U128]>();
+      const AllDogeCoinIssueRequest = await api.query.xGatewayBitcoinBridge.issueRequests.entries<Option<IssueRequest>, [U128]>();
       let data =  AllIssueRequest.map(function(item){
         return {
           id:item[0].args[0].toNumber(),
@@ -32,13 +33,27 @@ function IssueHistory(): React.ReactElement {
           requester:item[1].unwrap().requester.toString(),
           vault:item[1].unwrap().vault.toString(),
           btcAmount:item[1].unwrap().btcAmount.toNumber(),
-          griefingCollateral:item[1].unwrap().griefingCollateral.toNumber()
+          griefingCollateral:item[1].unwrap().griefingCollateral.toNumber(),
+          kind:"XBTC"
         }
       })
+      let AllDogeCoinIssueData = AllDogeCoinIssueRequest.map(function(item){
+        return{
+          id:item[0].args[0].toNumber(),
+          btcAddress:item[1].unwrap().btcAddress.toString(),
+          openTime:item[1].unwrap().openTime.toNumber(),
+          requester:item[1].unwrap().requester.toString(),
+          vault:item[1].unwrap().vault.toString(),
+          btcAmount:item[1].unwrap().btcAmount.toNumber(),
+          griefingCollateral:item[1].unwrap().griefingCollateral.toNumber(),
+          kind:"XDOGE"
+        }
+      })
+      let currIssueDogeData = AllDogeCoinIssueData.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
       let currIssueData = data.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
+      let sortIssueDogeData = currIssueDogeData.sort((a,b)=>a.id - b.id)
       let sortIssueData = currIssueData.sort((a,b)=>a.id - b.id)
-      console.log('issueHistory',sortIssueData)
-      setIssueData(sortIssueData)
+      setIssueData(sortIssueData.concat(sortIssueDogeData))
       setInitLoading(false)
     }
     if (isApiReady) {
@@ -63,7 +78,12 @@ function IssueHistory(): React.ReactElement {
       key: 'id'
     },
     {
-      title: t('Amount (XBTC)'),
+      title: '发行类型',
+      dataIndex: 'kind',
+      key: 'kind'
+    },
+    {
+      title: t('Amount'),
       key: "btcAmount",
       render:(record:any) => (
           <div>{record.btcAmount ? record.btcAmount / 100000000 : 0}</div>
