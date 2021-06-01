@@ -22,7 +22,7 @@ function useExpireTime(){
         getLastBlock();
         getIssueExpireTime();
         getRedeemExpireTime();
-    },[isApiReady,api.query.system,lastBlockNumber])
+    },[isApiReady,api.query.system])
     return {lastBlockNumber,IssueExpireTime,RedeemExpireTime};
 }
 
