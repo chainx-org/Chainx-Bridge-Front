@@ -59,7 +59,7 @@ function Wallet(): React.ReactElement {
         <WalletWrapperStyle className='wallets'>
             <WalletStyle onMouseEnter={showMenu}>
                 <img src={walletLogo} alt="" />
-                {t('Wallet')}
+                {t('Balance')}
             </WalletStyle>
             <DropListStyle className='walletList'>
                 {
