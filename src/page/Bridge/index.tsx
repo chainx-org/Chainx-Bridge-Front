@@ -32,7 +32,7 @@ export const optionList = [
   // },
   {
     img_url: DOGEs,
-    coinName: "DOG",
+    coinName: "DOGE",
     symol: "Dogecoin",
     img_urls: sDOGs,
   },
@@ -62,7 +62,7 @@ export const RedeemOptionList = [
   // },
   {
     img_url: sDOGs,
-    coinName: "XDOG",
+    coinName: "XDOGE",
     symol: "Dogecoin",
     balance: 9999.0024,
     img_urls: DOGEs,

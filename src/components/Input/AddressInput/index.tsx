@@ -17,7 +17,7 @@ export default function AddressInput({ className = '', coinSymol, address, chang
     return (
         <Wrapper className={` ${className}`}>
             <div className='topTitle'>
-                <p>{coinSymol.coinName.slice(1, 4)} {t('address')}</p>
+                <p>{coinSymol.coinName.slice(1, 5)} {t('address')}</p>
                 {/* <div className='righTooltip'>
                     <Tooltip title={`发行成功后会解锁，若未按照要求完成btc转账，将失去锁定的抵押品`}>
                         <img src={Question} alt="" />
@@ -26,7 +26,7 @@ export default function AddressInput({ className = '', coinSymol, address, chang
                 </div> */}
             </div>
             <div className='addressIpt'>
-                <Input placeholder={`${t('Please enter your')} ${coinSymol.coinName.slice(1, 4)} ${t('address')}`} value={address} onChange={(e) => changeAddress(e.target.value)} />
+                <Input placeholder={`${t('Please enter your')} ${coinSymol.coinName.slice(1, 5)} ${t('address')}`} value={address} onChange={(e) => changeAddress(e.target.value)} />
             </div>
         </Wrapper>
     )

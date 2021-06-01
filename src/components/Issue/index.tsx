@@ -144,9 +144,8 @@ function Issue(): React.ReactElement {
                     });
                     setButtonLoading(false);
                 });
-        }
-        ;
-        if (coinSymol.coinName === 'DOG') {
+        };
+        if (coinSymol.coinName === 'DOGE') {
             const vaults = await api.query.xGatewayDogecoinBridge.vaults.entries();
             const results = await Promise.all(
                 vaults.map(async ([key, value]) => {
@@ -168,7 +167,7 @@ function Issue(): React.ReactElement {
             //         : ""
             // );
             setVaultBtcAddress(
-                results.length > 0 ? JSON.parse(JSON.stringify(results))[0][0] : ""
+                results.length > 0 ? JSON.parse(JSON.stringify(results))[0][2] : ""
             );
             const injector = await web3FromAddress(currentAccount!!.address);
             api.tx.xGatewayDogecoinBridge

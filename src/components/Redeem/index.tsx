@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AccountSwitch, RedeemBtcInputStyle, RedeemStyle } from "./style";
 import { Button, notification } from "antd";
 import {LoadingOutlined} from "@ant-design/icons";
@@ -36,6 +36,7 @@ function Redeem(): React.ReactElement {
   const [isShow, setIsShow] = useState(false);
   const [sDoge, setSDoge] = useState(0);
   const [xBtcBalance, setXbtcBalance] = useState(0);
+  const [allBalance, setAllBalance] = useState(0);
   const [coinSymol, setCoinSymol] = useState<RedeemCoinProps>({
     img_url: sBTCs,
     coinName: "XBTC",
@@ -59,7 +60,7 @@ function Redeem(): React.ReactElement {
     // },
     {
       img_url: sDOGs,
-      coinName: "XDOG",
+      coinName: "XDOGE",
       symol: "Dogecoin",
       balance: sDoge ? sDoge : 0,
       img_urls: DOGEs,
@@ -75,9 +76,11 @@ function Redeem(): React.ReactElement {
     setXbtcBalance(JSON.parse(JSON.stringify(res)).Usable / 100000000)
     setSDoge(JSON.parse(JSON.stringify(dogeRes)).Usable / 100000000)
   }
+  useEffect(() => {
+    getAssets(currentAccount?.address!!);
+  }, [currentAccount])
   const ShowSelect = () => {
     setIsShow(!isShow);
-    getAssets(currentAccount?.address!!);
   };
   const key = "testRedeem";
   const handleReedem = async () => {
@@ -305,7 +308,7 @@ function Redeem(): React.ReactElement {
                 setRedeemAmount={setRedeemAmount}
                 coinSymol={coinSymol}
                 description={t("balance")}
-                children={<span>{xBtcBalance ? xBtcBalance : "0"}</span>}
+                children={<span>{coinSymol.coinName === 'XBTC' &&  xBtcBalance ? xBtcBalance : coinSymol.coinName === 'XDOGE' && sDoge ? sDoge : '0'}</span>}
                 symol={coinSymol.coinName}
               />
               <AddressInput

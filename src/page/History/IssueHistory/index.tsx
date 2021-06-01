@@ -13,6 +13,8 @@ function IssueHistory(): React.ReactElement {
   const [IssueprocessingModalVisbible, setIssueprocessingModalVisbible] = useState(false);
   const [IssueStatus, setIssueStatus] = useState('processing');
   const [requestID, setRequestID] = useState(0)
+  const [openTimes, setOpenTimes] = useState(0)
+  const [IssueDataKind, setIssueDataKind] = useState('')
   const [requester, setRequester] = useState('')
   const [IssueData, setIssueData] = useState<any>([]);
   const [initLoading, setInitLoading] = useState(true);
@@ -64,11 +66,13 @@ function IssueHistory(): React.ReactElement {
     // setIssueStatus(val.status);
     setIssueprocessingModalVisbible(true);
     setRequestID(val.id)
+    setOpenTimes(val.openTime)
     setRequester(val.requester)
     setBtcAddress(val.btcAddress)
     setVaultAddress(val.vault)
     setIssueAmount(val.btcAmount)
     setGriefingCollateral(val.griefingCollateral)
+    setIssueDataKind(val.kind)
   }
   const { t } = useTranslation()
   const Issuecolumns = [
@@ -100,7 +104,7 @@ function IssueHistory(): React.ReactElement {
     //   key: "number",
     // },
     {
-      title: "Chainx" + t('BlockHeight'),
+      title: "ChainX" + t('BlockHeight'),
       dataIndex: "openTime",
       key: "openTime",
     },
@@ -119,7 +123,7 @@ function IssueHistory(): React.ReactElement {
       ),
     },
   ];
-
+  
   return (
     <>
       <TableStyle>
@@ -140,6 +144,8 @@ function IssueHistory(): React.ReactElement {
         IssueAmount={IssueAmount}
         griefingCollateral={griefingCollateral}
         vaultAddress={vaultAddress}
+        openTimes={openTimes}
+        IssueDataKind={IssueDataKind}
       />
     </>
   );

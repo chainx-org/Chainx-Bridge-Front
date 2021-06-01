@@ -16,9 +16,9 @@ export default function ExplainTag({ className = '', title, children, tooltip }:
         <Wrapper className={``}>
             <div className='leftTitle'>
                 <div className={`title ${className} `}>{title}</div>
-                <Tooltip title={tooltip}>
-                    <img src={Question} alt="" />
-                </Tooltip>
+                {
+                    tooltip &&  <Tooltip title={tooltip}><img src={Question} alt="" /></Tooltip>
+                }  
             </div>
             <div className={`rightContent  ${className}`}>{children}</div>
         </Wrapper>

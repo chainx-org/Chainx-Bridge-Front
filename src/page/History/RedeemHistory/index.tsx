@@ -16,6 +16,7 @@ function RedeemHistory(): React.ReactElement {
   const [requester, setRequester] = useState('')
   const [btcAddress, setBtcAddress] = useState("")
   const [vaultAddress, setVaultAddress] = useState("")
+  const [RedeemDataKind, setRedeemDataKind] = useState('')
   const [RedeemAmount, setRedeemAmount] = useState(0)
   const [RedeemData, setRedeemData] = useState<any>([]);
   const [initLoading, setInitLoading] = useState(true);
@@ -70,6 +71,7 @@ function RedeemHistory(): React.ReactElement {
     setBtcAddress(val.btcAddress)
     setVaultAddress(val.vault)
     setRedeemAmount(val.amount)
+    setRedeemDataKind(val.kind)
   }
   const Redeemcolumns = [
     {
@@ -100,7 +102,7 @@ function RedeemHistory(): React.ReactElement {
     //   key: "number",
     // },
     {
-      title: "Chainx" + t('BlockHeight'),
+      title: "ChainX" + t('BlockHeight'),
       dataIndex: "openTime",
       key: "openTime",
     },
@@ -138,6 +140,7 @@ function RedeemHistory(): React.ReactElement {
         vaultAddress={vaultAddress}
         btcAddress={btcAddress}
         requester={requester}
+        RedeemDataKind={RedeemDataKind}
       />
     </>
   );

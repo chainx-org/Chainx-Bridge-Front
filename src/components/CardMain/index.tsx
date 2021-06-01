@@ -13,9 +13,10 @@ interface MainProps{
     address: string;
     issueAmount?: number;
     coinSymol?: coinProps | any;
+    IssueDataKind?: string
 }
 
-const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmount,coinSymol}) =>{
+const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmount,coinSymol,IssueDataKind}) =>{
     const {t} = useTranslation();
     const copyOpreturn = () => {
         copy(opreturn.substring(2,99));
@@ -58,7 +59,12 @@ const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmou
                         <div className={"tip-wrapper"}>
                             <div className={"tip"}>
                                 <img src={WarmRedLogo} alt=""/>
-                                <div>必须在{coinSymol.coinName === 'BTC' ? '比特币' : '狗狗币'}交易中添加op_return,否则会造成资产损失</div>
+                                <div>必须在 
+                                    {
+                                        IssueDataKind ? <>{IssueDataKind === 'XBTC' ? '比特币' : '狗狗币'}</> : <>{coinSymol?.coinName === 'BTC' ? '比特币' : '狗狗币'}</>
+                                    }    
+                                    交易中添加op_return,否则会造成资产损失
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -67,7 +73,12 @@ const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmou
             <div>
                 <div className={"opreturn-title"}>
                     <div className={"step-one"}>2</div>
-                    <div className={"cp-op"}>发送 {issueAmount} {coinSymol.coinName} 到下面的地址</div>
+                    <div className={"cp-op"}>发送 {issueAmount} 
+                        {
+                            IssueDataKind ? <>{IssueDataKind === 'XBTC' ? 'BTC' : 'DOG'}</> : <>{coinSymol?.coinName} </>
+                        }
+                        到下面的地址
+                    </div>
                     <div className={"info"}>(请在单笔交易中完成)</div>
                     <Tooltip title={t('If the correct amount is not entered in a single trade, it will result in a loss of assets')}>
                         <img src={Question} alt="" />

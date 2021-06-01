@@ -320,6 +320,7 @@
   "I agree": "我同意",
   "I'm Online": "我在线",
   "Identifier": "编号",
+  "Please complete the transfer before the countdown ends, otherwise the issue will fail": "请在倒计时结束前完成转账，否则将会发行失败",
   "If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.": "如果委托账户目前正在进行公投，则将添加授权投票和信念值投票。",
   "If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.": "如果接收账户是新的，这个账户的余额就必须多于账户存在所需的押金。同样地，如果发送账户的余额低于同样的值，这个账户就会被移除。",
   "If this proposal is passed, the changes will be applied via dispatch and the deposit returned.": "如果此提案通过，将通过消息发送进行变更并退还押金。",
