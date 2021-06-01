@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import {notification, Space, Table} from "antd";
 import useAccountModel from "../../../hooks/useAccountModel";
 import { useApi } from "../../../hooks/useApi";
-import { useRedeemRequests } from "../../../hooks/useRedeemRequestList";
 import LastTime from './icons/time.svg'
 import Canceled from './icons/cancel.svg'
 import useExpireTime from "../../../hooks/useExpireTime";
@@ -14,35 +13,19 @@ import {RedeemRequest, Vault ,IssueRequest} from "../../../interfaces";
 import {web3FromAddress} from "@polkadot/extension-dapp";
 import {LoadingOutlined} from "@ant-design/icons";
 
-interface HistoryRow {
-    id: string;
-    amount: string;
-    chainxAddress: string;
-    btcAddress: string;
-    hash: string;
-    countedBlock: string;
-    status: string;
-}
 function HistoryCard(): React.ReactElement {
     const { currentAccount } = useAccountModel();
     const { api,isApiReady } = useApi()
     const { t } = useTranslation()
-    const redeemRequestsList = useRedeemRequests();
     const [page, setPage] = useState(0);
     const [currentTable, setCurrentTable] = useState("issue")
     const [isCancel, setIsCancel] = useState(false)
+    const [requestID, setRequest] = useState(0)
     const [refresh,setRefresh] = useState(0)
     const [IssueData, setIssueData] = useState<any>([]);
     const [RedeemData, setRedeemData] = useState<any>([]);
     const [buttonLoading, setButtonLoading] = useState(false);
     const {lastBlockNumber,IssueExpireTime,RedeemExpireTime} = useExpireTime()
-    function countdowm (openTime:number, type:number){
-        let hours = ((((openTime + type) - lastBlockNumber) * 30)/60 / 60 %24).toFixed(0)
-        let minute = ((((openTime + type) - lastBlockNumber) * 30)/60 % 60).toFixed(0)
-        let second = ((((openTime + type) - lastBlockNumber) * 30) % 60).toFixed(0)
-        let time = hours.toString()+ ":" + minute.toString() + ":" + second.toString()
-        return time
-    }
     const key = "testIssue";
     const onCancleIssue = async (id:number) =>{
         const injector = await web3FromAddress(currentAccount!!.address);
@@ -82,6 +65,8 @@ function HistoryCard(): React.ReactElement {
                                 message: `Current status: ${status.type}`,
                                 duration: 3,
                             });
+                            setIsCancel(true)
+                            setRequest(id)
                         } else {
                             notification["success"]({
                                 key,
@@ -138,6 +123,8 @@ function HistoryCard(): React.ReactElement {
                         }
                     } else {
                         if (status.type === "Finalized") {
+                            setIsCancel(true)
+                            setRequest(id)
                             notification["success"]({
                                 key,
                                 message: `Current status: ${status.type}`,
@@ -165,6 +152,11 @@ function HistoryCard(): React.ReactElement {
                 setButtonLoading(false);
             });
     }
+    useEffect(()=> {
+        setInterval(()=> {
+            setRefresh(refresh + 1)
+        },30000)
+    },[refresh])
     useEffect(()=> {
         async function GetIssueRequestList (){
             const AllIssueRequest = await api.query.xGatewayBitcoinBridge.issueRequests.entries<Option<IssueRequest>, [U128]>();
@@ -203,6 +195,13 @@ function HistoryCard(): React.ReactElement {
             GetIssueRequestList();
         }
     },[currentAccount, isApiReady])
+    function countdowm (openTime:number, type:number){
+        let hours = ((((openTime + type) - lastBlockNumber) * 30)/60 / 60 %24).toFixed(0)
+        let minute = ((((openTime + type) - lastBlockNumber) * 30)/60 % 60).toFixed(0)
+        let second = ((((openTime + type) - lastBlockNumber) * 30) % 60).toFixed(0)
+        let time = hours.toString()+ ":" + minute.toString() + ":" + second.toString()
+        return time
+    }
     const columns = [
         {
             title: '请求标示',
@@ -218,8 +217,8 @@ function HistoryCard(): React.ReactElement {
         },
         {
             title: '赎回BTC地址',
-            dataIndex: 'btcAddress',
-            key: 'btcAddress',
+            dataIndex: 'requester',
+            key: 'requester',
         },
         {
             title: '状态',
@@ -230,8 +229,8 @@ function HistoryCard(): React.ReactElement {
                     {/*{record.status === "失败" && <div className='historyFail'>{record.status}<img src={FailStatus} alt='close' /></div>}*/}
                     {/*{record.status === "成功" && <div className='historySuccess'>{record.status}<img src={SuccessStatus} alt='close' /></div>}*/}
                     {record.openTime + IssueExpireTime - lastBlockNumber < 0 && <div className='historyCancel'>
-                        <span className={isCancel ? 'canceled' : 'cancel'} onClick={() => setIsCancel(!isCancel)}>{isCancel ? '已取消' : '取消'}</span>
-                        {isCancel && <img src={Canceled} alt='cancel' />} </div>}
+                        <span className={isCancel && record.id === requestID ? 'canceled' : 'cancel'} onClick={() => onCancleRedeem(record.id,record.reimburse)}>{isCancel && record.id === requestID ? '已取消' : '取消'}</span>
+                        {isCancel && record.id === requestID && <img src={Canceled} alt='cancel' />} </div>}
                 </Space>
             ),
         },
@@ -251,20 +250,20 @@ function HistoryCard(): React.ReactElement {
         },
         {
             title: '赎回BTC地址',
-            dataIndex: 'btcAddress',
-            key: 'btcAddress',
+            dataIndex: 'requester',
+            key: 'requester',
         },
         {
             title: '状态',
             key: 'action',
             render: (record: any) => (
                 <Space size="middle">
-                    <div className='historyProcessing'>12:08:23<img src={LastTime} alt='lastTime' /></div>
+                    {record.openTime + RedeemExpireTime - lastBlockNumber > 0 && <div className='historyProcessing'>{countdowm(record.openTime,RedeemExpireTime)}<img src={LastTime} alt='lastTime' /></div>}
                     {/*{record.status === "失败" && <div className='historyFail'>{record.status}<img src={FailStatus} alt='close' /></div>}*/}
                     {/*{record.status === "成功" && <div className='historySuccess'>{record.status}<img src={SuccessStatus} alt='close' /></div>}*/}
-                    {/*{record.status === "取消" && <div className='historyCancel'>*/}
-                    {/*    <span className={isCancel ? 'canceled' : 'cancel'} onClick={() => setIsCancel(!isCancel)}>{isCancel ? '已取消' : '取消'}</span>*/}
-                    {/*    {isCancel && <img src={Canceled} alt='cancel' />} </div>}*/}
+                    {record.openTime + RedeemExpireTime - lastBlockNumber < 0 && <div className='historyCancel'>
+                        <span className={isCancel && record.id === requestID ? 'canceled' : 'cancel'} onClick={() => onCancleIssue(record.id)}>{isCancel && record.id === requestID ? '已取消' : '取消'}</span>
+                        {isCancel && record.id === requestID && <img src={Canceled} alt='cancel' />} </div>}
                 </Space>
             ),
         },

@@ -19,7 +19,6 @@ const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmou
     const {t} = useTranslation();
     const copyOpreturn = () => {
         copy(opreturn.substring(2,99));
-        console.log(opreturn)
         message.success({
             content: '已复制！',
             duration: 3,

@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-// import {Option} from "@polkadot/types";
-// import {Vault} from "../../../interfaces"
 import useAccountModel from "../../../hooks/useAccountModel";
 import { useApi } from "../../../hooks/useApi";
-import { DogInfoCardStyle, TradeInfoStyle } from "./style";
-// import useVaults from "../../../hooks/useVaults"
+import { DogInfoCardStyle } from "./style";
 
 function DogInfoCard(): React.ReactElement {
   const { currentAccount } = useAccountModel();
@@ -16,7 +13,7 @@ function DogInfoCard(): React.ReactElement {
 
   async function getVaults() {
     const valut = await api.query.xGatewayDogecoinBridge.vaults(currentAccount?.address!! || "");
-    setDogAddress(valut.unwrap().wallet.toString());
+    setDogAddress(valut?.unwrap().wallet.toString());
   }
 
   useEffect(() => {
@@ -29,10 +26,10 @@ function DogInfoCard(): React.ReactElement {
       )
         .then((res) => res.json())
         .then((res: any) => {
-          console.log(res)
-          // setDogBalance(res.data.balance);
-          // setTotal_received(res.data.total_received);
-          // setfinalTx(res.data.final_n_tx);
+          // console.log(res)
+          setDogBalance(res.balance);
+          setTotal_received(res.total_received);
+          setfinalTx(res.final_n_tx);
         });
     })();
   }, [dogAddress]);

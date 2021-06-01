@@ -148,7 +148,6 @@ function Issue(): React.ReactElement {
         ;
         if (coinSymol.coinName === 'DOG') {
             const vaults = await api.query.xGatewayDogecoinBridge.vaults.entries();
-            console.log(vaults.toString())
             const results = await Promise.all(
                 vaults.map(async ([key, value]) => {
                     const vault: Vault = value.unwrap();

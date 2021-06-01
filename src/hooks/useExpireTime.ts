@@ -6,14 +6,10 @@ function useExpireTime(){
     const [lastBlockNumber,setlastBlockNumber] = useState(0)
     const [IssueExpireTime,setIssueExpireTime] = useState(0)
     const [RedeemExpireTime,setRedeemExpireTime] = useState(0)
-    const [refresh,setRefresh] = useState(0)
     useEffect(()=> {
         async function getLastBlock(){
             const lastBlock = await api.query.system.number()
             setlastBlockNumber(lastBlock.toNumber())
-            await  api!!.rpc.chain.subscribeNewHeads(async ()=> {
-                setlastBlockNumber(lastBlock.toNumber())
-            })
         }
         async function getIssueExpireTime(){
             const issueTime = await api.consts.xGatewayBitcoinBridge.issueRequestExpiredPeriod
@@ -26,9 +22,8 @@ function useExpireTime(){
         getLastBlock();
         getIssueExpireTime();
         getRedeemExpireTime();
-    },[isApiReady,api.query.system,lastBlockNumber])
-    console.log(lastBlockNumber,"zzz")
-    return {lastBlockNumber,IssueExpireTime,RedeemExpireTime,refresh};
+    },[isApiReady,api.query.system])
+    return {lastBlockNumber,IssueExpireTime,RedeemExpireTime};
 }
 
 export default useExpireTime;
