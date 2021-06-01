@@ -25,9 +25,9 @@ interface ProcessingModalProps {
     IssueDataKind: string
 }
 
-function ProcessingModal({ visible, cancle, type, requestID, requester, btcAddress, IssueAmount, griefingCollateral, vaultAddress, openTimes, IssueDataKind }: ProcessingModalProps): React.ReactElement<ProcessingModalProps> {
+function ProcessingModal({ visible, cancle, type, requestID, requester, btcAddress, IssueAmount, griefingCollateral, vaultAddress, IssueDataKind, openTimes }: ProcessingModalProps): React.ReactElement<ProcessingModalProps> {
     const {t} = useTranslation();
-    const { currentAccount } = useAccountModel();
+    const {currentAccount } = useAccountModel();
     const {lastBlockNumber,IssueExpireTime} = useExpireTime()
     function countdowm (openTime:number, type:number){
         let hours = ((((openTime + type) - lastBlockNumber) * 30)/60 / 60 %24).toFixed(0)
