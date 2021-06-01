@@ -12,17 +12,28 @@ function RedeemHistory(): React.ReactElement {
   const requester = currentAccount?.address;
   const [RedeemSuccessModalVisible, setRedeemSuccessModalVisible] = useState(false);
   const [RedeemStatus, setRedeemStatus] = useState("processing");
-  const [RedeemData, setRedeemData] = useState([]);
+  const [RedeemData, setRedeemData] = useState<any>([]);
   const [initLoading, setInitLoading] = useState(true);
   const { t } = useTranslation()
   const { api, isApiReady } = useApi();
   useEffect(()=> {
     async function GetRedeemRequestList (){
       const AllRedeemRequest = await api.query.xGatewayBitcoinBridge.redeemRequests.entries()
-      let AllRedeemRequestData = JSON.parse(JSON.stringify(AllRedeemRequest))
-      let data =  AllRedeemRequestData.map((item: any[]) => item[1])
-      let currRedeemData = data.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
-      setRedeemData(currRedeemData)
+      let Redeemdata =  AllRedeemRequest.map(function(item){
+        return {
+          id:item[0].args[0].toNumber(),
+          btcAddress:item[1].unwrap().btcAddress.toString(),
+          openTime:item[1].unwrap().openTime.toNumber(),
+          requester:item[1].unwrap().requester.toString(),
+          vault:item[1].unwrap().vault.toString(),
+          amount:item[1].unwrap().amount.toNumber(),
+          redeemFee:item[1].unwrap().redeemFee.toNumber(),
+          reimburse:item[1].unwrap().reimburse.isFalse
+        }
+      })
+      let currRedeemData = Redeemdata.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
+      let sortRedeemData = currRedeemData.sort((a,b)=>a.id - b.id)
+      setRedeemData(sortRedeemData)
       setInitLoading(false)
     }
     if (isApiReady) {
@@ -34,11 +45,11 @@ function RedeemHistory(): React.ReactElement {
     setRedeemSuccessModalVisible(true);
   }
   const Redeemcolumns = [
-    // {
-    //   title: t('Update time'),
-    //   dataIndex: "time",
-    //   key: "time",
-    // },
+    {
+      title: '请求标示',
+      dataIndex: 'id',
+      key: 'id'
+    },
     {
       title: t('Amount (XBTC)'),
       key: "btcAmount",
