@@ -8,21 +8,12 @@ import {useApi} from "../../../hooks/useApi";
 import {Option, U128} from "@polkadot/types";
 import {IssueRequest} from "../../../interfaces";
 
-interface HistoryRow {
-  id: number;
-  amount: number;
-  chainxAddr: string;
-  vaultBtcAddr: string;
-  hash: string;
-  countedBlock: number;
-  status: "process" | "completed" | "cancelled";
-}
-
 function IssueHistory(): React.ReactElement {
   const { currentAccount } = useAccountModel();
-  const requester = currentAccount?.address;
   const [IssueprocessingModalVisbible, setIssueprocessingModalVisbible] = useState(false);
-  const [IssueStatus, setIssueStatus] = useState(  "processing");
+  const [IssueStatus, setIssueStatus] = useState('processing');
+  const [requestID, setRequestID] = useState(0)
+  const [requester, setRequester] = useState('')
   const [IssueData, setIssueData] = useState<any>([]);
   const [initLoading, setInitLoading] = useState(true);
   const [btcAddress, setBtcAddress] = useState("")
@@ -46,6 +37,7 @@ function IssueHistory(): React.ReactElement {
       })
       let currIssueData = data.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
       let sortIssueData = currIssueData.sort((a,b)=>a.id - b.id)
+      console.log('issueHistory',sortIssueData)
       setIssueData(sortIssueData)
       setInitLoading(false)
     }
@@ -54,8 +46,10 @@ function IssueHistory(): React.ReactElement {
     }
   },[currentAccount, isApiReady])
   function IssueModal(val: any) {
-    setIssueStatus(val.status);
+    // setIssueStatus(val.status);
     setIssueprocessingModalVisbible(true);
+    setRequestID(val.id)
+    setRequester(val.requester)
     setBtcAddress(val.btcAddress)
     setVaultAddress(val.vault)
     setIssueAmount(val.btcAmount)
@@ -99,7 +93,7 @@ function IssueHistory(): React.ReactElement {
             className={"processing"}
             onClick={() => IssueModal(record)}
           >
-            {"processing"}
+            {t("processing")}
           </div>
         </Space>
       ),
@@ -120,6 +114,8 @@ function IssueHistory(): React.ReactElement {
         visible={IssueprocessingModalVisbible}
         type={IssueStatus}
         cancle={() => setIssueprocessingModalVisbible(false)}
+        requestID={requestID}
+        requester={requester}
         btcAddress={btcAddress}
         IssueAmount={IssueAmount}
         griefingCollateral={griefingCollateral}

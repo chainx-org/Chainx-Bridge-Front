@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import React from "react";
 
 export const CardMainStyle = styled.div`
     width: 100%;

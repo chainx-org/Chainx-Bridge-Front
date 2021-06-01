@@ -2,7 +2,6 @@ import React from "react";
 import copy from 'copy-to-clipboard';
 import CopyLogo from "../IssueRequestSuccessCard/icons/COPY.svg";
 import WarmRedLogo from "../IssueRequestSuccessCard/icons/warm_red.svg";
-import QrLogo from "../IssueRequestSuccessCard/icons/qr.svg";
 import Question from '../ExplainTag/icons/question.svg'
 import { CardMainStyle } from "./style";
 import { message, Tooltip } from "antd";
@@ -12,7 +11,7 @@ import { useTranslation } from "react-i18next";
 interface MainProps{
     opreturn :string;
     address: string;
-    issueAmount: number;
+    issueAmount?: number;
     coinSymol?: coinProps | any;
 }
 

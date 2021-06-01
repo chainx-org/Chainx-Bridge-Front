@@ -11,9 +11,14 @@ interface RedeemStatusModalProps {
     visible: boolean,
     cancle: () => void;
     type: string;
+    requestID: number;
+    RedeemAmount: number;
+    vaultAddress: string;
+    btcAddress: string;
+    requester: string;
 }
 
-function RedeemStatusModal({ visible, cancle, type }: RedeemStatusModalProps): React.ReactElement<RedeemStatusModalProps> {
+function RedeemStatusModal({ visible, cancle, type, requestID, RedeemAmount, vaultAddress, btcAddress, requester }: RedeemStatusModalProps): React.ReactElement<RedeemStatusModalProps> {
 
     return (
         <Modal visible={visible} footer={null} getContainer={false} onCancel={cancle}>
@@ -23,7 +28,7 @@ function RedeemStatusModal({ visible, cancle, type }: RedeemStatusModalProps): R
                         type === "processing" ?
                             <div className='redeemPending'>
                                 <img src={BTCLogo} alt="" />
-                                <div className={"redeem-btc"}>1.8273 BTC</div>
+                                <div className={"redeem-btc"}>{RedeemAmount/100000000} BTC</div>
                                 <div className={"number"}>您将收到的BTC金额</div>
                                 <div className={"tip-redeem"}>
                                     <div>
@@ -35,7 +40,7 @@ function RedeemStatusModal({ visible, cancle, type }: RedeemStatusModalProps): R
                                 <SuccessStatus className='redeemSuccess'>
                                     <img src={successIcon} alt="" />
                                     <div className={"titleCon"}>赎回成功</div>
-                                    <div className={"number"}>您已经成功赎回 {0.001} XBTC</div>
+                                    <div className={"number"}>您已经成功赎回 {RedeemAmount/100000000} XBTC</div>
                                 </SuccessStatus> :
                                 <SuccessStatus className='redeemFail'>
                                     <img src={failIcon} alt="" />
@@ -46,7 +51,7 @@ function RedeemStatusModal({ visible, cancle, type }: RedeemStatusModalProps): R
                                 </SuccessStatus>
                     }
                 </RedeemStatusContent>
-                <RedeemStatusFooter />
+                <RedeemStatusFooter requestID={requestID} vaultAddress={vaultAddress} btcAddress={btcAddress} requester={requester} />
             </ModalStyle>
         </Modal>
     )

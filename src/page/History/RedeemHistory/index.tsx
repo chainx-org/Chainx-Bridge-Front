@@ -9,9 +9,14 @@ import {useApi} from "../../../hooks/useApi";
 
 function RedeemHistory(): React.ReactElement {
   const { currentAccount } = useAccountModel();
-  const requester = currentAccount?.address;
+  // const requester = currentAccount?.address;
   const [RedeemSuccessModalVisible, setRedeemSuccessModalVisible] = useState(false);
   const [RedeemStatus, setRedeemStatus] = useState("processing");
+  const [requestID, setRequestID] = useState(0)
+  const [requester, setRequester] = useState('')
+  const [btcAddress, setBtcAddress] = useState("")
+  const [vaultAddress, setVaultAddress] = useState("")
+  const [RedeemAmount, setRedeemAmount] = useState(0)
   const [RedeemData, setRedeemData] = useState<any>([]);
   const [initLoading, setInitLoading] = useState(true);
   const { t } = useTranslation()
@@ -40,9 +45,14 @@ function RedeemHistory(): React.ReactElement {
       GetRedeemRequestList();
     }
   },[currentAccount, isApiReady])
-  function RedeemModal(val: string) {
-    setRedeemStatus(val);
+  function RedeemModal(val: any) {
+    // setRedeemStatus(val);
     setRedeemSuccessModalVisible(true);
+    setRequestID(val.id)
+    setRequester(val.requester)
+    setBtcAddress(val.btcAddress)
+    setVaultAddress(val.vault)
+    setRedeemAmount(val.amount)
   }
   const Redeemcolumns = [
     {
@@ -75,13 +85,13 @@ function RedeemHistory(): React.ReactElement {
     {
       title: t('Status'),
       key: "action",
-      render: (text: any, record: any) => (
+      render: (record: any) => (
         <Space size="middle">
           <div
             className={"processing"}
-            onClick={() => RedeemModal("processing")}
+            onClick={() => RedeemModal(record)}
           >
-            {"processing"}
+            {t("processing")}
           </div>
         </Space>
       ),
@@ -101,6 +111,11 @@ function RedeemHistory(): React.ReactElement {
         visible={RedeemSuccessModalVisible}
         cancle={() => setRedeemSuccessModalVisible(false)}
         type={RedeemStatus}
+        requestID={requestID}
+        RedeemAmount={RedeemAmount}
+        vaultAddress={vaultAddress}
+        btcAddress={btcAddress}
+        requester={requester}
       />
     </>
   );

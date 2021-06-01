@@ -204,7 +204,7 @@
   "Crypto not detected": "未检测到加密",
   "Cryptography used to create this signature. It is auto-detected on valid signatures.": "用于创建此签名的加密。在有效签名上自动检测。",
   "Currency trade": "币币交易",
-  "Current Account": "现在的账户",
+  "processing": "进行中",
   "Current Status": "当前节点状态",
   "Current Validator": "当前提息节点",
   "Current account nonce: {{accountNonce}}": "当前账户的 nonce 值: {{accountNonce}}",

@@ -13,20 +13,22 @@ interface ProcessingModalProps {
     visible: boolean,
     cancle: () => void;
     type: string;
+    requestID: number;
+    requester: string;
     btcAddress: string;
     IssueAmount: number;
     griefingCollateral: number;
     vaultAddress: string;
 }
 
-function ProcessingModal({ visible, cancle, type, btcAddress, IssueAmount, griefingCollateral, vaultAddress }: ProcessingModalProps): React.ReactElement<ProcessingModalProps> {
+function ProcessingModal({ visible, cancle, type, requestID, requester, btcAddress, IssueAmount, griefingCollateral, vaultAddress }: ProcessingModalProps): React.ReactElement<ProcessingModalProps> {
     const { currentAccount } = useAccountModel();
     return (
         <Modal visible={visible} footer={null} getContainer={false} onCancel={cancle}>
             <ModalStyle>
                 <IssueStatusContent>
                     {
-                        type === "processing" ? <>
+                        type === 'processing' ? <>
                             <div className={"card-header"}>
                                 <div className='timeRemaining '>
                                     <div className='remaining'>剩余时间</div>
@@ -36,12 +38,12 @@ function ProcessingModal({ visible, cancle, type, btcAddress, IssueAmount, grief
                                     47:56:10
                                 </div>
                             </div>
-                            <CardMain coinSymol={{ coinName: "BTC" }} opreturn={stringToHex(currentAccount?.address!!)} address={btcAddress} issueAmount={1} />
+                            <CardMain coinSymol={{ coinName: "BTC" }} opreturn={stringToHex(currentAccount?.address!!)} address={btcAddress} issueAmount={IssueAmount/100000000} />
                         </> : type === 'success' ?
                             <SuccessStatus className='issueSuccess'>
                                 <img src={successIcon} alt="" />
                                 <div className={"titleCon"}>发行成功</div>
-                                <div className={"number"}>您已经成功发行 {0.001} XBTC</div>
+                                <div className={"number"}>您已经成功发行 {IssueAmount/100000000} XBTC</div>
                             </SuccessStatus> :
                             <SuccessStatus className='issueFail'>
                                 <img src={failIcon} alt="" />
@@ -50,7 +52,7 @@ function ProcessingModal({ visible, cancle, type, btcAddress, IssueAmount, grief
                             </SuccessStatus>
                     }
                 </IssueStatusContent>
-                <IssueStatusFooter btcReceiveAddress={btcAddress} IssueAmount={IssueAmount} griefingCollateral={griefingCollateral} vaultAddress={vaultAddress} />
+                <IssueStatusFooter requester={requester} btcReceiveAddress={btcAddress} IssueAmount={IssueAmount} griefingCollateral={griefingCollateral} vaultAddress={vaultAddress} requestID={requestID} />
             </ModalStyle>
         </Modal>
     )
