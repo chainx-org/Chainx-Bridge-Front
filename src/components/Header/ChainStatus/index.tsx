@@ -12,10 +12,10 @@ function ChainStatus(): React.ReactElement {
             <div className={"chainStatus-content"}>
                 <img src={logo} alt="" />
                 <div className={"status-content"}>
-                    <PointStyle className={value === "Running" ? "status running" : "status error"} />
+                    <PointStyle className={value === "Running" ? "status running" : ""} />
                     <div>
                         <div className={"status-info"}>
-                            {value === "Running" ? t(`${value}`) : t("Error")}
+                            {value === "Running" ? t(`${value}`) : ''}
                         </div>
                     </div>
                 </div>
