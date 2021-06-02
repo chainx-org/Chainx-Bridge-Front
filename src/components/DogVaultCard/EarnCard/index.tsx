@@ -80,7 +80,7 @@ function EarnCard(): React.ReactElement {
       <EarnCardTopStyle>
         <div className="earnItem">
           <div className={"earn-card-title"}>累计收益</div>
-          <div className={"earn-pcx-num"}>- PCX</div>
+          <div className={"earn-pcx-num"}>-</div>
         </div>
         <div className="earnItem">
           <div className={"earn-card-title"}>可发行量</div>
@@ -95,7 +95,7 @@ function EarnCard(): React.ReactElement {
           <div className={"earn-card-title"}>累计发行 / 赎回</div>
           <div className={"issue-redeem-num"}>
             <BalanceSpan balance={vault?.issuedToken} /> XDOG /{" "}
-            <BalanceSpan balance={vault?.toBeRedeemedTokens} /> 缺值 DOG
+            <span>-</span>
           </div>
         </div>
         <div className="earnItem">

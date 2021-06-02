@@ -10,7 +10,7 @@ function VaultCard(): React.ReactElement {
     return (
         <VaultCardStyle>
             <div className={"vault-card-title"}>
-                {t('Vault')}
+                {t('Vault') + "(XBTC)"}
             </div>
             <VaultTopStyle>
                 <EarnCard />

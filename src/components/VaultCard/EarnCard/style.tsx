@@ -52,9 +52,8 @@ export const EarnCardTopStyle = styled.div`
   .collateral-rate{
     display: flex;
     .collateral-rate-num{
-      font-size: 20px;
+      margin-left: 10px;
       color: #34C69A;
-      line-height: 28px;
     }
   }
   .email-edit, .earn-card-title{
