@@ -10,6 +10,10 @@ function useExpireTime(){
         async function getLastBlock(){
             const lastBlock = await api.query.system.number()
             setlastBlockNumber(lastBlock.toNumber())
+            await api.rpc.chain.subscribeNewHeads(async ()=> {
+                const lastBlock = await api.query.system.number()
+                setlastBlockNumber(lastBlock.toNumber())
+            })
         }
         async function getIssueExpireTime(){
             const issueTime = await api.consts.xGatewayBitcoinBridge.issueRequestExpiredPeriod
@@ -22,7 +26,7 @@ function useExpireTime(){
         getLastBlock();
         getIssueExpireTime();
         getRedeemExpireTime();
-    },[isApiReady,api.query.system])
+    },[isApiReady,api.query.system,lastBlockNumber])
     return {lastBlockNumber,IssueExpireTime,RedeemExpireTime};
 }
 
