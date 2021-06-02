@@ -280,14 +280,14 @@ function Issue(): React.ReactElement {
                         <IssueBtcInputStyle>
                             <div className="issueNum">
                                 <InputNumber
-                                    type={"number"}
+                                    // type={"number"}
                                     value={IssueAmount}
                                     placeholder={"0"}
                                     min={0}
                                     onChange={(e) => {
                                         setIssueAmount(+e);
                                     }}
-                                />
+                            />
                                 <div className="line"/>
                                 <div className={`btc-title`}>{coinSymol.coinName}</div>
                             </div>
