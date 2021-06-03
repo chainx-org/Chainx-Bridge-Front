@@ -27,9 +27,7 @@ function RedeemHistory(): React.ReactElement {
   useEffect(()=> {
     async function GetRedeemRequestList (){
       const AllRedeemRequest = await api.query.xGatewayBitcoinBridge.redeemRequests.entries()
-      // console.log('list',AllRedeemRequest.toString())
       const AllRedeemDogeCoinRequest = await api.query.xGatewayDogecoinBridge.redeemRequests.entries()
-      // const vaults = await api.query.xGatewayBitcoinBridge.vaults(vaultAddress);
       let Redeemdata =  AllRedeemRequest.map(function(item){
         return {
           id:item[0].args[0].toNumber(),
@@ -58,8 +56,8 @@ function RedeemHistory(): React.ReactElement {
       })
       let currRedeemData = Redeemdata.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
       let currDogeRedeemData = AllRedeemDogeCoinData.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
-      let sortRedeemData = currRedeemData.sort((a,b)=>a.id - b.id)
-      let sortDogeRedeemData = currDogeRedeemData.sort((a,b)=>a.id - b.id)
+      let sortRedeemData = currRedeemData.sort((a,b)=>b.id - a.id)
+      let sortDogeRedeemData = currDogeRedeemData.sort((a,b)=>b.id - a.id)
       setRedeemData(sortRedeemData.concat(sortDogeRedeemData))
       setInitLoading(false)
     }

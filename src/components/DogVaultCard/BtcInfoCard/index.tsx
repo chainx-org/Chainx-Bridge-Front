@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import useAccountModel from "../../../hooks/useAccountModel";
 import { useApi } from "../../../hooks/useApi";
 import { DogInfoCardStyle } from "./style";
+import axios from 'axios'
 
 function DogInfoCard(): React.ReactElement {
   const { currentAccount } = useAccountModel();
@@ -11,26 +12,26 @@ function DogInfoCard(): React.ReactElement {
   const [total_received, setTotal_received] = useState(0);
   const [finalTx, setfinalTx] = useState(0);
 
+  useEffect(() => {
   async function getVaults() {
     const valut = await api.query.xGatewayDogecoinBridge.vaults(currentAccount?.address!! || "");
     setDogAddress(valut?.unwrap().wallet.toString());
   }
-
-  useEffect(() => {
     getVaults();
-  }, [getVaults]);
+  }, [currentAccount]);
   useEffect(() => {
     (async () => {
-      fetch(
-        `https://api.blockcypher.com/v1/btc/test3/addrs/${dogAddress}/balance`
+      axios.get(
+        `https://rest.cryptoapis.io/v2/blockchain-data/dogecoin/testnet/addresses/${dogAddress}`,
+        {headers:{'X-Api-Key':'d105ddc5c0584a53fb532db0b76c7a46a005c086','Content-Type': 'application/json'}}
       )
-        .then((res) => res.json())
-        .then((res: any) => {
-          // console.log(res)
-          setDogBalance(res.balance);
-          setTotal_received(res.total_received);
-          setfinalTx(res.final_n_tx);
-        });
+        .then((res) => console.log(res) )
+        // .then((res: any) => {
+        //   console.log(res)
+        //   // setDogBalance(res.balance);
+        //   // setTotal_received(res.total_received);
+        //   // setfinalTx(res.final_n_tx);
+        // });
     })();
   }, [dogAddress]);
   return (

@@ -20,14 +20,14 @@ function LinkList(): React.ReactElement {
         {
             title: 'btc wallet',
             icon: BTC,
-            toolTip: t('BTC Wallet'),
+            toolTip: 'Testnet Wallet',
             link: 'https://bit-x.chainx.org/',
             pre: 'https://bit-x.chainx.org/'
         },
         {
             title: 'doge wallet',
             icon: DOGE,
-            toolTip: t('DOGE Wallet'),
+            toolTip: 'Testnet Wallet',
             link: 'http://ab0ed44e5fd1c4b88b37358874eac76b-546139718.us-east-2.elb.amazonaws.com/',
             pre: 'http://ab0ed44e5fd1c4b88b37358874eac76b-546139718.us-east-2.elb.amazonaws.com/'
         },
@@ -37,9 +37,11 @@ function LinkList(): React.ReactElement {
         <LinkLists>
             {
                 iconList.map((item)=>{
-                    return <a key={item.title} target='_blank' href={ path === 'https://chainxbridge.chainx.cc' ? item.link : item.pre} className='linkMore'>
-                        <Tooltip title={item.toolTip} placement={"left"}><img  src={item.icon} alt={item.title} /></Tooltip>
-                    </a>
+                    return  <Tooltip title={item.toolTip}  >
+                        <a key={item.title} target='_blank' href={ path === 'https://chainxbridge.chainx.cc' ? item.link : item.pre} className='linkMore'>
+                            <img  src={item.icon} alt={item.title} />
+                        </a>
+                    </Tooltip>
                 })
             }  
         </LinkLists>

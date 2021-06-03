@@ -53,8 +53,8 @@ function IssueHistory(): React.ReactElement {
       })
       let currIssueDogeData = AllDogeCoinIssueData.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
       let currIssueData = data.filter((item: { requester: string; }) => item.requester === currentAccount?.address!!)
-      let sortIssueDogeData = currIssueDogeData.sort((a,b)=>a.id - b.id)
-      let sortIssueData = currIssueData.sort((a,b)=>a.id - b.id)
+      let sortIssueDogeData = currIssueDogeData.sort((a,b)=>b.id - a.id)
+      let sortIssueData = currIssueData.sort((a,b)=>b.id - a.id)
       setIssueData(sortIssueData.concat(sortIssueDogeData))
       setInitLoading(false)
     }

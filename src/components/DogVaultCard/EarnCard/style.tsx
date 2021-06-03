@@ -51,6 +51,7 @@ export const EarnCardTopStyle = styled.div`
   }
   .collateral-rate{
     display: flex;
+    align-items: center;
     .collateral-rate-num{
       font-size: 20px;
       color: #34C69A;

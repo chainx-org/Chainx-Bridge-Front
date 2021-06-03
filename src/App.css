@@ -169,8 +169,8 @@ table {
     font-weight: bold;
 }
 .ant-tooltip-inner {
-    padding: 4px 9px;
     border-radius: 4px;
+    font-size: 10px;
 }
 .ant-message-notice .ant-message-notice-content {
     opacity: 0.65;
