@@ -691,6 +691,8 @@
   " address of asset vault": "地址",
   " ": "资产保险库",
   "time remaining": "剩余时间",
+  "BTC Wallet": "BTC 钱包",
+  "DOGE Wallet": "DOGE 钱包",
   "Send Funds": "发送资金",
   "Send X-BTC": "X-BTC转账",
   "Send from account": "从账户发送",
