@@ -7,7 +7,7 @@ interface ExplainTagProps {
     className?: string;
     title: string;
     children: React.ReactNode;
-    tooltip?: string
+    tooltip?: string | undefined;
 }
 
 export default function ExplainTag({ className = '', title, children, tooltip }: ExplainTagProps): React.ReactElement<ExplainTagProps> {

@@ -6,6 +6,7 @@ import useAccountModel from "../../../hooks/useAccountModel";
 import RedeemStatusModal from "../../../components/RedeemStatusModal/index";
 import {useTranslation} from "react-i18next";
 import {useApi} from "../../../hooks/useApi";
+import { Vault } from "../../../interfaces";
 
 function RedeemHistory(): React.ReactElement {
   const { currentAccount } = useAccountModel();
@@ -17,6 +18,7 @@ function RedeemHistory(): React.ReactElement {
   const [btcAddress, setBtcAddress] = useState("")
   const [vaultAddress, setVaultAddress] = useState("")
   const [RedeemDataKind, setRedeemDataKind] = useState('')
+  const [vaultDogeAndBtc, setVaultDogeAndBtc] = useState('')
   const [RedeemAmount, setRedeemAmount] = useState(0)
   const [RedeemData, setRedeemData] = useState<any>([]);
   const [initLoading, setInitLoading] = useState(true);
@@ -25,7 +27,9 @@ function RedeemHistory(): React.ReactElement {
   useEffect(()=> {
     async function GetRedeemRequestList (){
       const AllRedeemRequest = await api.query.xGatewayBitcoinBridge.redeemRequests.entries()
+      // console.log('list',AllRedeemRequest.toString())
       const AllRedeemDogeCoinRequest = await api.query.xGatewayDogecoinBridge.redeemRequests.entries()
+      // const vaults = await api.query.xGatewayBitcoinBridge.vaults(vaultAddress);
       let Redeemdata =  AllRedeemRequest.map(function(item){
         return {
           id:item[0].args[0].toNumber(),
@@ -36,7 +40,7 @@ function RedeemHistory(): React.ReactElement {
           amount:item[1].unwrap().amount.toNumber(),
           redeemFee:item[1].unwrap().redeemFee.toNumber(),
           reimburse:item[1].unwrap().reimburse.isFalse,
-          kind:"XBTC"
+          kind:"XBTC",
         }
       })
       let AllRedeemDogeCoinData = AllRedeemDogeCoinRequest.map(function(item){
@@ -63,24 +67,34 @@ function RedeemHistory(): React.ReactElement {
       GetRedeemRequestList();
     }
   },[currentAccount, isApiReady])
-  function RedeemModal(val: any) {
+  async function RedeemModal(val: any) {
     // setRedeemStatus(val);
     setRedeemSuccessModalVisible(true);
     setRequestID(val.id)
+    setVaultAddress(val.vault)
+    if(val.kind === 'XBTC') {
+      const vaults = await api.query.xGatewayBitcoinBridge.vaults(val.vault)
+      const vaultCurr: Vault = vaults.unwrap()
+      setVaultDogeAndBtc(vaultCurr.wallet.toString())
+    }
+    if(val.kind === 'XDOGE') {
+      const vaults = await api.query.xGatewayDogecoinBridge.vaults(val.vault)
+      const vaultCurr: Vault = vaults.unwrap()
+      setVaultDogeAndBtc(vaultCurr.wallet.toString())
+    }
     setRequester(val.requester)
     setBtcAddress(val.btcAddress)
-    setVaultAddress(val.vault)
     setRedeemAmount(val.amount)
     setRedeemDataKind(val.kind)
   }
   const Redeemcolumns = [
     {
-      title: '请求标示',
+      title: t('RequestID'),
       dataIndex: 'id',
       key: 'id'
     },
     {
-      title: '赎回类型',
+      title: t('Redeem type'),
       dataIndex: 'kind',
       key: 'kind'
     },
@@ -102,7 +116,7 @@ function RedeemHistory(): React.ReactElement {
     //   key: "number",
     // },
     {
-      title: "ChainX" + t('BlockHeight'),
+      title: "ChainX " + t('Block Height'),
       dataIndex: "openTime",
       key: "openTime",
     },
@@ -141,6 +155,7 @@ function RedeemHistory(): React.ReactElement {
         btcAddress={btcAddress}
         requester={requester}
         RedeemDataKind={RedeemDataKind}
+        vaultDogeAndBtc={vaultDogeAndBtc}
       />
     </>
   );

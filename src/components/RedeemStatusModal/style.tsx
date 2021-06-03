@@ -14,14 +14,13 @@ export const RedeemStatusContent = styled.div`
     width: 100%;
     .tip-redeem{
         margin-top: 24px;
-        padding: 14px 20px;
+        padding: 6px 18px;
         display: flex;
         align-items: center;
         border: 1px solid #FAAD14;
         text-align: left;
         border-radius: 6px;
         width: 366px;
-        height: 44px;
         background:rgba(250,173,20,0.1);
         font-size: 12px;
         color: #554D4E;

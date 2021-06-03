@@ -9,7 +9,7 @@ function History(): React.ReactElement {
   const { t } = useTranslation()
   const tabList: TabInfo[] = [
     {
-      title: t('issue'),
+      title: t('Issue'),
       content: <IssueHistory />
     },
     {

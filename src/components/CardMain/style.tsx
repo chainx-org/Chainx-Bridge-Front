@@ -39,6 +39,12 @@ export const CardMainStyle = styled.div`
         justify-content: center;
         align-items: center;
       }
+      .step-two {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 12px 0 8px 0;
+        width: 100%;
+      }
       .cp-op{
         margin-right: 4px;
       }
@@ -146,7 +152,7 @@ export const CardMainStyle = styled.div`
     }
     .tip{
       width: 380px;
-      height: 28px;
+      padding: 6px 20px;
       border: 1px solid #F5222D;
       border-radius: 6px;
       font-size: 12px;

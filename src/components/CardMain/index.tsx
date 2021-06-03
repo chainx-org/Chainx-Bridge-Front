@@ -37,7 +37,7 @@ const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmou
             <div>
                 <div className={"opreturn-title"}>
                     <div className={"step-one"}>1</div>
-                    <div className={"cp-op"}>复制OP_RETURN</div>
+                    <div className={"cp-op"}>{t('Copy')} OP_RETURN</div>
                     <Tooltip title={t('Please use a wallet that supports OP_RETURN and enter OP_RETURN information')}>
                         <img src={Question} alt="" />
                     </Tooltip>
@@ -59,11 +59,11 @@ const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmou
                         <div className={"tip-wrapper"}>
                             <div className={"tip"}>
                                 <img src={WarmRedLogo} alt=""/>
-                                <div>必须在 
+                                <div>{t('OP_RETURN must be added to the')}{' '}
                                     {
-                                        IssueDataKind ? <>{IssueDataKind === 'XBTC' ? '比特币' : '狗狗币'}</> : <>{coinSymol?.coinName === 'BTC' ? '比特币' : '狗狗币'}</>
+                                        IssueDataKind ? <>{IssueDataKind === 'XBTC' ? t('Bitcoin') : t('Dogecoin')}</> : <>{coinSymol?.coinName === 'BTC' ? t('Bitcoin') : t('Dogecoin')}</>
                                     }    
-                                    交易中添加op_return,否则会造成资产损失
+                                    {' '}{t('transaction, otherwise the asset will be lost')}
                                 </div>
                             </div>
                         </div>
@@ -73,16 +73,18 @@ const CardMain:React.FunctionComponent<MainProps> = ({opreturn,address,issueAmou
             <div>
                 <div className={"opreturn-title"}>
                     <div className={"step-one"}>2</div>
-                    <div className={"cp-op"}>发送 {issueAmount} 
-                        {
-                            IssueDataKind ? <>{IssueDataKind === 'XBTC' ? 'BTC' : 'DOG'}</> : <>{coinSymol?.coinName} </>
-                        }
-                        到下面的地址
+                    <div className='step-two'>
+                        <div className={"cp-op"}>{t('Send')} {issueAmount} 
+                            {
+                                IssueDataKind ? <>{IssueDataKind === 'XBTC' ? 'BTC' : 'DOG'}</> : <>{coinSymol?.coinName} </>
+                            }
+                            {t(' to the address below')}
+                        </div>
+                        <div className={"info"}>({t('Please do it in a single transaction')})</div>
+                        <Tooltip title={t('If the correct amount is not entered in a single trade, it will result in a loss of assets')}>
+                            <img src={Question} alt="" />
+                        </Tooltip>
                     </div>
-                    <div className={"info"}>(请在单笔交易中完成)</div>
-                    <Tooltip title={t('If the correct amount is not entered in a single trade, it will result in a loss of assets')}>
-                        <img src={Question} alt="" />
-                    </Tooltip>
                 </div>
                 <div className={"opreturn-content-wrapper"}>
                     <div className={"btc-content"}>

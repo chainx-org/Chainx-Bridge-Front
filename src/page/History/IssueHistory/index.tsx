@@ -77,12 +77,12 @@ function IssueHistory(): React.ReactElement {
   const { t } = useTranslation()
   const Issuecolumns = [
     {
-      title: '请求标示',
+      title: t('RequestID'),
       dataIndex: 'id',
       key: 'id'
     },
     {
-      title: '发行类型',
+      title: t('Issue type'),
       dataIndex: 'kind',
       key: 'kind'
     },
@@ -104,7 +104,7 @@ function IssueHistory(): React.ReactElement {
     //   key: "number",
     // },
     {
-      title: "ChainX" + t('BlockHeight'),
+      title: "ChainX " + t('Block Height'),
       dataIndex: "openTime",
       key: "openTime",
     },

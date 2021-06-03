@@ -78,7 +78,7 @@ function BridgeHome(): React.ReactElement {
   const tabList = ([
     {
       title: 'issue',
-      nodeName: t<string>('issue'),
+      nodeName: t<string>('Issue'),
       link: '/bridge/',
     },
     {

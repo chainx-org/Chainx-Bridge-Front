@@ -4,6 +4,7 @@ import warningYellowLogo from "../../icons/warm_yellow.svg";
 import { RedeemCoinProps } from "../../page/Bridge";
 import ExplainTag from "../ExplainTag";
 import { RedeemStatus } from "../RedeemStatusModal/RedeemStatusFooter/style";
+import { useTranslation } from "react-i18next";
 
 interface RedeemRequestProps {
     RedeemAmount: number;
@@ -14,7 +15,7 @@ interface RedeemRequestProps {
     requestId: string;
 }
 function RedeemRequestSuccessCard({ RedeemAmount, coinSymol, BtcAddress, vaultAddress, vaultBtcAddress, requestId }: RedeemRequestProps): React.ReactElement<RedeemRequestProps> {
-
+    const { t } = useTranslation();
     return (
         <RedeemRequestCardStyle>
             <div className={"card-header"}>
@@ -24,22 +25,23 @@ function RedeemRequestSuccessCard({ RedeemAmount, coinSymol, BtcAddress, vaultAd
                     <div>{coinSymol.coinName.slice(1, 5)}</div>
                 </div>
                 <div className={"time"}>
-                    <div className={"time-title"}>您将收到的{coinSymol.coinName.slice(1, 5)}金额</div>
+                    <div className={"time-title"}>{t("You will receive")}{' '}{coinSymol.coinName.slice(1, 5)} {t('amount')}</div>
                 </div>
                 <div className={"tip-redeem"}>
                     <div>
                         <img src={warningYellowLogo} alt="" />
                     </div>
-                    <div className='tipMsg'>如果在 8 小时后仍未收到赎回的 {coinSymol.coinName.slice(1, 5)}，可取消赎回后重新发起赎回请求</div>
+                    <div className='tipMsg'>{t('If the redeemed ')}{coinSymol.coinName.slice(1, 5)}
+                        {t(` is not received after 8 hours`)}，{t('the redeemed request can be made after the redemption.')}</div>
                 </div>
             </div>
             <RedeemStatus>
                 <div className={"line"} />
-                <ExplainTag title='请求ID' children={requestId} className='bold' />
+                <ExplainTag title={t('Request') +`ID`} children={requestId} className='bold' />
                 <div className={"dotted-line"} />
-                <ExplainTag title={`${coinSymol.coinName.slice(1, 5)}接收地址`} children={<div>{BtcAddress}</div>} />
-                <ExplainTag title='资产保险库ChainX地址' children={<div>{vaultAddress}</div>} />
-                <ExplainTag title={`资产保险库${coinSymol.symol}地址`} children={<div>{vaultBtcAddress}</div>} />
+                <ExplainTag title={`${coinSymol.coinName.slice(1, 5)}`+t(' Receive address')} children={<div>{BtcAddress}</div>} />
+                <ExplainTag title={t('ChainX address of asset vault')} children={<div>{vaultAddress}</div>} />
+                <ExplainTag title={t(" ")+`${coinSymol.symol}`+t(' address of asset vault')} children={<div>{vaultBtcAddress}</div>} />
             </RedeemStatus>
         </RedeemRequestCardStyle>
     )

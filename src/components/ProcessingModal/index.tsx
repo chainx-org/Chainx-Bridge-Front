@@ -44,7 +44,7 @@ function ProcessingModal({ visible, cancle, type, requestID, requester, btcAddre
                         type === 'processing' ? <>
                             <div className={"card-header"}>
                                 <div className='timeRemaining '>
-                                    <div className='remaining'>剩余时间</div>
+                                    <div className='remaining'>{t('time remaining')}</div>
                                     <Tooltip title={t('Please complete the transfer before the countdown ends, otherwise the issue will fail')}>
                                         <img src={Question} alt="" />
                                     </Tooltip>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ModalStyle, RedeemStatusContent, SuccessStatus } from "./style";
 import { Button, Modal } from "antd";
 import BTCLogo from "../../icons/BTC.svg"
@@ -6,6 +6,9 @@ import warningYellowLogo from "../../icons/warm_yellow.svg"
 import RedeemStatusFooter from "./RedeemStatusFooter";
 import successIcon from "../../icons/complete.svg"
 import failIcon from "../../icons/fail.svg"
+import { useApi } from "../../hooks/useApi";
+import { BtcAddress, Vault } from "../../interfaces";
+import { useTranslation } from "react-i18next";
 
 interface RedeemStatusModalProps {
     visible: boolean,
@@ -17,10 +20,11 @@ interface RedeemStatusModalProps {
     btcAddress: string;
     requester: string;
     RedeemDataKind: string;
+    vaultDogeAndBtc: string;
 }
 
-function RedeemStatusModal({ visible, cancle, type, requestID, RedeemAmount, vaultAddress, btcAddress, requester, RedeemDataKind }: RedeemStatusModalProps): React.ReactElement<RedeemStatusModalProps> {
-
+function RedeemStatusModal({ visible, cancle, type, requestID, RedeemAmount, vaultAddress, btcAddress, vaultDogeAndBtc, RedeemDataKind }: RedeemStatusModalProps): React.ReactElement<RedeemStatusModalProps> {
+    const { t } = useTranslation();
     return (
         <Modal visible={visible} footer={null} getContainer={false} onCancel={cancle}>
             <ModalStyle>
@@ -30,12 +34,12 @@ function RedeemStatusModal({ visible, cancle, type, requestID, RedeemAmount, vau
                             <div className='redeemPending'>
                                 <img src={BTCLogo} alt="" />
                                 <div className={"redeem-btc"}>{RedeemAmount/100000000} {RedeemDataKind.slice(1,5)}</div>
-                                <div className={"number"}>您将收到的{RedeemDataKind.slice(1,5)}金额</div>
+                                <div className={"number"}>{t("You will receive")}{' '}{RedeemDataKind.slice(1,5)} {t('amount')}</div>
                                 <div className={"tip-redeem"}>
                                     <div>
                                         <img src={warningYellowLogo} alt="" />
                                     </div>
-                                    <div>如果在 8 小时后仍未收到赎回的 {RedeemDataKind.slice(1,5)}，可取消赎回后重新发起赎回请求</div>
+                                    <div>{t('If the redeemed ')}{RedeemDataKind.slice(1,5)}{t(` is not received after 8 hours`)}，{t('the redeemed request can be made after the redemption.')}</div>
                                 </div>
                             </div> : type === 'success' ?
                                 <SuccessStatus className='redeemSuccess'>
@@ -52,7 +56,7 @@ function RedeemStatusModal({ visible, cancle, type, requestID, RedeemAmount, vau
                                 </SuccessStatus>
                     }
                 </RedeemStatusContent>
-                <RedeemStatusFooter RedeemDataKind={RedeemDataKind} requestID={requestID} vaultAddress={vaultAddress} btcAddress={btcAddress} requester={requester} />
+                <RedeemStatusFooter RedeemDataKind={RedeemDataKind} requestID={requestID} vaultAddress={vaultAddress} btcAddress={btcAddress} vaultDogeAndBtc={vaultDogeAndBtc} />
             </ModalStyle>
         </Modal>
     )

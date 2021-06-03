@@ -39,9 +39,9 @@ function IssueRequestSuccessCard({ currAddress, hypothecateNum, IssueAmount, vau
             <CardMain opreturn={stringToHex(currentAccount?.address)} address={vaultBtcAddress} issueAmount={IssueAmount} coinSymol={coinSymol} />
             <div className={"line"} />
             <CardFooterStyle>
-                <ExplainTag title='锁定抵押品' children={hypothecateNum} tooltip={t('After the issue is successful, it will be unlocked. If you do not complete the transfer in the corresponding currency as required, you will lose the locked collateral')} />
-                <ExplainTag title='发行总额' children={<>{IssueAmount}<span className='issueNum'>{coinSymol.coinName}</span></>} />
-                <ExplainTag title='目标账户' children={currAddress} tooltip={t('After the token is issued, it will be deposited in the target account')} />
+                <ExplainTag title={t('Lock up collateral')} children={hypothecateNum} tooltip={t('After the issue is successful, it will be unlocked. If you do not complete the transfer in the corresponding currency as required, you will lose the locked collateral')} />
+                <ExplainTag title={t('Total Amount')} children={<>{IssueAmount}<span className='issueNum'>{coinSymol.coinName}</span></>} />
+                <ExplainTag title={t('The target account')} children={currAddress} tooltip={t('After the token is issued, it will be deposited in the target account')} />
             </CardFooterStyle>
         </IssueRequestCardStyle>
     )

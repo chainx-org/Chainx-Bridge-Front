@@ -309,12 +309,12 @@ function Issue(): React.ReactElement {
                         </IssueBtcInputStyle>
                     </div>
                     <div className="bottomContent">
-                        <ExplainTag title="目标账户" children={currAddress} tooltip={t('After the token is issued, it will be deposited in the target account')} />
-                        <ExplainTag title="锁定抵押品" tooltip={t('After the issue is successful, it will be unlocked. If you do not complete the transfer in the corresponding currency as required, you will lose the locked collateral')}
+                        <ExplainTag title={t('The target account')} children={currAddress} tooltip={t('After the token is issued, it will be deposited in the target account')} />
+                        <ExplainTag title={t('Lock up collateral')} tooltip={t('After the issue is successful, it will be unlocked. If you do not complete the transfer in the corresponding currency as required, you will lose the locked collateral')}
                                     children={coinSymol.coinName === 'BTC' ? hypothecateNum : dogHypothecateNum}/>
-                        <ExplainTag title="手续费" children={chargeNum} tooltip={t('The fee will be used to reward the asset vault')} />
+                        <ExplainTag title={t('Service charge')} children={chargeNum} tooltip={t('The fee will be used to reward the asset vault')} />
                         <Button loading={buttonLoading} onClick={handleMatchVault}>
-                            {t("next")}
+                            {t("Next")}
                         </Button>
                     </div>
                 </IssueStyle>

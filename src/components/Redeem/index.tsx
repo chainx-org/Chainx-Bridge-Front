@@ -280,7 +280,7 @@ function Redeem(): React.ReactElement {
   };
   return (
     <>
-      {showRedeemNext ? (
+      {!showRedeemNext ? (
         <RedeemRequestSuccessCard
           coinSymol={coinSymol}
           RedeemAmount={RedeemAmount}
@@ -307,7 +307,8 @@ function Redeem(): React.ReactElement {
                 title={t("Redemption amount")}
                 setRedeemAmount={setRedeemAmount}
                 coinSymol={coinSymol}
-                description={t("balance")}
+                placeholder={''}
+                description={t("Balance")}
                 children={<span>{coinSymol.coinName === 'XBTC' &&  xBtcBalance ? xBtcBalance : coinSymol.coinName === 'XDOGE' && sDoge ? sDoge : '0'}</span>}
                 symol={coinSymol.coinName}
               />
@@ -323,7 +324,8 @@ function Redeem(): React.ReactElement {
               />
               <NumInput
                 RedeemAmount={RedeemAmount}
-                title={t("you will receive")}
+                title={t("You will receive")}
+                placeholder=''
                 setRedeemAmount={setRedeemAmount}
                 coinSymol={coinSymol}
                 symol={coinSymol.coinName.slice(1)}
@@ -333,7 +335,7 @@ function Redeem(): React.ReactElement {
                 className="yellow"
                 onClick={handleReedem}
               >
-                {t("next")}
+                {t("Next")}
               </Button>
             </RedeemBtcInputStyle>
           </div>
