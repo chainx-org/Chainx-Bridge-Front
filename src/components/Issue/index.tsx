@@ -49,8 +49,8 @@ function Issue(): React.ReactElement {
         setIsShow(!isShow);
     };
     const currAddress = <>{currentAccount?.address}</>;
-    const hypothecateNum = <>{(IssueAmount / pcxPrice * 0.1 || 0).toFixed(8)} PCX</>;
-    const dogHypothecateNum = <>{(IssueAmount / dogePCXPrice * 0.1 || 0).toFixed(8)} PCX</>;
+    const hypothecateNum = <>{Number((IssueAmount / pcxPrice * 0.1 || 0).toFixed(8)).toPrecision()} PCX</>;
+    const dogHypothecateNum = <>{Number((IssueAmount / dogePCXPrice * 0.1 || 0).toFixed(8)).toPrecision()} PCX</>;
     const chargeNum = <>0.00 {coinSymol.coinName}</>;
     const key = "testIssue";
     const handleMatchVault = async () => {
