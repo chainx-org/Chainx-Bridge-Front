@@ -280,7 +280,7 @@ function Redeem(): React.ReactElement {
   };
   return (
     <>
-      {!showRedeemNext ? (
+      {showRedeemNext ? (
         <RedeemRequestSuccessCard
           coinSymol={coinSymol}
           RedeemAmount={RedeemAmount}
