@@ -39,6 +39,9 @@ export const DogInfoCardStyle = styled.div`
       color: #EFB40B;
       line-height: 16px;
       font-weight: 500;
+      a {
+        color: #EFB40B;
+      }
     }
     .card-balance {
       font-family: PingFangSC-Semibold;
