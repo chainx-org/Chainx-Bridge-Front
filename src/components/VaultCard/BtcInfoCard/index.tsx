@@ -33,12 +33,16 @@ function BtcInfoCard(): React.ReactElement {
         });
     })();
   }, [btcAddress]);
+  const path = window.location.origin
   return (
     <BtcInfoCardStyle>
       <div className="addressBalance">
         <div className={"card-item"}>
           <div className={"card-title"}>BTC 地址</div>
-          <div className={"card-address"}>{btcAddress}</div>
+          <div className={"card-address"}>{ path === 'https://chainxbridge.chainx.cc' ? 
+            <a target='_blank' href={`https://blockexplorer.one/btc/mainnet/address/${btcAddress}`}>{btcAddress}</a> : 
+            <a target='_blank' href={`https://blockexplorer.one/btc/testnet/address/${btcAddress}`}>{btcAddress}</a>}
+          </div>
         </div>
         <div className={"card-item"}>
           <div className={"card-title"}>BTC 余额</div>

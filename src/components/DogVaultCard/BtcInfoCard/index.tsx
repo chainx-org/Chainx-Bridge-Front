@@ -34,12 +34,16 @@ function DogInfoCard(): React.ReactElement {
         // });
     })();
   }, [dogAddress]);
+  const path = window.location.origin
   return (
     <DogInfoCardStyle>
       <div className="addressBalance">
         <div className={"card-item"}>
           <div className={"card-title"}>DOG 地址</div>
-          <div className={"card-address"}>{dogAddress}</div>
+          <div className={"card-address"}>{ path === 'https://chainxbridge.chainx.cc' ? 
+            <a target='_blank' href={`https://blockexplorer.one/doge/mainnet/address/${dogAddress}`}>{dogAddress}</a> : 
+            <a target='_blank' href={`https://blockexplorer.one/doge/testnet/address/${dogAddress}`}>{dogAddress}</a>}
+          </div>
         </div>
         <div className={"card-item"}>
           <div className={"card-title"}>DOG 余额</div>
