@@ -12,7 +12,7 @@ pipeline {
     APP_NAME = 'bridge-front'
   }
   parameters {
-    string(name: 'pre', defaultValue: 'pre', description: '')
+    string(name: 'BRANCH_NAME', defaultValue: 'main', description: '')
   }
 
 
@@ -20,7 +20,7 @@ pipeline {
 
     stage('拉取代码') {
       steps {
-        git(branch: 'pre', url: 'https://github.com/chainx-org/Chainx-Bridge-Front.git', credentialsId: 'github-id', changelog: true, poll: false)
+        git(branch: 'main', url: 'https://github.com/chainx-org/Chainx-Bridge-Front.git', credentialsId: 'github-id', changelog: true, poll: false)
       }
     }
 
