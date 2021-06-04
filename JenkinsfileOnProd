@@ -9,7 +9,7 @@ pipeline {
     KUBECONFIG_CREDENTIAL_ID = 'admin'
     REGISTRY = 'docker.io'
     DOCKERHUB_NAMESPACE = 'chainxorg'
-    APP_NAME = 'bridge-front'
+    APP_NAME = 'chainxbridge-front'
   }
   parameters {
     string(name: 'BRANCH_NAME', defaultValue: 'main', description: '')

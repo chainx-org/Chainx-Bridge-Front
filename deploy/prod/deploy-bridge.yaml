@@ -1,20 +1,20 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: bridge-front
+  name: chainxbridge-front
   namespace: chainx-prod
   labels:
-    app: bridge-front
+    app: chainxbridge-front
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: bridge-front
+      app: chainxbridge-front
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: bridge-front
+        app: chainxbridge-front
     spec:
       imagePullSecrets:
         - name: regcred
